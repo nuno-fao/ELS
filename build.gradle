@@ -1,0 +1,53 @@
+plugins {
+  
+	// For runnable JARs
+	id 'application'
+ 	id 'distribution'
+}
+
+
+// Java project
+apply plugin: 'java'
+
+
+// Repositories providers
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    testImplementation "junit:junit:4.11" 	
+
+	//! Add your dependencies here    
+}
+
+// Add JARs in folder 'libs' as dependencies
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+
+// Project sources
+sourceSets {
+   main {
+      java {
+         srcDir 'src'               
+      }
+   }
+	
+   test {
+      java {
+         srcDir 'test'
+      }
+	  
+	  resources {
+		srcDir 'test'
+	  }
+   }
+    
+}
+
+// Entrypoint of the program
+mainClassName = 'pt.up.fe.els2022.Main'
+
