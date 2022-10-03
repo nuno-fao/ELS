@@ -14,6 +14,7 @@ public class LanguageParser {
         languageFile = new FileReader(filePath);
     }
 
+
     void parse() throws IOException {
         BufferedReader reader;
         reader = new BufferedReader(languageFile);
@@ -26,6 +27,7 @@ public class LanguageParser {
             lineCounter++;
 
             if(line.trim().length() == 0) {
+                line = reader.readLine();
                 continue;
             }
 
@@ -56,6 +58,14 @@ public class LanguageParser {
         }
 
         reader.close();
+    }
+
+    void println(){
+        System.out.println("--------------------------------");
+        for (var a:commands) {
+            a.println();
+        }
+        System.out.println("--------------------------------");
     }
 }
 

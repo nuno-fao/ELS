@@ -34,6 +34,15 @@ public class Read implements Command {
     public void close() {
 
     }
+
+    @Override
+    public void println() {
+        System.out.println("Read "+filePath+" as "+fileID);
+        for (var c:cols) {
+            c.println();
+        }
+        System.out.println("End");
+    }
 }
 
 class Column{
@@ -50,6 +59,14 @@ class Column{
         }else{
             initName = col;
             finalName = col;
+        }
+    }
+
+    void println(){
+        if(finalName.equals(initName)){
+            System.out.println("    "+finalName);
+        }else{
+            System.out.println("    "+initName+" => "+finalName);
         }
     }
 }

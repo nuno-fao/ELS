@@ -1,0 +1,11 @@
+Read file1.txt as f1
+    col1 => newCol1
+    col2 => newCol2
+End
+
+Read file2.txt as f2
+    col1 => newCol1
+    col2 => newCol2
+End
+
+Sort f1 newCol1 asc

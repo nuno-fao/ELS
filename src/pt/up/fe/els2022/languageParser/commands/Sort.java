@@ -41,4 +41,14 @@ public class Sort implements Command {
     @Override
     public void close() {
     }
+
+    @Override
+    public void println() {
+
+        String out = "Sort "+fileId+" "+col+" "+direction;
+        if(newFileId != null){
+            out += " as "+newFileId;
+        }
+        System.out.println(out);
+    }
 }

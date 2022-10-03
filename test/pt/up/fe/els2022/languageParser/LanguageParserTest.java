@@ -68,4 +68,10 @@ public class LanguageParserTest {
         }
         fail();
     }
+    @Test
+    public void GreatTest() throws IOException {
+        LanguageParser parse = new LanguageParser("test/pt/up/fe/els2022/languageParser/greatTest.txt");
+        parse.parse();
+        parse.println();
+    }
 }
