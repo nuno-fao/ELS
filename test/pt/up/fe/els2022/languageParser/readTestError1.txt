@@ -1,4 +1,4 @@
-read f as y
+Read f
     oooo => a
     ooa => b
-end
+End

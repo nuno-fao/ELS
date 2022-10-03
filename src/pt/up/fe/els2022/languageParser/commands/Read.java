@@ -41,7 +41,7 @@ class Column{
     String finalName;
     public Column(String col) throws Error{
         String[] parts = col.trim().split("=>");
-        if(parts.length != 2 && parts.length != 1){
+        if(((parts.length != 2) && parts.length != 1) || (parts.length == 1 &&  col.contains("=>"))){
             throw new Error("Col command must be '<originalName> => <newName>' ");
         }
         if(parts.length == 2) {

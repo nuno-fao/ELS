@@ -30,14 +30,14 @@ public class LanguageParser {
             }
 
             try {
-                if (line.startsWith("end")) {
+                if (line.startsWith("End")) {
                     assert currentCommand != null;
                     currentCommand.close();
                     commands.add(currentCommand);
                     currentCommand = null;
-                } else if (line.startsWith("read")) {
+                } else if (line.startsWith("Read")) {
                     currentCommand = new Read(line);
-                } else if (line.startsWith("sort")) {
+                } else if (line.startsWith("Sort")) {
                     currentCommand = new Sort(line);
                     currentCommand.close();
                     commands.add(currentCommand);
@@ -46,7 +46,7 @@ public class LanguageParser {
                     if (currentCommand != null) {
                         currentCommand.addLine(line);
                     } else {
-                        throw new Error("Language has a syntactic error around line " + lineCounter);
+                        throw new Error("Language has a syntactic error around ");
                     }
                 }
             }catch (Error e) {

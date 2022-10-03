@@ -4,6 +4,7 @@ import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Sort implements Command {
     String fileId;
@@ -14,8 +15,22 @@ public class Sort implements Command {
         commandLine = commandLine.substring(4).trim();
 
         String[] parts = commandLine.split(" ");
-        if(parts.length != 3){
-            throw new Error("Read command must be ' <filename> as <id>' ");
+        if(parts.length != 3 && parts.length != 5){
+            throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
+        }
+
+        if(parts.length == 3){
+            fileId = parts[0];
+            col = parts[1];
+            direction = parts[2];
+        }else{
+            fileId = parts[0];
+            col = parts[1];
+            direction = parts[2];
+            if(!Objects.equals(parts[3], "as")){
+                throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
+            }
+            newFileId = parts[4];
         }
     }
 
@@ -25,6 +40,5 @@ public class Sort implements Command {
 
     @Override
     public void close() {
-
     }
 }
