@@ -3,6 +3,7 @@ package pt.up.fe.els2022.languageParser;
 import pt.up.fe.els2022.languageParser.commands.Merge;
 import pt.up.fe.els2022.languageParser.commands.Read;
 import pt.up.fe.els2022.languageParser.commands.Sort;
+import pt.up.fe.els2022.languageParser.commands.Write;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -47,6 +48,11 @@ public class LanguageParser {
                     currentCommand = null;
                 }else if (line.startsWith("Merge")) {
                     currentCommand = new Merge(line);
+                    currentCommand.close();
+                    commands.add(currentCommand);
+                    currentCommand = null;
+                }else if (line.startsWith("Write")) {
+                    currentCommand = new Write(line);
                     currentCommand.close();
                     commands.add(currentCommand);
                     currentCommand = null;

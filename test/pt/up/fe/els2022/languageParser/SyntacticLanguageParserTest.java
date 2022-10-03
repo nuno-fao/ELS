@@ -96,8 +96,23 @@ public class SyntacticLanguageParserTest {
         }
         fail();
     }
-    
-    
+
+    @Test
+    public void WriteTest1() throws IOException {
+        LanguageParser parse = new LanguageParser("test/pt/up/fe/els2022/languageParser/syntactic/writeTest1.txt");
+        parse.parse();
+    }
+    @Test
+    public void WriteTestError1() throws IOException {
+        try {
+            LanguageParser parse = new LanguageParser("test/pt/up/fe/els2022/languageParser/syntactic/writeTestError1.txt");
+            parse.parse();
+        }catch (Error ignored) {
+            return;
+        }
+        fail();
+    }
+
     @Test
     public void GreatTest() throws IOException {
         LanguageParser parse = new LanguageParser("test/pt/up/fe/els2022/languageParser/syntactic/greatTest.txt");
