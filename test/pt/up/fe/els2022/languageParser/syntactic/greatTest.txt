@@ -9,3 +9,10 @@ Read file2.txt as f2
 End
 
 Sort f1 newCol1 asc
+Sort f2 newCol1 desc as f3
+
+Merge f1,f3
+Merge f1,f3 as f4
+
+Write csv f4 ''
+

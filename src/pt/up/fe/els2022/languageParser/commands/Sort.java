@@ -27,6 +27,9 @@ public class Sort implements Command {
             fileId = parts[0];
             col = parts[1];
             direction = parts[2];
+            if(!direction.equals("asc") && !direction.equals("desc")){
+                throw new Error("Sort command must be 'asc' or 'desc', '"+direction+"' given. ");
+            }
             if(!Objects.equals(parts[3], "as")){
                 throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
             }

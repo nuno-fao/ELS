@@ -1,5 +1,6 @@
 package pt.up.fe.els2022.languageParser;
 
+import pt.up.fe.els2022.languageParser.commands.Merge;
 import pt.up.fe.els2022.languageParser.commands.Read;
 import pt.up.fe.els2022.languageParser.commands.Sort;
 
@@ -41,6 +42,11 @@ public class LanguageParser {
                     currentCommand = new Read(line);
                 } else if (line.startsWith("Sort")) {
                     currentCommand = new Sort(line);
+                    currentCommand.close();
+                    commands.add(currentCommand);
+                    currentCommand = null;
+                }else if (line.startsWith("Merge")) {
+                    currentCommand = new Merge(line);
                     currentCommand.close();
                     commands.add(currentCommand);
                     currentCommand = null;
