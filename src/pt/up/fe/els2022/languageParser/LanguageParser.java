@@ -1,9 +1,6 @@
 package pt.up.fe.els2022.languageParser;
 
-import pt.up.fe.els2022.languageParser.commands.Merge;
-import pt.up.fe.els2022.languageParser.commands.Read;
-import pt.up.fe.els2022.languageParser.commands.Sort;
-import pt.up.fe.els2022.languageParser.commands.Write;
+import pt.up.fe.els2022.languageParser.commands.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -51,6 +48,16 @@ public class LanguageParser {
                     currentCommand.close();
                     commands.add(currentCommand);
                     currentCommand = null;
+                }else if (line.startsWith("RemoveColumn")) {
+                    currentCommand = new RemoveColumn(line);
+                    currentCommand.close();
+                    commands.add(currentCommand);
+                    currentCommand = null;
+                }else if (line.startsWith("AddColumn")) {
+                    currentCommand = new AddColumn(line);
+                    currentCommand.close();
+                    commands.add(currentCommand);
+                    currentCommand = null;
                 }else if (line.startsWith("Write")) {
                     currentCommand = new Write(line);
                     currentCommand.close();
@@ -60,7 +67,7 @@ public class LanguageParser {
                     if (currentCommand != null) {
                         currentCommand.addLine(line);
                     } else {
-                        throw new Error("Language has a syntactic error around ");
+                        throw new Error("Command not found around ");
                     }
                 }
             }catch (Error e) {

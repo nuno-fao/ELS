@@ -2,33 +2,31 @@ package pt.up.fe.els2022.languageParser.commands;
 
 import pt.up.fe.els2022.languageParser.Command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Sort implements Command {
+public class AddColumn implements Command {
     String fileId;
-    String col;
-    String direction;
+
+    String column;
+
+    String def;
     String newFileId;
-    public Sort(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))? *$");
+    public AddColumn(String commandLine) throws Error {
+        Pattern p = Pattern.compile("^AddColumn +([^ ]+) +([^ ]+) +([^ ]+)(?: +as +([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {
             if(m.groupCount() == 4){
                 fileId = m.group(1);
-                col = m.group(2);
-                direction = m.group(3);
+                column = m.group(2);
+                def = m.group(3);
                 newFileId = m.group(4);
             }else{
-                throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
+                throw new Error("AddColumn command must be ' <file> <col> <defaultValue> [as <newfileID>]' ");
             }
         }else{
-            throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
+            throw new Error("AddColumn command must be ' <file> <col> <defaultValue> [as <newfileID>]' ");
         }
     }
 
@@ -42,8 +40,8 @@ public class Sort implements Command {
 
     @Override
     public void println() {
+        String out = "Remove "+fileId+" "+column;
 
-        String out = "Sort "+fileId+" "+col+" "+direction;
         if(newFileId != null){
             out += " as "+newFileId;
         }

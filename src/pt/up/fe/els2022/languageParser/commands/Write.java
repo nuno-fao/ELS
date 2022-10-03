@@ -39,4 +39,9 @@ public class Write implements Command {
     public void println() {
         System.out.println("Write "+type+" "+fileId+" "+filePath);
     }
+
+    @Override
+    public void execute() {
+
+    }
 }

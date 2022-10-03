@@ -52,4 +52,9 @@ public class Merge implements Command {
         }
         System.out.println(out);
     }
+
+    @Override
+    public void execute() {
+
+    }
 }
