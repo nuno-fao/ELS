@@ -38,8 +38,8 @@ public class TableOperations {
     public static Table mergeTables(Table table1, Table table2){
         Table newTable = new Table();
 
-        newTable.setHeaders( Stream.concat(table1.getHeaders().stream(), table2.getHeaders().stream()).toList());
-        newTable.setEntries( Stream.concat(table1.getEntries().stream(), table2.getEntries().stream()).toList());
+//        newTable.setHeaders( Stream.concat(table1.getHeaders().stream(), table2.getHeaders().stream()).toList());
+//        newTable.setEntries( Stream.concat(table1.getEntries().stream(), table2.getEntries().stream()).toList());
 
         return newTable;
 

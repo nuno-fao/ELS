@@ -1,0 +1,25 @@
+Read file1.txt as f1
+    col1 => newCol1
+    col2 => newCol2
+End
+
+Read file2.txt as f2
+    col1 => newCol1
+    col2 => newCol2
+End
+
+Sort f1 newCol1 asc
+Sort f2 newCol1 desc as f3
+
+Merge f1,f3
+Merge f1,f3 as f4
+
+RemoveColumn f1 col1 as f4
+RemoveColumn f1 col2
+
+
+AddColumn f1 col1 valorPorDefeito1 as f4
+AddColumn f1 col2 valorPorDefeito2
+
+
+Write CSV f teste.csv

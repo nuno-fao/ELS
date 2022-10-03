@@ -1,0 +1,4 @@
+Read f
+    oooo => a
+    ooa => b
+End
