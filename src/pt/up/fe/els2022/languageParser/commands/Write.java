@@ -11,7 +11,7 @@ public class Write implements Command {
     String fileId;
     String filePath;
     public Write(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Write (XML|CSV) ([^ ]+) ([^ ]+)");
+        Pattern p = Pattern.compile("^Write +(XML|CSV) +([^ ]+) +([^ ]+)");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {

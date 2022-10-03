@@ -3,8 +3,11 @@ package pt.up.fe.els2022.languageParser.commands;
 import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Sort implements Command {
     String fileId;
@@ -12,28 +15,20 @@ public class Sort implements Command {
     String direction;
     String newFileId;
     public Sort(String commandLine) throws Error {
-        commandLine = commandLine.substring(4).trim();
+        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))?");
+        Matcher m = p.matcher(commandLine);
 
-        String[] parts = commandLine.split(" ");
-        if(parts.length != 3 && parts.length != 5){
-            throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
-        }
-
-        if(parts.length == 3){
-            fileId = parts[0];
-            col = parts[1];
-            direction = parts[2];
-        }else{
-            fileId = parts[0];
-            col = parts[1];
-            direction = parts[2];
-            if(!direction.equals("asc") && !direction.equals("desc")){
-                throw new Error("Sort command must be 'asc' or 'desc', '"+direction+"' given. ");
-            }
-            if(!Objects.equals(parts[3], "as")){
+        if(m.find()) {
+            if(m.groupCount() == 4){
+                fileId = m.group(1);
+                col = m.group(2);
+                direction = m.group(3);
+                newFileId = m.group(4);
+            }else{
                 throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
             }
-            newFileId = parts[4];
+        }else{
+            throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
         }
     }
 

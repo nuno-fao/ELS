@@ -12,7 +12,7 @@ public class Merge implements Command {
     List<String> fileIds;
     String newFileId;
     public Merge(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Merge ([^ ]+)(?: as ([^ ]+))?");
+        Pattern p = Pattern.compile("^Merge +([^ ]+)(?: as ([^ ]+))?");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {
