@@ -15,7 +15,7 @@ public class Sort implements Command {
     String direction;
     String newFileId;
     public Sort(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))?");
+        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {

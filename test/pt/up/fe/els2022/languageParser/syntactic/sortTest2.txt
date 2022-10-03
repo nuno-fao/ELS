@@ -1,1 +1,1 @@
-Sort file col direction as r
+Sort file col desc as r

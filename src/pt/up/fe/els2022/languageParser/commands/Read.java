@@ -5,6 +5,8 @@ import pt.up.fe.els2022.languageParser.Command;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Read implements Command {
     String filePath;
@@ -12,17 +14,21 @@ public class Read implements Command {
 
     List<Column> cols;
     public Read(String commandLine) throws Error {
-        commandLine = commandLine.substring(4).trim();
+        Pattern p = Pattern.compile("^Read +([^ ]+) +as +([^ ]+) *$");
+        Matcher m = p.matcher(commandLine);
 
-        String[] parts = commandLine.split(" ");
-        if(parts.length != 3){
-            throw new Error("Read command must be ' <filename> as <id>' ");
+        if(m.find()) {
+            if(m.groupCount() == 2){
+                filePath = m.group(1);
+                fileID = m.group(2);
+
+                cols = new ArrayList<>();
+            }else{
+                throw new Error("Sort command must be 'Write <XML|CSV> <fileId> <filePath>' ");
+            }
+        }else{
+            throw new Error("Sort command must be 'Write <XML|CSV> <fileId> <filePath>' ");
         }
-
-        filePath = parts[0];
-        fileID = parts[2];
-
-        cols = new ArrayList<>();
     }
 
     @Override
