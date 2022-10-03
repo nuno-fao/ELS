@@ -1,0 +1,4 @@
+read f as y
+    oooo => a
+    ooa => b
+end
