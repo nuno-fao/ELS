@@ -19,5 +19,4 @@ RemoveColumn f1 col2
 AddColumn f1 col1 valorPorDefeito1 as f4
 AddColumn f1 col2 valorPorDefeito2
 
-
-Write CSV f teste.csv
+Write CSV f to teste.csv

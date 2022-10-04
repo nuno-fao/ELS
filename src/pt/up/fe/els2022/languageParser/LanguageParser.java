@@ -32,7 +32,9 @@ public class LanguageParser {
 
             try {
                 if (line.startsWith("End")) {
-                    assert currentCommand != null;
+                    if(currentCommand == null) {
+                        throw new Error("END used out of place,  ");
+                    }
                     currentCommand.close();
                     commands.add(currentCommand);
                     currentCommand = null;

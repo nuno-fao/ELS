@@ -13,7 +13,7 @@ public class Write implements Command {
     String fileId;
     String filePath;
     public Write(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Write +(XML|CSV) +([^ ]+) +([^ ]+) *$");
+        Pattern p = Pattern.compile("^Write +(XML|CSV) +([^ ]+) +to +([^ ]+) *$");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {
@@ -22,10 +22,10 @@ public class Write implements Command {
                 fileId = m.group(2);
                 filePath = m.group(3);
             }else{
-                throw new Error("Sort command must be 'Write <XML|CSV> <fileId> <filePath>' ");
+                throw new Error("Sort command must be 'Write <XML|CSV> <fileId> to <filePath>' ");
             }
         }else{
-            throw new Error("Sort command must be 'Write <XML|CSV> <fileId> <filePath>' ");
+            throw new Error("Sort command must be 'Write <XML|CSV> <fileId> to <filePath>' ");
         }
     }
 
@@ -39,7 +39,7 @@ public class Write implements Command {
 
     @Override
     public void println() {
-        System.out.println("Write "+type+" "+fileId+" "+filePath);
+        System.out.println("Write "+type+" "+fileId+" to "+filePath);
     }
 
     @Override
