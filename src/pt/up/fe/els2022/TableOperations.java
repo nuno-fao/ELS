@@ -36,9 +36,13 @@ public class TableOperations {
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>();
 
-        //TODO CORRIGIR XD
         newHeaders.addAll(table1.getHeaders());
-        newHeaders.addAll(table2.getHeaders());
+        for(String header : table2.getHeaders()){
+            if(!newHeaders.contains(header)){
+                newHeaders.add(header);
+            }
+        }
+
 
         for(HashMap<String, String> mapCopy : table1.getEntries()){
             HashMap<String, String> newMap = new HashMap<>(mapCopy);
