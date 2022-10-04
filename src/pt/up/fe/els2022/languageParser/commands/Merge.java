@@ -73,7 +73,7 @@ public class Merge implements Command {
         for(String ID : fileIds){
             Table tableCopy = symbolTable.get(ID).copy();
 
-            if(aggregate.equals("Name")){
+            if(aggregate != null && aggregate.equals("Name")){
                 TableOperations.addColumn(tableCopy,destinyColumn,tableCopy.getOrigin());
             }
 
