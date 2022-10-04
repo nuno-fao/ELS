@@ -1,6 +1,7 @@
 package pt.up.fe.els2022.languageParser.commands;
 
 import pt.up.fe.els2022.Table;
+import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.*;
@@ -50,6 +51,17 @@ public class Sort implements Command {
 
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
+
+        boolean ascending = Objects.equals(direction, "asc");
+
+        if(newFileId!=null){
+            Table newTable = symbolTable.get(fileId).copy();
+            TableOperations.sortBy(newTable,col,ascending);
+            symbolTable.put(newFileId,newTable);
+        }
+        else{
+            TableOperations.sortBy(symbolTable.get(fileId),col,ascending);
+        }
 
     }
 }

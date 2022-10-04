@@ -4,12 +4,11 @@ import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.languageParser.Command;
 
-import java.io.File;
-import java.sql.Array;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,19 +70,24 @@ public class Read implements Command {
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
         try {
-            List<String> originalHeaders = new ArrayList<>();
-            List<String> finalHeaders = new ArrayList<>();
 
+            ArrayList<String> originalHeaders = new ArrayList<>();
+            ArrayList<String> finalHeaders = new ArrayList<>();
             for (Column column : cols) {
                 originalHeaders.add(column.initName);
                 finalHeaders.add(column.finalName);
             }
 
             for (int i = 0;i < filePath.size(); i++){
-                List<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath.get(i), originalHeaders, finalHeaders, parentElement);
+                ArrayList<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath.get(i), originalHeaders, finalHeaders, parentElement);
                 Table table = new Table();
                 table.setEntries(entry);
                 table.setHeaders(finalHeaders);
+
+                Path path = Paths.get(filePath.get(i));
+                Path fileName = path.getFileName();
+
+                table.setOrigin(fileName.toString());
 
                 symbolTable.put(fileID.get(i),table);
             }

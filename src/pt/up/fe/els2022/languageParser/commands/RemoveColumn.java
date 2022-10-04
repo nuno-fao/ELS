@@ -1,6 +1,7 @@
 package pt.up.fe.els2022.languageParser.commands;
 
 import pt.up.fe.els2022.Table;
+import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.Arrays;
@@ -51,6 +52,13 @@ public class RemoveColumn implements Command {
 
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
-
+        if(newFileId!=null){
+            Table newTable = symbolTable.get(fileId).copy();
+            TableOperations.removeColumn(newTable,column);
+            symbolTable.put(newFileId,newTable);
+        }
+        else{
+            TableOperations.removeColumn(symbolTable.get(fileId),column);
+        }
     }
 }

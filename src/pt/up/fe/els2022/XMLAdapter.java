@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class XMLAdapter{
-    public static  List<HashMap<String, String>> parseFile(String filename, List<String> headers, List<String> elements, String parentElement) throws IOException, SAXException, ParserConfigurationException {
-        List<HashMap<String, String>> entry = new ArrayList<>();
+    public static ArrayList<HashMap<String, String>> parseFile(String filename, List<String> headers, List<String> elements, String parentElement) throws IOException, SAXException, ParserConfigurationException {
+        ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
         File file = new File(filename);
 

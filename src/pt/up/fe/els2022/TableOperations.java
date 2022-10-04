@@ -1,9 +1,6 @@
 package pt.up.fe.els2022;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class TableOperations {
@@ -30,18 +27,31 @@ public class TableOperations {
 
             public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
                 // compare two instance of `Score` and return `int` as result.
-                return o1.get(col).compareTo(o2.get(col));
+                return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
             }
         });
     }
 
     public static Table mergeTables(Table table1, Table table2){
-        Table newTable = new Table();
+        ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
+        ArrayList<String> newHeaders = new ArrayList<>();
 
-//        newTable.setHeaders( Stream.concat(table1.getHeaders().stream(), table2.getHeaders().stream()).toList());
-//        newTable.setEntries( Stream.concat(table1.getEntries().stream(), table2.getEntries().stream()).toList());
+        //TODO CORRIGIR XD
+        newHeaders.addAll(table1.getHeaders());
+        newHeaders.addAll(table2.getHeaders());
 
-        return newTable;
+        for(HashMap<String, String> mapCopy : table1.getEntries()){
+            HashMap<String, String> newMap = new HashMap<>(mapCopy);
+            newEntries.add(newMap);
+        }
+
+        for(HashMap<String, String> mapCopy : table2.getEntries()){
+            HashMap<String, String> newMap = new HashMap<>(mapCopy);
+            newEntries.add(newMap);
+        }
+
+        return new Table(newHeaders,newEntries);
 
     }
+
 }
