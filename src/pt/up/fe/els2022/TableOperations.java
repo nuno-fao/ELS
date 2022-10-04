@@ -30,7 +30,7 @@ public class TableOperations {
 
             public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
                 // compare two instance of `Score` and return `int` as result.
-                return o1.get(col).compareTo(o2.get(col));
+                return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
             }
         });
     }
