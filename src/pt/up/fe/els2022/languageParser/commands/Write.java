@@ -45,7 +45,7 @@ public class Write implements Command {
 
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
-        if(Objects.equals(type, ".csv")){
+        if(Objects.equals(type, "CSV")){
             TableOperations.write(symbolTable.get(fileId),filePath);
         }
         else{
