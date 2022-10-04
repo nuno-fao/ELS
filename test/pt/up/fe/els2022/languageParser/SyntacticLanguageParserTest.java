@@ -34,6 +34,16 @@ public class SyntacticLanguageParserTest {
         }
         fail();
     }
+    @Test
+    public void ReadTestError3() throws IOException {
+        try {
+            LanguageParser parse = new LanguageParser("test/pt/up/fe/els2022/languageParser/syntactic/readTestError3.txt");
+            parse.parse();
+        }catch (Error ignored) {
+            return;
+        }
+        fail();
+    }
 
     @Test
     public void SortTest1() throws IOException {
