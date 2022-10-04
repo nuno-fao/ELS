@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Read implements Command {
+    String parentElement;
     String filePath;
     String fileID;
 
@@ -24,26 +25,34 @@ public class Read implements Command {
 
                 cols = new ArrayList<>();
             }else{
-                throw new Error("Sort command must be 'Write <XML|CSV> <fileId> <filePath>' ");
+                throw new Error("Read command incorrect");
             }
         }else{
-            throw new Error("Sort command must be 'Write <XML|CSV> <fileId> <filePath>' ");
+            throw new Error("Sort command incorrect");
         }
     }
 
     @Override
     public void addLine(String line) throws Error{
-        cols.add(new Column(line));
+        line = line.trim();
+        if(line.startsWith("Parent")){
+            parentElement = line.substring(6).trim();
+        } else if (line.startsWith("Col")) {
+            cols.add(new Column(line));
+        }else{
+            throw new Error("Read command incorrect");
+        }
     }
 
     @Override
     public void close() {
-
+        if(parentElement == null) throw new Error("Read command must have Parent definition");
     }
 
     @Override
     public void println() {
         System.out.println("Read "+filePath+" as "+fileID);
+        System.out.println("    Parent "+parentElement);
         for (var c:cols) {
             c.println();
         }
@@ -60,6 +69,7 @@ class Column{
     String initName;
     String finalName;
     public Column(String col) throws Error{
+        col = col.substring(3).trim();
         String[] parts = col.trim().split("=>");
         if(((parts.length != 2) && parts.length != 1) || (parts.length == 1 &&  col.contains("=>"))){
             throw new Error("Col command must be '<originalName> => <newName>' ");

@@ -1,4 +1,5 @@
 Read f as y
-    oooo
-    ooa => b
+    Parent z
+    Col oooo
+    Col ooa => b
 End

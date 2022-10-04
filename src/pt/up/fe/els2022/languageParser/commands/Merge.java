@@ -11,17 +11,23 @@ import java.util.regex.Pattern;
 public class Merge implements Command {
     List<String> fileIds;
     String newFileId;
+
+    String aggregate;
+
+    String destinyColumn;
     public Merge(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Merge +([^ ]+)(?: +as +([^ ]+))? *$");
+        Pattern p = Pattern.compile("^Merge +([^ ]+)(?: +with +(Name|Id) +on +([^ ]+))?(?: +as +([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {
-            if(m.groupCount() == 2){
+            if(m.groupCount() == 4){
                 fileIds = Arrays.asList(m.group(1).split(","));
                 for(int i = 0;i < fileIds.size();i++){
                     fileIds.set(i,fileIds.get(i).trim());
                 }
-                newFileId = m.group(2);
+                aggregate = m.group(2);
+                destinyColumn = m.group(3);
+                newFileId = m.group(4);
             }else{
                 throw new Error("Merge command must be ' <file1>,<file2>,<file3>,<etc> [as <newfileID>]' ");
             }
@@ -47,6 +53,10 @@ public class Merge implements Command {
         }
         out = out.substring(0,out.length()-1);
 
+
+        if(aggregate != null){
+            out += " with "+aggregate + " on "+destinyColumn;
+        }
         if(newFileId != null){
             out += " as "+newFileId;
         }
