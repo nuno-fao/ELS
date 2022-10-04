@@ -1,6 +1,7 @@
 package pt.up.fe.els2022.languageParser.commands;
 
 import pt.up.fe.els2022.Table;
+import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.Arrays;
@@ -67,6 +68,17 @@ public class Merge implements Command {
 
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
+        Table newTable = new Table();
+
+        for(String ID : fileIds){
+            Table tableCopy = symbolTable.get(ID).copy();
+
+            if(aggregate.equals("Name")){
+                TableOperations.addColumn(tableCopy,destinyColumn,tableCopy.getOrigin());
+            }
+
+            newTable = TableOperations.mergeTables(newTable,tableCopy);
+        }
 
     }
 }

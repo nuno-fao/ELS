@@ -8,6 +8,16 @@ public class Table {
     private ArrayList<HashMap<String, String>> entries;
     private ArrayList<String> headers;
 
+    private String origin;
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
     public Table(){
         entries = new ArrayList<>();
         headers = new ArrayList<>();
