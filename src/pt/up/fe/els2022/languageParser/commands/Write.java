@@ -1,6 +1,7 @@
 package pt.up.fe.els2022.languageParser.commands;
 
 import pt.up.fe.els2022.Table;
+import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.HashMap;
@@ -44,6 +45,11 @@ public class Write implements Command {
 
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
-
+        if(Objects.equals(type, ".csv")){
+            TableOperations.write(symbolTable.get(fileId),filePath);
+        }
+        else{
+            throw new Error("file type not supported");
+        }
     }
 }
