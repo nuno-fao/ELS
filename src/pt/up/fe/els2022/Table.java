@@ -7,6 +7,15 @@ import java.util.List;
 public class Table {
     private ArrayList<HashMap<String, String>> entries;
     private ArrayList<String> headers;
+    private ArrayList<String> output;
+
+    public ArrayList<String> getOutput() {
+        return output;
+    }
+
+    public void setOutput(ArrayList<String> output) {
+        this.output = output;
+    }
 
     private String origin;
 
@@ -21,15 +30,18 @@ public class Table {
     public Table(){
         entries = new ArrayList<>();
         headers = new ArrayList<>();
+        output = new ArrayList<>();
     }
     public Table(ArrayList<String> headers) {
         this.entries = new ArrayList<>();
+        headers = new ArrayList<>();
         this.headers = headers;
     }
 
     public Table(ArrayList<String> headers, ArrayList<HashMap<String, String>> entries) {
         this.entries = entries;
         this.headers = headers;
+        headers = new ArrayList<>();
     }
 
     public Table copy(){
@@ -45,7 +57,7 @@ public class Table {
 
     }
 
-    public List<HashMap<String, String>> getEntries() {
+    public ArrayList<HashMap<String, String>> getEntries() {
         return entries;
     }
 
@@ -53,7 +65,7 @@ public class Table {
         this.entries = entries;
     }
 
-    public List<String> getHeaders() {
+    public ArrayList<String> getHeaders() {
         return headers;
     }
 

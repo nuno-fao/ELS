@@ -1,5 +1,9 @@
 package pt.up.fe.els2022;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -56,6 +60,41 @@ public class TableOperations {
 
         return new Table(newHeaders,newEntries);
 
+    }
+
+    public static void write(Table table, String path)  {
+        ArrayList<String> order = table.getOutput() != null ? table.getOutput() : table.getHeaders();
+        Path writeTo = Path.of(path);
+
+        StringBuilder line = new StringBuilder();
+        for(String col : order){
+            line.append(col);
+            line.append(",");
+        }
+        line.setLength(line.length()-1);
+
+
+        try {
+            Files.write(writeTo,line.toString().getBytes());
+        } catch (IOException e) {
+            throw new Error("Exception caught when trying to write to output file");
+        }
+
+        line.setLength(0);
+
+        for(HashMap<String,String> tableLine : table.getEntries()){
+            for(String col : order){
+                line.append(tableLine.get(col));
+                line.append(",");
+            }
+            line.setLength(line.length()-1);
+            try {
+                Files.write(writeTo,line.toString().getBytes());
+            } catch (IOException e) {
+                throw new Error("Exception caught when trying to write to output file");
+            }
+            line.setLength(0);
+        }
     }
 
 }
