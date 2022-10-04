@@ -70,7 +70,6 @@ public class Read implements Command {
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
         try {
-
             ArrayList<String> originalHeaders = new ArrayList<>();
             ArrayList<String> finalHeaders = new ArrayList<>();
             for (Column column : cols) {
@@ -91,7 +90,6 @@ public class Read implements Command {
 
                 symbolTable.put(fileID.get(i),table);
             }
-            System.out.println(symbolTable.size());
         }catch (Exception e) {
             System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");

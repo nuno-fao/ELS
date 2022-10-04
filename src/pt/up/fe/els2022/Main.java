@@ -16,7 +16,7 @@ import static java.lang.System.exit;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		App app = new App("test/pt/up/fe/els2022/languageParser/syntactic/greatTest.txt");
+		App app = new App("test/pt/up/fe/els2022/configFiles/testFull.txt");
 		app.run();
 	}
 }
