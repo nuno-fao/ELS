@@ -74,11 +74,13 @@ public class Read implements Command {
                 elements.add(column.finalName);
             }
 
-            HashMap<String, String> entry = XMLAdapter.parseFile(filePath, headers, elements, parentElement);
+            List<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath, headers, elements, parentElement);
 
-            for (Map.Entry<String, String> item : entry.entrySet()) {
-                System.out.println("Key: " + item.getKey() + " Value: " + item.getValue());
-            }
+            Table table = new Table();
+            table.setEntries(entry);
+            table.setHeaders(headers);
+
+            symbolTable.put(fileID,table);
         }catch (Exception e) {
             throw new Error("Column does not exist in table '"+fileID+"'  ");
         }
