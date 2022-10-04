@@ -31,4 +31,11 @@ public class AppTest {
         App app = new App("test/pt/up/fe/els2022/configFiles/testReadRemoveWrite.txt");
         app.run();
     }
+
+
+    @Test
+    public void full(){
+        App app = new App("test/pt/up/fe/els2022/configFiles/testFull.txt");
+        app.run();
+    }
 }

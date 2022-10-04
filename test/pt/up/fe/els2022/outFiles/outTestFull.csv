@@ -1,0 +1,4 @@
+LUTs,FFs,DSP48Es,BRAM_18Ks,File
+145,64,1,0,vitis-report_1.xml
+200,525,20,5,vitis-report_2.xml
+524,1050,40,10,vitis-report_3.xml

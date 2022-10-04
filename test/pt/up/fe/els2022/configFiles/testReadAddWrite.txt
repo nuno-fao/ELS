@@ -8,4 +8,4 @@ End
 
 AddColumn f1 TESTCOL TESTE as f4
 
-Write CSV f4 test/pt/up/fe/els2022/outFiles/outTestReadWrite.csv
+Write CSV f4 to test/pt/up/fe/els2022/outFiles/outTestReadAddWrite.csv
