@@ -4,6 +4,7 @@ import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.languageParser.Command;
 
+import java.io.File;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +15,8 @@ import java.util.regex.Pattern;
 
 public class Read implements Command {
     String parentElement;
-    String filePath;
-    String fileID;
+    List<String> filePath;
+    List<String> fileID;
 
     List<Column> cols;
     public Read(String commandLine) throws Error {
@@ -24,8 +25,12 @@ public class Read implements Command {
 
         if(m.find()) {
             if(m.groupCount() == 2){
-                filePath = m.group(1);
-                fileID = m.group(2);
+                filePath = List.of(m.group(1).split(","));
+                fileID = List.of(m.group(2).split(","));
+
+                if(filePath.size() != fileID.size()) {
+                    throw new Error("Read command incorrect, number of files must be equal to number of identifiers, ");
+                }
 
                 cols = new ArrayList<>();
             }else{
@@ -66,22 +71,25 @@ public class Read implements Command {
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
         try {
-            List<String> headers = new ArrayList<>();
-            List<String> elements = new ArrayList<>();
+            List<String> originalHeaders = new ArrayList<>();
+            List<String> finalHeaders = new ArrayList<>();
 
             for (Column column : cols) {
-                headers.add(column.initName);
-                elements.add(column.finalName);
+                originalHeaders.add(column.initName);
+                finalHeaders.add(column.finalName);
             }
 
-            List<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath, headers, elements, parentElement);
+            for (int i = 0;i < filePath.size(); i++){
+                List<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath.get(i), originalHeaders, finalHeaders, parentElement);
+                Table table = new Table();
+                table.setEntries(entry);
+                table.setHeaders(finalHeaders);
 
-            Table table = new Table();
-            table.setEntries(entry);
-            table.setHeaders(headers);
-
-            symbolTable.put(fileID,table);
+                symbolTable.put(fileID.get(i),table);
+            }
+            System.out.println(symbolTable.size());
         }catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");
         }
     }

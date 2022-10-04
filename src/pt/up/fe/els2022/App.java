@@ -22,7 +22,7 @@ public class App {
             List<Command> commands = parse.parse();
 
             for (Command command : commands) {
-                command.execute(symbolTable);
+                command.execute(this.symbolTable);
             }
         } catch (Exception e) {
             e.printStackTrace();
