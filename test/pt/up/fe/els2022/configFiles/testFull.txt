@@ -8,4 +8,12 @@ End
 
 Merge f1,f2,f3 with Name on File as f4
 
+SetOutput f4
+    File
+    LUTs
+    FFs
+    DSP48Es
+    BRAM_18Ks
+End
+
 Write CSV f4 to test/pt/up/fe/els2022/outFiles/outTestFull.csv

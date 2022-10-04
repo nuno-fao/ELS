@@ -40,6 +40,8 @@ public class LanguageParser {
                     currentCommand = null;
                 } else if (line.startsWith("Read")) {
                     currentCommand = new Read(line);
+                } else if (line.startsWith("SetOutput")) {
+                    currentCommand = new SetOutput(line);
                 } else if (line.startsWith("Sort")) {
                     currentCommand = new Sort(line);
                     currentCommand.close();
