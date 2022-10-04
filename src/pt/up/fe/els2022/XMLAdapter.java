@@ -14,27 +14,22 @@ import java.util.HashMap;
 import java.util.List;
 
 public class XMLAdapter{
-    public static HashMap<String, String> parseFile(String filename, List<String> headers, List<String> elements, String parentElement) {
+    public static HashMap<String, String> parseFile(String filename, List<String> headers, List<String> elements, String parentElement) throws IOException, SAXException, ParserConfigurationException {
         HashMap<String, String> entry = new HashMap<>();
 
-        entry.put("File", filename);
+        File file = new File(filename);
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
-        try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File("files/" + filename));
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(file);
 
-            NodeList list = doc.getElementsByTagName(parentElement);
-            Element parentNode = (Element) list.item(0);
+        NodeList list = doc.getElementsByTagName(parentElement);
+        Element parentNode = (Element) list.item(0);
 
-            for (int i = 0; i < headers.size(); i++) {
-                String value = parentNode.getElementsByTagName(elements.get(i)).item(0).getTextContent();
-                entry.put(headers.get(i), value);
-            }
-
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+        for (int i = 0; i < headers.size(); i++) {
+            String value = parentNode.getElementsByTagName(headers.get(i)).item(0).getTextContent();
+            entry.put(elements.get(i), value);
         }
 
         return entry;

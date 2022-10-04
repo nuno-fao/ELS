@@ -1,10 +1,14 @@
 package pt.up.fe.els2022.languageParser.commands;
 
+import pt.up.fe.els2022.Table;
+import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.languageParser.Command;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,8 +64,24 @@ public class Read implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(HashMap<String, Table> symbolTable) {
+        try {
+            List<String> headers = new ArrayList<>();
+            List<String> elements = new ArrayList<>();
 
+            for (Column column : cols) {
+                headers.add(column.initName);
+                elements.add(column.finalName);
+            }
+
+            HashMap<String, String> entry = XMLAdapter.parseFile(filePath, headers, elements, parentElement);
+
+            for (Map.Entry<String, String> item : entry.entrySet()) {
+                System.out.println("Key: " + item.getKey() + " Value: " + item.getValue());
+            }
+        }catch (Exception e) {
+            throw new Error("Column does not exist in table '"+fileID+"'  ");
+        }
     }
 }
 

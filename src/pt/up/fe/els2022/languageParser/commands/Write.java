@@ -1,7 +1,9 @@
 package pt.up.fe.els2022.languageParser.commands;
 
+import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.languageParser.Command;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +43,7 @@ public class Write implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(HashMap<String, Table> symbolTable) {
 
     }
 }

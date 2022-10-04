@@ -9,12 +9,12 @@ import java.util.List;
 public class LanguageParser {
     FileReader languageFile;
     List<Command> commands = new ArrayList<>();
-    LanguageParser(String filePath) throws FileNotFoundException {
+    public LanguageParser(String filePath) throws FileNotFoundException {
         languageFile = new FileReader(filePath);
     }
 
 
-    void parse() throws IOException {
+    public List<Command> parse() throws IOException {
         BufferedReader reader;
         reader = new BufferedReader(languageFile);
         String line = reader.readLine();
@@ -77,6 +77,7 @@ public class LanguageParser {
         }
 
         reader.close();
+        return commands;
     }
 
     void println(){

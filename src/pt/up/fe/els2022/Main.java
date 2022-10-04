@@ -1,29 +1,44 @@
 package pt.up.fe.els2022;
 
+import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.languageParser.LanguageParser;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.System.exit;
+
 public class Main {
-	public static void main(String[] args) {
-		List<String> headers = new ArrayList<>();
-		List<String> elements = new ArrayList<>();
+	public static void main(String[] args) throws IOException {
 
-		headers.add("LUTs");
-		headers.add("FFs");
-		headers.add("DSPs");
-		headers.add("BRAMSs");
+		App app = new App("test/pt/up/fe/els2022/languageParser/syntactic/greatTest.txt");
+		app.run();
+	}
+}
 
-		elements.add("LUT");
-		elements.add("FF");
-		elements.add("DSP48E");
-		elements.add("BRAM_18K");
+class App{
+	HashMap<String, Table> symbolTable = new HashMap<>();
+	String cf;
+	public App(String configFile) {
+		cf = configFile;
+	}
+	public void run() {
+		try {
+			LanguageParser parse = new LanguageParser(cf);
+			List<Command> commands = parse.parse();
 
-		HashMap<String, String> entry = XMLAdapter.parseFile("vitis-report_1.xml", headers, elements, "Resources");
-
-		for (Map.Entry<String, String> item : entry.entrySet()) {
-			System.out.println("Key: " + item.getKey() + " Value: " + item.getValue());
+			for (Command command : commands){
+				command.execute(symbolTable);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			exit(1);
 		}
 	}
 }

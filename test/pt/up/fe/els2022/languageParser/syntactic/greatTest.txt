@@ -1,13 +1,25 @@
-Read file1.txt as f1
-    Parent resources
-    Col col1 => newCol1
-    Col col2 => newCol2
+Read files\vitis-report_1.xml as f1
+    Parent Resources
+    Col LUT => LUTs
+    Col FF => FFs
+    Col DSP48E => DSP48Es
+    Col BRAM_18K => BRAM_18Ks
 End
 
-Read file2.txt as f2
-    Parent resources
-    Col col1 => newCol1
-    Col col2 => newCol2
+Read files\vitis-report_2.xml as f2
+    Parent Resources
+    Col LUT => LUTs
+    Col FF => FFs
+    Col DSP48E => DSP48Es
+    Col BRAM_18K => BRAM_18Ks
+End
+
+Read files/vitis-report_3.xml as f3
+    Parent Resources
+    Col LUT => LUTs
+    Col FF => FFs
+    Col DSP48E => DSP48Es
+    Col BRAM_18K => BRAM_18Ks
 End
 
 Sort f1 newCol1 asc
