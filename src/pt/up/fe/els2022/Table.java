@@ -36,12 +36,14 @@ public class Table {
         this.entries = new ArrayList<>();
         headers = new ArrayList<>();
         this.headers = headers;
+        this.output = new ArrayList<>();
     }
 
     public Table(ArrayList<String> headers, ArrayList<HashMap<String, String>> entries) {
         this.entries = entries;
         this.headers = headers;
         headers = new ArrayList<>();
+        this.output = new ArrayList<>();
     }
 
     public Table copy(){
@@ -53,7 +55,9 @@ public class Table {
             newEntries.add(newMap);
         }
 
-        return new Table(newHeaders,newEntries);
+        Table tempTable = new Table(newHeaders,newEntries);
+        tempTable.setOrigin(this.getOrigin());
+        return tempTable;
 
     }
 

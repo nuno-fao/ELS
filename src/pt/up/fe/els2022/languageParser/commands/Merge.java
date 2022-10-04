@@ -80,5 +80,9 @@ public class Merge implements Command {
             newTable = TableOperations.mergeTables(newTable,tableCopy);
         }
 
+        if(newFileId != null)
+            symbolTable.put(newFileId ,newTable);
+        else
+            symbolTable.put(fileIds.get(0) ,newTable);
     }
 }

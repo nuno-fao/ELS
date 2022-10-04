@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class TableOperations {
     public static void addColumn(Table table, String name, String value){
-        table.getHeaders().add("value");
+        table.getHeaders().add(name);
         List<HashMap<String, String>> entries = table.getEntries();
         for (HashMap<String,String> entry:entries) {
             entry.put(name,value);
@@ -30,7 +30,6 @@ public class TableOperations {
         List<HashMap<String,String>> entries = table.getEntries();
 
         entries.sort(new Comparator<HashMap<String, String>>() {
-
             public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
                 // compare two instance of `Score` and return `int` as result.
                 return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
