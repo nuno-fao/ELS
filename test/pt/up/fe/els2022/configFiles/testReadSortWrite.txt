@@ -1,0 +1,12 @@
+Read files\vitis-report_1.xml as f1
+    Parent Resources
+    Col LUT => LUTs
+    Col FF => FFs
+    Col DSP48E => DSP48Es
+    Col BRAM_18K => BRAM_18Ks
+End
+
+Sort f1 LUT desc as f3
+Sort f1 LUT desc as f3
+
+Write CSV f4 test/pt/up/fe/els2022/outFiles/outTestReadWrite.csv
