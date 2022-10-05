@@ -68,11 +68,16 @@ Again, we **may** have ``as <identifier>`` at the end so that the changes are re
 
 ### Merging
 ```
-Merge f1,f2,f3
+Merge f1,f2
 Merge f1,f2,f3 as f4
 Merge f1,f2,f3 with Name on File
 Merge f1,f2,f3 with Name on File as f4
 ```
+The merge command can be used in several ways. You can merge more than two tables at a time. If ``as <indentifier>`` is specified the combination of all tables will result in a new table, otherwise it will overwrite the first table in the command (not mandatory).
+
+There is also a ``with <atribute> on <column_name>`` part where you can create a new column for all tables in this merge command preserving some attribute of the table on a column.
+For example, in this assignment we want to know the file from where a table/entry originated. The filepath is an attribute of the table originated from the Read command and when merging 2 tables together, instead of adding the column manually to each table, we can use this Merge command to more easily add that column to all tables involved.
+We chose this approach because in the future more metadata may be needed from the original file and this gives the language a lot of versatility.
 
 ### Writing to a file
 ```
@@ -86,3 +91,6 @@ End
 
 Write CSV f4 to test/pt/up/fe/els2022/outFiles/outTestFull.csv
 ```
+To create a .csv from a table we use the Write command where we first specific the type of file (only 'CSV' supported for now), then the target table and finally, after ``to``, the output path.
+
+Before using Write, we can use SetOutput to filter and order the columns for the output file. If SetOutput is done, only columns listed in it will be printed following the order they are presented in the command. Otherwise, everything will be printed, following to order in the Read command.
