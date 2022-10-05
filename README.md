@@ -98,4 +98,4 @@ Before using Write, we can use SetOutput to filter and order the columns for the
 
 ## Overview of the system
 
-![Imgur](https://imgur.com/eXMSaSi)
+![Imgur](https://imgur.com/eXMSaSi.png)
