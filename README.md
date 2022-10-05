@@ -99,3 +99,19 @@ Before using Write, we can use SetOutput to filter and order the columns for the
 ## Overview of the system
 
 ![Imgur](https://imgur.com/eXMSaSi.png)
+
+## Design decisions
+
+Most decisions were made due to the limitations we found on the language at the time.  
+We wanted the DSL to feel powerful but yet easy to use.  
+
+Our syntax was chosen to allow for a easier parse of the language. The Beginning of each line starts with a Keyword, that allows us to easily identify which command we are parsing.  
+Multiline Commands (SetOutput and Read) follow the same principle but we further include the End token so we can easily decide if the commands bellong inside or not those multile Commands.  
+
+Our Implementation works around the Idea of commands. Th language parser decides which command to create, depending on the keyword, and delegates the parsing problem to the command itself.  
+This modularity allows for an easy way to create and add more commands as we go.  
+The app stores a list of commands, by the order they appear on the Config file, and executes them by order.  
+This works similar to a Visitor in the way that each command knows which function of the table to call and execute, depending on the said command. 
+The Commands also have access to a global symbolTable, where the tables are stored and it is able to assign reassign tables to identifiers(like variables).
+
+One particular part of the language is the ability to store the result of each command on a new variable or on the same one, allowing for more flexibility.
