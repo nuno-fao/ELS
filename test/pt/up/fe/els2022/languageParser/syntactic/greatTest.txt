@@ -2,8 +2,8 @@ Read files\vitis-report_1.xml,files\vitis-report_2.xml,files\vitis-report_3.xml 
     Parent Resources
     Col LUT => LUTs
     Col FF => FFs
-    Col DSP48E => DSP48Es
-    Col BRAM_18K => BRAM_18Ks
+    Col DSP48E => DSPs
+    Col BRAM_18K => BRAMs
 End
 
 Sort f1 newCol1 asc

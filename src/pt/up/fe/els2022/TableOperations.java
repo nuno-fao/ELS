@@ -83,7 +83,8 @@ public class TableOperations {
 
         for(HashMap<String,String> tableLine : table.getEntries()){
             for(String col : order){
-                line.append(tableLine.get(col));
+                String value = tableLine.get(col);
+                line.append(value == null ? "" : value );
                 line.append(",");
             }
             line.setCharAt(line.length()-1,'\n');
