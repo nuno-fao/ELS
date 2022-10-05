@@ -94,3 +94,8 @@ Write CSV f4 to test/pt/up/fe/els2022/outFiles/outTestFull.csv
 To create a .csv from a table we use the Write command where we first specific the type of file (only 'CSV' supported for now), then the target table and finally, after ``to``, the output path.
 
 Before using Write, we can use SetOutput to filter and order the columns for the output file. If SetOutput is done, only columns listed in it will be printed following the order they are presented in the command. Otherwise, everything will be printed, following to order in the Read command.
+
+
+## Overview of the system
+
+![Imgur](https://imgur.com/eXMSaSi)
