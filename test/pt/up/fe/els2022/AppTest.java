@@ -3,11 +3,12 @@ package pt.up.fe.els2022;
 import org.junit.Test;
 import pt.up.fe.specs.util.SpecsIo;
 
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
 public class AppTest {
     @Test
-    public void readWrite(){
+    public void readWrite() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testReadWrite.txt");
         app.run();
         assertEquals(
@@ -18,7 +19,7 @@ public class AppTest {
 
     }
     @Test
-    public void readSortWrite(){
+    public void readSortWrite() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testReadSortWrite.txt");
         app.run();
         assertEquals(
@@ -29,7 +30,7 @@ public class AppTest {
         );
     }
     @Test
-    public void readAddWrite(){
+    public void readAddWrite() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testReadAddWrite.txt");
         app.run();
         assertEquals(
@@ -39,7 +40,7 @@ public class AppTest {
         );
     }
     @Test
-    public void readRemoveWrite(){
+    public void readRemoveWrite() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testReadRemoveWrite.txt");
         app.run();
         assertEquals(
@@ -51,7 +52,7 @@ public class AppTest {
 
 
     @Test
-    public void full(){
+    public void full() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testFull.txt");
         app.run();
         assertEquals(
@@ -65,7 +66,7 @@ public class AppTest {
 
 
     @Test
-    public void great(){
+    public void great() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testGreat.txt");
         app.run();
         assertEquals(
