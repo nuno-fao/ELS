@@ -16,6 +16,42 @@ public class AddColumn implements Command {
 
     String def;
     String newFileId;
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public String getColumn() {
+        return column;
+    }
+
+    public String getDef() {
+        return def;
+    }
+
+    public String getNewFileId() {
+        return newFileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
+    }
+
+    public void setDef(String def) {
+        this.def = def;
+    }
+
+    public void setNewFileId(String newFileId) {
+        this.newFileId = newFileId;
+    }
+
+    public AddColumn(){
+
+    }
     public AddColumn(String commandLine) throws Error {
         Pattern p = Pattern.compile("^AddColumn +([^ ]+) +([^ ]+) +([^ ]+)(?: +as +([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
@@ -62,7 +98,5 @@ public class AddColumn implements Command {
         else{
             TableOperations.addColumn(symbolTable.get(fileId),column,def);
         }
-
-
     }
 }

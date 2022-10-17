@@ -1,12 +1,16 @@
 package pt.up.fe.els2022.languageParser;
 
+import pt.up.fe.els2022.BuilderCharizard;
 import pt.up.fe.els2022.languageParser.commands.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LanguageParser {
+    BuilderCharizard builderExecutor = new BuilderCharizard();
     FileReader languageFile;
     List<Command> commands = new ArrayList<>();
     public LanguageParser(String filePath) throws FileNotFoundException {
@@ -90,6 +94,24 @@ public class LanguageParser {
             a.println();
         }
         System.out.println("--------------------------------");
+    }
+
+    void ParseCommandAddColumn(String commandLine){
+//        Pattern p = Pattern.compile("^AddColumn +([^ ]+) +([^ ]+) +([^ ]+)(?: +as +([^ ]+))? *$");
+//        Matcher m = p.matcher(commandLine);
+//
+//        if(m.find()) {
+//            if(m.groupCount() == 4){
+//                fileId = m.group(1);
+//                column = m.group(2);
+//                def = m.group(3);
+//                newFileId = m.group(4);
+//            }else{
+//                throw new Error("AddColumn command must be ' <file> <col> <defaultValue> [as <newfileID>]' ");
+//            }
+//        }else{
+//            throw new Error("AddColumn command must be ' <file> <col> <defaultValue> [as <newfileID>]' ");
+//        }
     }
 }
 
