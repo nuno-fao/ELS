@@ -15,22 +15,32 @@ public class RemoveColumn implements Command {
 
     String column;
     String newFileId;
-    public RemoveColumn(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^RemoveColumn +([^ ]+) +([^ ]+)(?: +as +([^ ]+))? *$");
-        Matcher m = p.matcher(commandLine);
 
-        if(m.find()) {
-            if(m.groupCount() == 3){
-                fileId = m.group(1);
-                column = m.group(2);
-                newFileId = m.group(3);
-            }else{
-                throw new Error("RemoveColumn command must be ' <file> <col> [as <newfileID>]' ");
-            }
-        }else{
-            throw new Error("RemoveColumn command must be ' <file> <col> [as <newfileID>]' ");
-        }
+    public String getFileId() {
+        return fileId;
     }
+
+    public String getColumn() {
+        return column;
+    }
+
+    public String getNewFileId() {
+        return newFileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
+    }
+
+    public void setNewFileId(String newFileId) {
+        this.newFileId = newFileId;
+    }
+
+    public RemoveColumn() throws Error {}
 
     @Override
     public void addLine(String line) throws Error{

@@ -11,9 +11,7 @@ import java.util.regex.Pattern;
 
 public class AddColumn implements Command {
     String fileId;
-
     String column;
-
     String def;
     String newFileId;
 
@@ -49,34 +47,13 @@ public class AddColumn implements Command {
         this.newFileId = newFileId;
     }
 
-    public AddColumn(){
-
-    }
-    public AddColumn(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^AddColumn +([^ ]+) +([^ ]+) +([^ ]+)(?: +as +([^ ]+))? *$");
-        Matcher m = p.matcher(commandLine);
-
-        if(m.find()) {
-            if(m.groupCount() == 4){
-                fileId = m.group(1);
-                column = m.group(2);
-                def = m.group(3);
-                newFileId = m.group(4);
-            }else{
-                throw new Error("AddColumn command must be ' <file> <col> <defaultValue> [as <newfileID>]' ");
-            }
-        }else{
-            throw new Error("AddColumn command must be ' <file> <col> <defaultValue> [as <newfileID>]' ");
-        }
-    }
+    public AddColumn(){}
 
     @Override
-    public void addLine(String line) throws Error{
-    }
+    public void addLine(String line) throws Error{}
 
     @Override
-    public void close() {
-    }
+    public void close() {}
 
     @Override
     public void println() {

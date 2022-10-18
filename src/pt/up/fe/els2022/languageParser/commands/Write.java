@@ -13,22 +13,32 @@ public class Write implements Command {
     String type;
     String fileId;
     String filePath;
-    public Write(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Write +(XML|CSV) +([^ ]+) +to +([^ ]+) *$");
-        Matcher m = p.matcher(commandLine);
 
-        if(m.find()) {
-            if(m.groupCount() == 3){
-                type = m.group(1);
-                fileId = m.group(2);
-                filePath = m.group(3);
-            }else{
-                throw new Error("Sort command must be 'Write <XML|CSV> <fileId> to <filePath>' ");
-            }
-        }else{
-            throw new Error("Sort command must be 'Write <XML|CSV> <fileId> to <filePath>' ");
-        }
+    public void setType(String type) {
+        this.type = type;
     }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public Write() {}
 
     @Override
     public void addLine(String line) throws Error{

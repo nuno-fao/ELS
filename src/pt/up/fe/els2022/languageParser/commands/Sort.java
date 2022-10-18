@@ -13,22 +13,40 @@ public class Sort implements Command {
     String col;
     String direction;
     String newFileId;
-    public Sort(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))? *$");
-        Matcher m = p.matcher(commandLine);
 
-        if(m.find()) {
-            if(m.groupCount() == 4){
-                fileId = m.group(1);
-                col = m.group(2);
-                direction = m.group(3);
-                newFileId = m.group(4);
-            }else{
-                throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
-            }
-        }else{
-            throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
-        }
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public void setCol(String col) {
+        this.col = col;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public void setNewFileId(String newFileId) {
+        this.newFileId = newFileId;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public String getCol() {
+        return col;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public String getNewFileId() {
+        return newFileId;
+    }
+
+    public Sort() {
     }
 
     @Override
