@@ -9,7 +9,6 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class App {
-    HashMap<String, Table> symbolTable = new HashMap<>();
     String cf;
 
     public App(String configFile) {
@@ -21,9 +20,7 @@ public class App {
             LanguageParser parse = new LanguageParser(cf);
             List<Command> commands = parse.parse();
 
-            for (Command command : commands) {
-                command.execute(this.symbolTable);
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
             exit(1);

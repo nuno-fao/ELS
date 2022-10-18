@@ -1,12 +1,13 @@
 package pt.up.fe.els2022;
 
 import pt.up.fe.els2022.builders.*;
+import pt.up.fe.els2022.languageParser.Command;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BuilderExecutor {
-    List<InterfaceBuilder> builders = new ArrayList<>();
+    private List<InterfaceBuilder> builders = new ArrayList<>();
     public BuilderAddColumn addColumn() {
         var b = new BuilderAddColumn(this);
         builders.add(b);
@@ -32,5 +33,13 @@ public class BuilderExecutor {
         var b = new BuilderSort(this);
         builders.add(b);
         return b;
+    }
+
+    public Executor build() {
+        List<Command> commands = new ArrayList<Command>();
+        for (InterfaceBuilder i: this.builders) {
+            commands.add(i.build());
+        }
+        return new Executor(commands);
     }
 }

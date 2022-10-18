@@ -22,6 +22,8 @@ public class Main {
 		}else{
 			app = new App(args[0]);
 		}
+
+		new BuilderExecutor().
 		app.run();
 	}
 }
