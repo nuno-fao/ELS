@@ -1,9 +1,8 @@
 package pt.up.fe.els2022;
 
-import pt.up.fe.els2022.languageParser.Command;
-import pt.up.fe.els2022.languageParser.LanguageParser;
+import pt.up.fe.els2022.dslParser.Command;
+import pt.up.fe.els2022.dslParser.Parser;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.System.exit;
@@ -17,7 +16,7 @@ public class App {
 
     public void run() {
         try {
-            LanguageParser parse = new LanguageParser(cf);
+            Parser parse = new Parser(cf);
             List<Command> commands = parse.parse();
 
 

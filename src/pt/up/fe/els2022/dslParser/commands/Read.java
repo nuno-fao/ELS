@@ -1,71 +1,62 @@
-package pt.up.fe.els2022.languageParser.commands;
+package pt.up.fe.els2022.dslParser.commands;
 
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
-import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.dslParser.Command;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Read implements Command {
-    String parentElement;
-    List<String> filePath;
-    List<String> fileID;
+    List<String> parentElements;
+    List<String> filePath = new ArrayList<>();
+    List<String> fileID = new ArrayList<>();
 
-    List<Column> cols;
-    public Read(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^Read +([^ ]+) +as +([^ ]+) *$");
-        Matcher m = p.matcher(commandLine);
-
-        if(m.find()) {
-            if(m.groupCount() == 2){
-                filePath = List.of(m.group(1).split(","));
-                fileID = List.of(m.group(2).split(","));
-
-                if(filePath.size() != fileID.size()) {
-                    throw new Error("Read command incorrect, number of files must be equal to number of identifiers, ");
-                }
-
-                cols = new ArrayList<>();
-            }else{
-                throw new Error("Read command incorrect");
-            }
-        }else{
-            throw new Error("Sort command incorrect");
-        }
+    List<Column> cols = new ArrayList<>();
+    public Read() throws Error {
     }
 
-    @Override
-    public void addLine(String line) throws Error{
-        line = line.trim();
-        if(line.startsWith("Parent")){
-            parentElement = line.substring(6).trim();
-        } else if (line.startsWith("Col")) {
-            cols.add(new Column(line));
-        }else{
-            throw new Error("Read command incorrect");
-        }
+    public void setParentElement(List<String> parentElements) {
+        this.parentElements = parentElements;
     }
 
-    @Override
+    public void setFilePath(List<String> filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setFileID(List<String> fileID) {
+        this.fileID = fileID;
+    }
+
+    public void setCols(List<Column> cols) {
+        this.cols = cols;
+    }
+
+    public List<String> getParentElements() {
+        return parentElements;
+    }
+
+    public List<String> getFilePath() {
+        return filePath;
+    }
+
+    public List<String> getFileID() {
+        return fileID;
+    }
+
+    public List<Column> getCols() {
+        return cols;
+    }
+
     public void close() {
-        if(parentElement == null) throw new Error("Read command must have Parent definition");
+        if(parentElements == null) throw new Error("Read command must have Parent definition");
     }
 
     @Override
-    public void println() {
-        System.out.println("Read "+filePath+" as "+fileID);
-        System.out.println("    Parent "+parentElement);
-        for (var c:cols) {
-            c.println();
-        }
-        System.out.println("End");
-    }
+    public void println() {}
 
     @Override
     public void execute(HashMap<String, Table> symbolTable) {
@@ -78,7 +69,7 @@ public class Read implements Command {
             }
 
             for (int i = 0;i < filePath.size(); i++){
-                ArrayList<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath.get(i), originalHeaders, finalHeaders, parentElement);
+                ArrayList<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath.get(i), originalHeaders, finalHeaders, parentElements);
                 Table table = new Table();
                 table.setEntries(entry);
                 table.setHeaders(finalHeaders);

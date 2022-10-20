@@ -1,12 +1,10 @@
-package pt.up.fe.els2022.languageParser.commands;
+package pt.up.fe.els2022.dslParser.commands;
 
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.TableOperations;
-import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Sort implements Command {
     String fileId;
@@ -47,14 +45,6 @@ public class Sort implements Command {
     }
 
     public Sort() {
-    }
-
-    @Override
-    public void addLine(String line) throws Error{
-    }
-
-    @Override
-    public void close() {
     }
 
     @Override

@@ -1,8 +1,8 @@
 package pt.up.fe.els2022.builders;
 
 import pt.up.fe.els2022.BuilderExecutor;
-import pt.up.fe.els2022.languageParser.Command;
-import pt.up.fe.els2022.languageParser.commands.AddColumn;
+import pt.up.fe.els2022.dslParser.Command;
+import pt.up.fe.els2022.dslParser.commands.AddColumn;
 
 public class BuilderAddColumn implements InterfaceBuilder {
     AddColumn addColumn;

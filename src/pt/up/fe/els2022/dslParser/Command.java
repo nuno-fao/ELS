@@ -1,4 +1,4 @@
-package pt.up.fe.els2022.languageParser;
+package pt.up.fe.els2022.dslParser;
 
 import pt.up.fe.els2022.Table;
 

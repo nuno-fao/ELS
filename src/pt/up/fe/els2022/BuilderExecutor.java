@@ -1,7 +1,7 @@
 package pt.up.fe.els2022;
 
 import pt.up.fe.els2022.builders.*;
-import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,12 @@ public class BuilderExecutor {
     }
     public BuilderSort sort() {
         var b = new BuilderSort(this);
+        builders.add(b);
+        return b;
+    }
+
+    public BuilderRead read() {
+        var b = new BuilderRead(this);
         builders.add(b);
         return b;
     }

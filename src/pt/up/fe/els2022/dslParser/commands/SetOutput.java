@@ -1,8 +1,7 @@
-package pt.up.fe.els2022.languageParser.commands;
+package pt.up.fe.els2022.dslParser.commands;
 
 import pt.up.fe.els2022.Table;
-import pt.up.fe.els2022.TableOperations;
-import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,16 +26,6 @@ public class SetOutput implements Command {
         }else{
             throw new Error("SetOutput must have only the file id defined, ' ");
         }
-    }
-
-    @Override
-    public void addLine(String line) throws Error{
-        outCols.add(line.trim());
-    }
-
-    @Override
-    public void close() {
-        if(outCols.size() == 0) throw new Error("SetOutput must have at least one output column");
     }
 
     @Override

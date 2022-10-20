@@ -1,13 +1,11 @@
-package pt.up.fe.els2022.languageParser.commands;
+package pt.up.fe.els2022.dslParser.commands;
 
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.TableOperations;
-import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Write implements Command {
     String type;
@@ -39,14 +37,6 @@ public class Write implements Command {
     }
 
     public Write() {}
-
-    @Override
-    public void addLine(String line) throws Error{
-    }
-
-    @Override
-    public void close() {
-    }
 
     @Override
     public void println() {

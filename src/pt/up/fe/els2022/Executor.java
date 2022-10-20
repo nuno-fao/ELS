@@ -1,14 +1,13 @@
 package pt.up.fe.els2022;
 
-import pt.up.fe.els2022.languageParser.Command;
+import pt.up.fe.els2022.dslParser.Command;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Executor {
-    List<Command> commands;
-    HashMap<String, Table> symbolTable = new HashMap<>();
+    private List<Command> commands;
+    private HashMap<String, Table> symbolTable = new HashMap<>();
 
     Executor(List<Command> commands) {
         this.commands = commands;

@@ -1,7 +1,8 @@
-package pt.up.fe.els2022.languageParser;
+package pt.up.fe.els2022.dslParser;
 
 import pt.up.fe.els2022.BuilderExecutor;
-import pt.up.fe.els2022.languageParser.commands.*;
+import pt.up.fe.els2022.builders.BuilderRead;
+import pt.up.fe.els2022.dslParser.commands.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,16 +11,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LanguageParser {
-    BuilderExecutor builderExecutor = new BuilderExecutor();
-    FileReader languageFile;
-    List<Command> commands = new ArrayList<>();
+public class Parser {
+    private BuilderExecutor builderExecutor = new BuilderExecutor();
+    private FileReader languageFile;
+    private List<Command> commands = new ArrayList<>();
 
-    BuilderExecutor builder = new BuilderExecutor();
-    public LanguageParser(String filePath) throws FileNotFoundException {
+    private BuilderExecutor builder = new BuilderExecutor();
+    public Parser(String filePath) throws FileNotFoundException {
         languageFile = new FileReader(filePath);
     }
 
+    public BuilderExecutor getBuilder() {
+        return builder;
+    }
 
     public List<Command> parse() throws IOException {
         BufferedReader reader;
@@ -38,15 +42,10 @@ public class LanguageParser {
             }
 
             try {
-                if (line.startsWith("End")) {
-                    if(currentCommand == null) {
-                        throw new Error("END used out of place,  ");
-                    }
-                    currentCommand.close();
-                    commands.add(currentCommand);
-                    currentCommand = null;
+                if(line.startsWith("#")) {
+                    continue;
                 } else if (line.startsWith("Read")) {
-                    currentCommand = new Read(line);
+                    ParseCommandRead(line,reader);
                 } else if (line.startsWith("SetOutput")) {
                     currentCommand = new SetOutput(line);
                 } else if (line.startsWith("Sort")) {
@@ -60,11 +59,7 @@ public class LanguageParser {
                 }else if (line.startsWith("Write")) {
                     ParseCommandWrite(line);
                 } else {
-                    if (currentCommand != null) {
-                        currentCommand.addLine(line);
-                    } else {
                         throw new Error("Command not found around ");
-                    }
                 }
             }catch (Error e) {
                 throw new Error(e.getMessage() +"LINE: " + lineCounter);
@@ -177,6 +172,56 @@ public class LanguageParser {
         }else{
             throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
         }
+    }
+
+    int ParseCommandRead(String commandLine,BufferedReader reader) throws IOException{
+        int lineCounter = 1;
+
+        Pattern p = Pattern.compile("^Read +([^ ]+) +as +([^ ]+) *$");
+        Matcher m = p.matcher(commandLine);
+
+        BuilderRead b = builder.read();
+
+        if(m.find()) {
+            if(m.groupCount() == 2){
+                List<String> filePath =  List.of(m.group(1).split(","));
+                List<String> fileID = List.of(m.group(2).split(","));
+
+                b
+                        .setFilesPaths(filePath)
+                        .setFilesIds(fileID);
+
+                if(filePath.size() != fileID.size()) {
+                    throw new Error("Read command incorrect, number of files must be equal to number of identifiers, ");
+                }
+            }else{
+                throw new Error("Read command incorrect");
+            }
+        }else{
+            throw new Error("Sort command incorrect");
+        }
+
+        while (commandLine != null) {
+            lineCounter++;
+            if (commandLine.trim().length() == 0) {
+                commandLine = reader.readLine();
+                continue;
+            }
+
+            commandLine = commandLine.trim();
+            if(commandLine.startsWith("Parent")){
+                List<String> elems = List.of(commandLine.substring(6).trim().split(","));
+                b.setParentElements(elems);
+            } else if (commandLine.startsWith("Col")) {
+
+                cols.add(new Column(line));
+            }else{
+                throw new Error("Read command incorrect");
+            }
+
+            commandLine = reader.readLine();
+        }
+        return lineCounter;
     }
 }
 

@@ -1,8 +1,8 @@
 package pt.up.fe.els2022.builders;
 
 import pt.up.fe.els2022.BuilderExecutor;
-import pt.up.fe.els2022.languageParser.Command;
-import pt.up.fe.els2022.languageParser.commands.Write;
+import pt.up.fe.els2022.dslParser.Command;
+import pt.up.fe.els2022.dslParser.commands.Write;
 
 public class BuilderWrite implements InterfaceBuilder{
     Write write;
