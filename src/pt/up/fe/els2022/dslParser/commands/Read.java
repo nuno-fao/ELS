@@ -51,6 +51,10 @@ public class Read implements Command {
         return cols;
     }
 
+    public void addColumn(String initColumn, String finalColumn) {
+        this.cols.add(new Column(initColumn, finalColumn));
+    }
+
     public void close() {
         if(parentElements == null) throw new Error("Read command must have Parent definition");
     }
@@ -91,19 +95,9 @@ public class Read implements Command {
 class Column{
     String initName;
     String finalName;
-    public Column(String col) throws Error{
-        col = col.substring(3).trim();
-        String[] parts = col.trim().split("=>");
-        if(((parts.length != 2) && parts.length != 1) || (parts.length == 1 &&  col.contains("=>"))){
-            throw new Error("Col command must be '<originalName> => <newName>' ");
-        }
-        if(parts.length == 2) {
-            initName = parts[0].trim();
-            finalName = parts[1].trim();
-        }else{
-            initName = col;
-            finalName = col;
-        }
+    public Column(String initName, String finalName) throws Error{
+        this.initName = initName;
+        this.finalName = finalName;
     }
 
     void println(){

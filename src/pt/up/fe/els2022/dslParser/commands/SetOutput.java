@@ -13,19 +13,14 @@ public class SetOutput implements Command {
 
     ArrayList<String> outCols = new ArrayList<String>();
 
-    public SetOutput(String commandLine) throws Error {
-        Pattern p = Pattern.compile("^SetOutput +([^ ]+)");
-        Matcher m = p.matcher(commandLine);
+    public SetOutput() throws Error {}
 
-        if(m.find()) {
-            if(m.groupCount() == 1){
-                fileId = m.group(1).trim();
-            }else{
-                throw new Error("SetOutput must have only the file id defined, ' ");
-            }
-        }else{
-            throw new Error("SetOutput must have only the file id defined, ' ");
-        }
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public void addColumn(String column) throws Error{
+        outCols.add(column.trim());
     }
 
     @Override

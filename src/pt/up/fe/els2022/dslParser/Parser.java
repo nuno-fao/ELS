@@ -2,6 +2,7 @@ package pt.up.fe.els2022.dslParser;
 
 import pt.up.fe.els2022.BuilderExecutor;
 import pt.up.fe.els2022.builders.BuilderRead;
+import pt.up.fe.els2022.builders.BuilderSetOutput;
 import pt.up.fe.els2022.dslParser.commands.*;
 
 import java.io.*;
@@ -24,12 +25,10 @@ public class Parser {
     public BuilderExecutor getBuilder() {
         return builder;
     }
-
-    public List<Command> parse() throws IOException {
+    public void parse() throws IOException {
         BufferedReader reader;
         reader = new BufferedReader(languageFile);
         String line = reader.readLine();
-        Command currentCommand = null;
 
         int lineCounter = 0;
 
@@ -45,9 +44,9 @@ public class Parser {
                 if(line.startsWith("#")) {
                     continue;
                 } else if (line.startsWith("Read")) {
-                    ParseCommandRead(line,reader);
+                    lineCounter += ParseCommandRead(line,reader);
                 } else if (line.startsWith("SetOutput")) {
-                    currentCommand = new SetOutput(line);
+                    lineCounter += ParseCommandSetOutput(line,reader);
                 } else if (line.startsWith("Sort")) {
                     ParseCommandSort(line);
                 }else if (line.startsWith("Merge")) {
@@ -68,7 +67,6 @@ public class Parser {
         }
 
         reader.close();
-        return commands;
     }
 
     void println(){
@@ -175,7 +173,7 @@ public class Parser {
     }
 
     int ParseCommandRead(String commandLine,BufferedReader reader) throws IOException{
-        int lineCounter = 1;
+        int lineCounter = 0;
 
         Pattern p = Pattern.compile("^Read +([^ ]+) +as +([^ ]+) *$");
         Matcher m = p.matcher(commandLine);
@@ -200,6 +198,7 @@ public class Parser {
         }else{
             throw new Error("Sort command incorrect");
         }
+        commandLine = reader.readLine();
 
         while (commandLine != null) {
             lineCounter++;
@@ -208,16 +207,60 @@ public class Parser {
                 continue;
             }
 
-            commandLine = commandLine.trim();
             if(commandLine.startsWith("Parent")){
                 List<String> elems = List.of(commandLine.substring(6).trim().split(","));
                 b.setParentElements(elems);
             } else if (commandLine.startsWith("Col")) {
-
-                cols.add(new Column(line));
+                var col = commandLine.substring(3).trim();
+                String[] parts = col.trim().split("=>");
+                if(((parts.length != 2) && parts.length != 1) || (parts.length == 1 &&  col.contains("=>"))){
+                    throw new Error("Col command must be '<originalName> => <newName>' ");
+                }
+                if(parts.length == 2) {
+                    b.addColumn(parts[0].trim(),parts[1].trim());
+                }else{
+                    b.addColumn(col,col);
+                }
+            }else if (commandLine.startsWith("End")){
+                b.close();
+                return lineCounter;
             }else{
                 throw new Error("Read command incorrect");
             }
+
+            commandLine = reader.readLine();
+        }
+        return lineCounter;
+    }
+
+    int ParseCommandSetOutput(String commandLine,BufferedReader reader) throws IOException{
+        int lineCounter = 0;
+
+        Pattern p = Pattern.compile("^SetOutput +([^ ]+)");
+        Matcher m = p.matcher(commandLine);
+
+        BuilderSetOutput b = builder.setOutput();
+
+        if(m.find()) {
+            if(m.groupCount() == 1){
+                b.setFilesId(m.group(1).trim());
+            }else{
+                throw new Error("SetOutput must have only the file id defined, ' ");
+            }
+        }else{
+            throw new Error("SetOutput must have only the file id defined, ' ");
+        }
+
+        commandLine = reader.readLine();
+
+        while (commandLine != null) {
+            lineCounter++;
+            if (commandLine.trim().length() == 0) {
+                commandLine = reader.readLine();
+                continue;
+            }
+
+            b.addColumn(commandLine.trim());
 
             commandLine = reader.readLine();
         }

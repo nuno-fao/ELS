@@ -17,8 +17,9 @@ public class App {
     public void run() {
         try {
             Parser parse = new Parser(cf);
-            List<Command> commands = parse.parse();
-
+//            List<Command> commands = parse.parse();
+            parse.parse();
+            parse.getBuilder().build().run();
 
         } catch (Exception e) {
             e.printStackTrace();

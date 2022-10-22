@@ -29,6 +29,10 @@ public class BuilderRead implements InterfaceBuilder{
         return this;
     }
 
+    public void addColumn(String initName, String finalName){
+        this.read.addColumn(initName, finalName);
+    }
+
 
     public BuilderExecutor close(){
         return builder;

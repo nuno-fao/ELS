@@ -41,6 +41,12 @@ public class BuilderExecutor {
         return b;
     }
 
+    public BuilderSetOutput setOutput() {
+        var b = new BuilderSetOutput(this);
+        builders.add(b);
+        return b;
+    }
+
     public Executor build() {
         List<Command> commands = new ArrayList<Command>();
         for (InterfaceBuilder i: this.builders) {
