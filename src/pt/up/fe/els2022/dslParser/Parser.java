@@ -201,6 +201,8 @@ public class Parser {
         commandLine = reader.readLine();
 
         while (commandLine != null) {
+            commandLine = commandLine.trim();
+
             lineCounter++;
             if (commandLine.trim().length() == 0) {
                 commandLine = reader.readLine();
@@ -254,12 +256,17 @@ public class Parser {
         commandLine = reader.readLine();
 
         while (commandLine != null) {
+            commandLine = commandLine.trim();
             lineCounter++;
-            if (commandLine.trim().length() == 0) {
-                commandLine = reader.readLine();
-                continue;
+            if (commandLine.startsWith("End")) {
+                b.close();
+                return lineCounter;
+            }else {
+                if (commandLine.trim().length() == 0) {
+                    commandLine = reader.readLine();
+                    continue;
+                }
             }
-
             b.addColumn(commandLine.trim());
 
             commandLine = reader.readLine();
