@@ -30,8 +30,9 @@ public class XMLAdapter{
         Element elem = doc.getDocumentElement();
 
         List<Element> elems = new ArrayList<>(Collections.singletonList(elem));
-        List<Element> auxElems = new ArrayList<>(Collections.singletonList(elem));
+        List<Element> auxElems = new ArrayList<>();
         for (String elementName : parentElements) {
+            auxElems = new ArrayList<>();
             for (Element e :elems){
                 NodeList list = e.getElementsByTagName(elementName);
                 for(int i = 0; i < list.getLength();i++){
