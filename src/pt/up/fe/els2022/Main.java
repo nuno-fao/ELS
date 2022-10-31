@@ -11,6 +11,8 @@ public class Main {
 			app = new App(args[0]);
 		}
 		app.run();
+		
+
 	}
 }
 
