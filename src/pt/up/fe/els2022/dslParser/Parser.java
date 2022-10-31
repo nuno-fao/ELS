@@ -210,7 +210,7 @@ public class Parser {
             }
 
             if(commandLine.startsWith("Parent")){
-                List<String> elems = List.of(commandLine.substring(6).trim().split(","));
+                List<String> elems = List.of(commandLine.substring(6).trim().split(" "));
                 b.setParentElements(elems);
             } else if (commandLine.startsWith("Col")) {
                 var col = commandLine.substring(3).trim();
