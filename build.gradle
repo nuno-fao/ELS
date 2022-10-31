@@ -19,7 +19,8 @@ repositories {
 dependencies {
     testImplementation "junit:junit:4.11" 	
 
-	//! Add your dependencies here    
+	//! Add your dependencies here
+    implementation 'com.google.code.gson:gson:2.10'
 }
 
 // Add JARs in folder 'libs' as dependencies
