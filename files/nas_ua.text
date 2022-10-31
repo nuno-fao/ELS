@@ -1,0 +1,45 @@
+ NAS Parallel Benchmarks (NPB3.3-SER-C) - UA Benchmark
+
+ No input file inputua.data. Using compiled defaults
+ Levels of refinement:        5
+ Adaptation frequency:        5
+ Time steps:                100    dt:    1.250000E-03
+ CG iterations:              10
+ Heat source radius:     0.0600
+
+Step    0: elements refined, merged, total:    80      0    561
+Step    5: elements refined, merged, total:     6     40    568
+Step   10: elements refined, merged, total:     7    104    526
+Step   15: elements refined, merged, total:     6      8    561
+Step   20: elements refined, merged, total:     9    168    477
+Step   25: elements refined, merged, total:    16    128    477
+Step   30: elements refined, merged, total:    16      0    589
+Step   35: elements refined, merged, total:     0     40    554
+Step   40: elements refined, merged, total:     5    120    484
+Step   45: elements refined, merged, total:    15      0    589
+Step   50: elements refined, merged, total:     2     72    540
+Step   55: elements refined, merged, total:     8     96    512
+Step   60: elements refined, merged, total:    26    224    498
+Step   65: elements refined, merged, total:    12      8    575
+Step   70: elements refined, merged, total:     1     56    533
+Step   75: elements refined, merged, total:     9    104    505
+Step   80: elements refined, merged, total:     9      0    568
+Step   85: elements refined, merged, total:     0     72    505
+Step   90: elements refined, merged, total:     8    232    358
+Step   95: elements refined, merged, total:    24      0    526
+
+ Verification being performed for class W
+ accuracy setting for epsilon =  1.0000000000000E-08
+ Comparison of temperature integrals
+           2.5697948370744E-05 2.5697948370760E-05 6.3034830055627E-13
+ Verification Successful
+
+
+ UA Benchmark Completed.
+ Class           =                        W
+ Size            =                        5
+ Iterations      =                      100
+ Time in seconds =                    80.16
+ Mop/s total     =                     0.90
+ Operation type  =     coll. point advanced
+ Verification    =               SUCCESSFUL
