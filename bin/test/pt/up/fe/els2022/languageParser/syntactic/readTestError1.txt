@@ -1,0 +1,5 @@
+Read f
+    Parent z
+    Col oooo => a
+    Col ooa => b
+End

@@ -1,0 +1,22 @@
+Read files\vitis-report_1.xml,files\vitis-report_2.xml,files\vitis-report_3.xml as f1,f2,f3
+    Parent Resources
+    Col LUT => LUTs
+    Col FF => FFs
+    Col DSP48E => DSPs
+    Col BRAM_18K => BRAMs
+End
+
+Sort f1 newCol1 asc
+Sort f2 newCol1 desc as f3
+
+Merge f1,f3
+Merge f1,f3 as f4
+Merge f1,f3 with Name on col1 as f4
+
+RemoveColumn f1 col1 as f4
+RemoveColumn f1 col2
+
+AddColumn f1 col1 valorPorDefeito1 as f4
+AddColumn f1 col2 valorPorDefeito2
+
+Write CSV f to teste.csv
