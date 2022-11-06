@@ -1,5 +1,6 @@
 package pt.up.fe.els2022.dslParser.commands;
 
+import pt.up.fe.els2022.JSONAdapter;
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.dslParser.Command;
@@ -73,7 +74,20 @@ public class Read implements Command {
             }
 
             for (int i = 0;i < filePath.size(); i++){
-                ArrayList<HashMap<String, String>> entry = XMLAdapter.parseFile(filePath.get(i), originalHeaders, finalHeaders, parentElements);
+                String filename = filePath.get(i);
+                ArrayList<HashMap<String, String>> entry = new ArrayList<>();
+
+                if (filename.endsWith("json")) {
+                    boolean root = false;
+                    if (parentElements.contains("ROOT")) {
+                        root = true;
+                        parentElements.remove("ROOT");
+                    }
+                    entry = JSONAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements, root);
+                } else if (filename.endsWith("xml")) {
+                    entry = XMLAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements);
+                }
+
                 Table table = new Table();
                 table.setEntries(entry);
                 table.setHeaders(finalHeaders);

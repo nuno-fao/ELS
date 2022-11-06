@@ -10,25 +10,56 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
+import java.util.*;
 
 public class JSONAdapter {
-    public static HashMap<String, String> parseFile(String filename) throws IOException {
-        HashMap<String, String> entry = new HashMap<>();
+    public static ArrayList<HashMap<String, String>> parseFile(String filename, List<String> headers, List<String> elements, List<String> parentElements, boolean root) throws IOException {
+        ArrayList<HashMap<String, String>> entry = new ArrayList<>();
+        HashMap<String, HashMap<String, String>> elems = new HashMap<>();
 
         Reader reader = Files.newBufferedReader(Path.of(filename));
         JsonElement jsonElement = JsonParser.parseReader(reader);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-        for (String key: jsonObject.keySet()) {
-            JsonElement obj = jsonObject.get(key);
-            if (obj.isJsonPrimitive()) {
-                entry.put(key, obj.getAsString());
-            } else if (key == "params") {
-                JsonObject params = obj.getAsJsonObject();
-                for (String k: params.keySet()) {
-                    entry.put(key, params.get(k).getAsString());
+        // get root children
+        if (root) {
+            HashMap<String, String> elemList = new HashMap<>();
+            for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
+                if (obj.getValue().isJsonPrimitive()) {
+                    elemList.put(obj.getKey(), obj.getValue().getAsString());
                 }
+            }
+            elems.put("ROOT", elemList);
+        }
+
+        // get children of parents
+        for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
+            if (parentElements.contains(obj.getKey())) {
+                HashMap<String, String> elemList = new HashMap<>();
+                for (Map.Entry<String, JsonElement> child: obj.getValue().getAsJsonObject().entrySet()) {
+                    if (child.getValue().isJsonPrimitive()) {
+                        elemList.put(child.getKey(), child.getValue().getAsString());
+                    }
+                }
+                elems.put(obj.getKey(), elemList);
+            }
+        }
+
+        // put all header-value pairs in table entry with same names
+        if (headers.isEmpty() && elements.isEmpty()) {
+            for (HashMap<String, String> elem: elems.values()) {
+                entry.add(elem);
+            }
+        } else { // put only the header-value pairs specified
+            for (HashMap<String, String> elem: elems.values()) {
+                HashMap<String, String> newEntryMap = new HashMap<>();
+                for (Map.Entry<String, String> elemValue: elem.entrySet()) {
+                    int i = headers.indexOf(elemValue.getKey());
+                    if (i != -1) {
+                        newEntryMap.put(elements.get(i), elemValue.getValue());
+                    }
+                }
+                entry.add(newEntryMap);
             }
         }
 
