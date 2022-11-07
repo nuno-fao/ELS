@@ -21,48 +21,41 @@ public class JSONAdapter {
         JsonElement jsonElement = JsonParser.parseReader(reader);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
+        HashMap<String, String> elemList = new HashMap<>();
+        entry.add(new HashMap<>());
+
         // get root children
         if (root) {
-            HashMap<String, String> elemList = new HashMap<>();
             for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
                 if (obj.getValue().isJsonPrimitive()) {
                     elemList.put(obj.getKey(), obj.getValue().getAsString());
                 }
             }
-            elems.put("ROOT", elemList);
         }
 
         // get children of parents
         for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
             if (parentElements.contains(obj.getKey())) {
-                HashMap<String, String> elemList = new HashMap<>();
                 for (Map.Entry<String, JsonElement> child: obj.getValue().getAsJsonObject().entrySet()) {
                     if (child.getValue().isJsonPrimitive()) {
                         elemList.put(child.getKey(), child.getValue().getAsString());
                     }
                 }
-                elems.put(obj.getKey(), elemList);
             }
         }
 
         // put all header-value pairs in table entry with same names
         if (headers.isEmpty() && elements.isEmpty()) {
-            for (HashMap<String, String> elem: elems.values()) {
-                entry.add(elem);
+            for (var e : elemList.entrySet()){
+                entry.get(0).put(e.getKey(),e.getValue());
             }
         } else { // put only the header-value pairs specified
-            for (HashMap<String, String> elem: elems.values()) {
-                HashMap<String, String> newEntryMap = new HashMap<>();
-                for (Map.Entry<String, String> elemValue: elem.entrySet()) {
-                    int i = headers.indexOf(elemValue.getKey());
-                    if (i != -1) {
-                        newEntryMap.put(elements.get(i), elemValue.getValue());
-                    }
+            for(int i = 0;i < headers.size();i++){
+                if(elemList.containsKey(headers.get(i))){
+                    entry.get(0).put(elements.get(i),elemList.get(headers.get(i)));
                 }
-                entry.add(newEntryMap);
             }
         }
-
         return entry;
     }
 }

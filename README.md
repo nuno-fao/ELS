@@ -24,7 +24,7 @@ You can also see a test report by opening ``build/reports/tests/test/index.html`
 
 ### Reading from an XML file
 ```
-Read files\vitis-report_1.xml as f1 
+Read files/vitis-report_1.xml as f1 
     Parent Resources
     Col LUT => LUTs
     Col FF => FFs

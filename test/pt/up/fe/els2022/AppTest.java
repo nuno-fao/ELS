@@ -16,7 +16,6 @@ public class AppTest {
                         "145,64,1,0",
                 SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestReadWrite.csv")
         );
-
     }
     @Test
     public void readSortWrite() throws InterruptedException {
