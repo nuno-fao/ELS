@@ -35,7 +35,6 @@ public class TextAdapterTest {
 
     @Test
     public void tableLineCol() {
-
         assertEquals("new_const_array_d2",TextAdapter.tableLineCol("./files/gprof.txt", 6, 2, 6, "name"));
         assertEquals("",TextAdapter.tableLineCol("./files/gprof.txt", 6, 2,2, 5));
         assertEquals("19",TextAdapter.tableLineCol("./files/gprof.txt", 6, 2,3, 4));

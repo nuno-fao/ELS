@@ -194,7 +194,7 @@ public class TextAdapter{
         int tableEnd=0;
         for(int i=tableStart; i<lines.length;i++){
             tableEnd=i;
-            if(lines[i].equals("\r"))
+            if(lines[i].equals("\r") || lines[i].trim().length() == 0)
                 break;
         }
         String[] tableLines=Arrays.copyOfRange(lines, tableStart, tableEnd);
