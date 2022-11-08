@@ -9,14 +9,12 @@ import static org.junit.Assert.*;
 public class TextAdapterTest {
     @Test
     public void wordLineNum() {
-
         assertEquals("0",TextAdapter.wordLineNum("./files/nas_ua.text",10,2));
         assertEquals("performed",TextAdapter.wordLineNum("./files/nas_ua.text",31,3));
     }
 
     @Test
     public void wordLineCol(){
-
         assertEquals("Step",TextAdapter.wordLineCol("./files/nas_ua.text",10,2));
         assertEquals("elements",TextAdapter.wordLineCol("./files/nas_ua.text",10,13));
     }

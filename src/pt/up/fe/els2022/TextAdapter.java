@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import javax.sound.sampled.SourceDataLine;
-import javax.swing.plaf.synth.SynthIcon;
-
 import java.nio.file.*;
-import java.sql.Struct;;
+;
 
 class Position{
     public int start;
@@ -31,13 +28,13 @@ class Position{
 };
 
 public class TextAdapter{
-    public static String cleanWord(String word)
+    private static String cleanWord(String word)
     {
         return word.replaceAll("[^a-zA-Z0-9]", "");
     }
 
 
-    public static String readFileAsString(String fileName)
+    private static String readFileAsString(String fileName)
     {
         try{
             String data = "";
@@ -49,7 +46,7 @@ public class TextAdapter{
 
     }
 
-    public static String[] splitSpaces(String text)
+    private static String[] splitSpaces(String text)
     {
         return  text.replaceAll("\\s+", " ").trim().split(" ");
 
@@ -306,6 +303,15 @@ public class TextAdapter{
 
 
         return table.getEntries().get(line-1).get(table.getHeaders().get(col-1)); 
+    }
+
+    public static ArrayList<HashMap<String, String>> table(String filename, int start, int headerLength) {
+
+        String text = TextAdapter.readFileAsString(filename);
+        Table table = TextAdapter.buildTable(text, start, headerLength);
+
+
+        return table.getEntries();
     }
 
 
