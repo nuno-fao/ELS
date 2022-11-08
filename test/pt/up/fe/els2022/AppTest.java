@@ -78,4 +78,17 @@ public class AppTest {
         );
     }
 
+    @Test
+    public void json1() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/testJson1.txt");
+        app.run();
+        /*assertEquals(
+                "File,FF,BRAMs,Col\n" +
+                        "vitis-report_3.xml,1050,10,Default\n" +
+                        "vitis-report_2.xml,525,5,Default\n" +
+                        ",64,0,Default\n" +
+                        "vitis-report_1.xml,64,0,Default",
+                SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestGreat.csv")
+        );*/
+    }
 }

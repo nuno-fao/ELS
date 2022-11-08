@@ -97,8 +97,14 @@ public class Read implements Command {
 
                 table.setOrigin(fileName.toString());
 
+                if(originalHeaders.size() == 0){
+                    var e  = table.getEntries().get(0);
+                    table.setHeaders(new ArrayList<>(e.keySet()));
+                }
+
                 symbolTable.put(fileID.get(i),table);
             }
+
         }catch (Exception e) {
             System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");

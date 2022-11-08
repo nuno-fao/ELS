@@ -1,0 +1,5 @@
+Read files/decision_tree.json as f1
+    Parent ROOT params
+End
+
+Write CSV f1 to test/pt/up/fe/els2022/outFiles/testJson1.csv
