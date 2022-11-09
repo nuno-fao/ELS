@@ -271,7 +271,7 @@ public class TextAdapter{
             if(numberCols>1)
                 cols.put(headers[0].trim(), tableLines[i].substring(0,headerPos.get(1).start).trim());
             for(int j=1; j<numberCols-1;j++){
-                cols.put(headers[j].trim(), tableLines[i].substring(headerPos.get(j-1).end+1, headerPos.get(j+1).start).trim());
+                cols.put(headers[j].trim(), tableLines[i].substring(headerPos.get(j-1).end+2, headerPos.get(j+1).start).trim());
             }
 
             cols.put(headers[numberCols-1].trim(), tableLines[i].substring(headerPos.get(numberCols-1).start).trim());
