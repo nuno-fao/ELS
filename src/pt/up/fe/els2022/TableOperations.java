@@ -132,4 +132,31 @@ public class TableOperations {
         }
     }
 
+    public static Table joinTables(Table table1, Table table2)  {
+        ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
+        ArrayList<String> newHeaders = new ArrayList<>();
+
+        newHeaders.addAll(table1.getHeaders());
+
+        for(String header : table2.getHeaders()){
+            if(!newHeaders.contains(header)){
+                newHeaders.add(header);
+            }
+        }
+
+        for (int i = 0; i < table2.getEntries().size(); i++) {
+            if(table1.getEntries().size() != 0 ){
+                HashMap<String,String> aux = new HashMap<>();
+                aux.putAll(table1.getEntries().get(i));
+                aux.putAll(table2.getEntries().get(i));
+                newEntries.add(aux);
+            }
+            else {
+                newEntries.add(table2.getEntries().get(i));
+            }
+        }
+
+        return new Table(newHeaders,newEntries);
+    }
+
 }

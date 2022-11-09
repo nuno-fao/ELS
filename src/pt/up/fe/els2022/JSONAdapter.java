@@ -27,8 +27,10 @@ public class JSONAdapter {
         // get root children
         if (root) {
             for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
-                if (obj.getValue().isJsonPrimitive()) {
+                if (obj.getValue().isJsonPrimitive() || obj.getValue().isJsonNull()) {
                     elemList.put(obj.getKey(), obj.getValue().getAsString());
+                } else if(obj.getValue().isJsonNull()){
+                    elemList.put(obj.getKey(), null);
                 }
             }
         }
@@ -39,6 +41,8 @@ public class JSONAdapter {
                 for (Map.Entry<String, JsonElement> child: obj.getValue().getAsJsonObject().entrySet()) {
                     if (child.getValue().isJsonPrimitive()) {
                         elemList.put(child.getKey(), child.getValue().getAsString());
+                    } else if(child.getValue().isJsonNull()){
+                        elemList.put(child.getKey(), null);
                     }
                 }
             }

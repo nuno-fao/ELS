@@ -57,6 +57,8 @@ public class Parser {
                     ParseCommandAddColumn(line);
                 }else if (line.startsWith("Write")) {
                     ParseCommandWrite(line);
+                }else if (line.startsWith("Join")) {
+                    ParseCommandJoin(line);
                 } else {
                         throw new Error("Command not found around ");
                 }
@@ -146,6 +148,25 @@ public class Parser {
                 b.setAggregate(m.group(2))
                         .setDestinyColumn(m.group(3))
                         .setNewFileId(m.group(4));
+            }else{
+                throw new Error("Merge command must be ' <file1>,<file2>,<file3>,<etc> [as <newfileID>]' ");
+            }
+        }else{
+            throw new Error("Merge command must be ' <file1>,<file2>,<file3>,<etc> [as <newfileID>]' ");
+        }
+    }
+    void ParseCommandJoin(String commandLine){
+        Pattern p = Pattern.compile("^Join +([^ ]+)(?: +as +([^ ]+))? *$");
+        Matcher m = p.matcher(commandLine);
+
+        if(m.find()) {
+            if(m.groupCount() == 2){
+                var b = builder.Join();
+                var fileIds = Arrays.asList(m.group(1).split(","));
+                for(int i = 0;i < fileIds.size();i++){
+                    b = b.addFileId(fileIds.get(i).trim());
+                }
+                b.setNewFileId(m.group(2));
             }else{
                 throw new Error("Merge command must be ' <file1>,<file2>,<file3>,<etc> [as <newfileID>]' ");
             }

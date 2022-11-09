@@ -29,6 +29,11 @@ public class BuilderExecutor {
         builders.add(b);
         return b;
     }
+    public BuilderJoin Join() {
+        var b = new BuilderJoin(this);
+        builders.add(b);
+        return b;
+    }
     public BuilderSort sort() {
         var b = new BuilderSort(this);
         builders.add(b);

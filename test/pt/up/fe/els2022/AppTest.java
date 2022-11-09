@@ -91,4 +91,10 @@ public class AppTest {
                 SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestGreat.csv")
         );*/
     }
+
+    @Test
+    public void assignment2() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/testAssignment2.txt");
+        app.run();
+    }
 }
