@@ -1,0 +1,5 @@
+Read files XML as xml
+    Parent Resources
+End
+
+Write CSV xml to test/pt/up/fe/els2022/outFiles/

@@ -1,11 +1,14 @@
 package pt.up.fe.els2022.dslParser.commands;
 
+import org.xml.sax.SAXException;
 import pt.up.fe.els2022.JSONAdapter;
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.dslParser.Command;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,6 +23,8 @@ public class Read implements Command {
     List<String> fileID = new ArrayList<>();
 
     List<Column> cols = new ArrayList<>();
+
+    FileType type = null;
     public Read() throws Error {
     }
 
@@ -55,6 +60,14 @@ public class Read implements Command {
         return cols;
     }
 
+    public FileType getType() {
+        return type;
+    }
+
+    public void setType(FileType type) {
+        this.type = type;
+    }
+
     public void addColumn(String initColumn, String finalColumn) {
         this.cols.add(new Column(initColumn, finalColumn));
     }
@@ -81,16 +94,8 @@ public class Read implements Command {
                 ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
                 if (filename.endsWith(".json") || filename.endsWith(".xml")) {
-                    if (filename.endsWith(".json")) {
-                        boolean root = false;
-                        if (parentElements.contains("ROOT")) {
-                            root = true;
-                            parentElements.remove("ROOT");
-                        }
-                        entry = JSONAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements, root);
-                    } else if (filename.endsWith(".xml")) {
-                        entry = XMLAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements);
-                    }
+                    entry = parseFile(originalHeaders, finalHeaders, filename);
+                    if (entry == null) continue;
 
                     Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i));
 
@@ -104,6 +109,8 @@ public class Read implements Command {
                       assert pathNames != null;
                       List<Table> tableList = new ArrayList<>();
                       for (String pathname : pathNames) {
+                          entry = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
+                          if (entry == null) continue;
                           tableList.add(getTable(originalHeaders, finalHeaders, entry, pathname));
                       }
                       symbolTable.put(fileID.get(i), tableList);
@@ -111,13 +118,33 @@ public class Read implements Command {
                       throw new Error("Filename "+ filename +" is not a accepted file or a folder ");
                   }
                 }
-
             }
 
         }catch (Exception e) {
             System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");
         }
+    }
+
+    private ArrayList<HashMap<String, String>> parseFile(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, String filename) throws IOException, SAXException, ParserConfigurationException {
+        ArrayList<HashMap<String, String>> entry = null;
+        if ((filename.endsWith(".json") && this.type == FileType.JSON) || (filename.endsWith(".json") && this.type == null)) {
+            if(this.type == FileType.JSON && !filename.endsWith(".json")){
+                return null;
+            }
+            boolean root = false;
+            if (parentElements.contains("ROOT")) {
+                root = true;
+                parentElements.remove("ROOT");
+            }
+            entry = JSONAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements, root);
+        } else if ((filename.endsWith(".xml") && this.type == FileType.XML) || (filename.endsWith(".xml") && this.type == null)) {
+            if(this.type == FileType.XML && !filename.endsWith(".xml")){
+                return null;
+            }
+            entry = XMLAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements);
+        }
+        return entry;
     }
 
     private static Table getTable(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, ArrayList<HashMap<String, String>> entry, String file) {
@@ -154,3 +181,4 @@ class Column{
         }
     }
 }
+

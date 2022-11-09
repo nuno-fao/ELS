@@ -53,7 +53,7 @@ public class Write implements Command {
             }else{
                 int i = 0;
                 for (Table t : list){
-                    TableOperations.write(symbolTable.get(fileId).get(0),filePath+"/"+t.getOrigin()+"_"+i+".csv");
+                    TableOperations.write(t,filePath+"/"+t.getOrigin()+"_"+i+".csv");
                     i++;
                 }
             }

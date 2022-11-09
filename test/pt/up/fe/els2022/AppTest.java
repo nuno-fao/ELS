@@ -80,7 +80,7 @@ public class AppTest {
 
     @Test
     public void json1() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testJson1.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/outTestJson1.txt");
         app.run();
         /*assertEquals(
                 "File,FF,BRAMs,Col\n" +
@@ -95,6 +95,12 @@ public class AppTest {
     @Test
     public void assignment2() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testAssignment2.txt");
+        app.run();
+    }
+
+    @Test
+    public void multipleRead() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/testMultipleRead.txt");
         app.run();
     }
 }

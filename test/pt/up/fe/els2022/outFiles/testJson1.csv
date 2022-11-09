@@ -1,2 +1,0 @@
-n_classes_,criterion,n_features_,ccp_alpha,meta,min_samples_split,max_features_,min_impurity_decrease,min_weight_fraction_leaf,n_outputs_,splitter,min_samples_leaf
-2,gini,16,0.0,decision-tree,2,16,0.0,0.0,1,best,1

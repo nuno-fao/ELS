@@ -196,19 +196,20 @@ public class Parser {
     int ParseCommandRead(String commandLine,BufferedReader reader) throws IOException{
         int lineCounter = 0;
 
-        Pattern p = Pattern.compile("^Read +([^ ]+) +as +([^ ]+) *$");
+        Pattern p = Pattern.compile("^Read +([^ ]+) +(JSON|XML|TEXT)? +as +([^ ]+) *$");
         Matcher m = p.matcher(commandLine);
 
         BuilderRead b = builder.read();
 
         if(m.find()) {
-            if(m.groupCount() == 2){
+            if(m.groupCount() == 3){
                 List<String> filePath =  List.of(m.group(1).split(","));
-                List<String> fileID = List.of(m.group(2).split(","));
+                List<String> fileID = List.of(m.group(3).split(","));
 
                 b
                         .setFilesPaths(filePath)
-                        .setFilesIds(fileID);
+                        .setFilesIds(fileID)
+                        .setFileTYpe(FileType.fromString(m.group(2)));
 
                 if(filePath.size() != fileID.size()) {
                     throw new Error("Read command incorrect, number of files must be equal to number of identifiers, ");

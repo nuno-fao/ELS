@@ -2,6 +2,7 @@ package pt.up.fe.els2022.builders;
 
 import pt.up.fe.els2022.BuilderExecutor;
 import pt.up.fe.els2022.dslParser.Command;
+import pt.up.fe.els2022.dslParser.commands.FileType;
 import pt.up.fe.els2022.dslParser.commands.Read;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class BuilderRead implements InterfaceBuilder{
 
     public BuilderRead setParentElements(List<String> parentElements){
         this.read.setParentElement(parentElements);
+        return this;
+    }
+
+    public BuilderRead setFileTYpe(FileType type){
+        this.read.setType(type);
         return this;
     }
 
