@@ -274,7 +274,7 @@ public class TextAdapter{
                 cols.put(headers[j].trim(), tableLines[i].substring(headerPos.get(j-1).end+1, headerPos.get(j+1).start).trim());
             }
 
-            cols.put(headers[numberCols-1].trim(), tableLines[i].substring(headerPos.get(numberCols-1).start, tableLines[i].length()-1).trim());
+            cols.put(headers[numberCols-1].trim(), tableLines[i].substring(headerPos.get(numberCols-1).start).trim());
             entries.add(cols);
         }
         
