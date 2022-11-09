@@ -48,12 +48,12 @@ public class Write implements Command {
     public void execute(HashMap<String, List<Table>> symbolTable) {
         if(Objects.equals(type, "CSV")){
             List<Table> list = symbolTable.get(fileId);
-            if(list.size() == 1){
+            if(list.size() == 1 && symbolTable.get(fileId).get(0).getOriginFolder() == null){
                 TableOperations.write(symbolTable.get(fileId).get(0),filePath);
             }else{
                 int i = 0;
                 for (Table t : list){
-                    TableOperations.write(t,filePath+"/"+t.getOrigin()+"_"+i+".csv");
+                    TableOperations.write(t,filePath+"/"+t.getOriginFile()+"_"+i+".csv");
                     i++;
                 }
             }

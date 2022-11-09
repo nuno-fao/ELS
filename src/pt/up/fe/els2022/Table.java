@@ -2,7 +2,6 @@ package pt.up.fe.els2022;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Table {
     private ArrayList<HashMap<String, String>> entries;
@@ -17,14 +16,23 @@ public class Table {
         this.output = output;
     }
 
-    private String origin;
+    private String originFile;
+    private String originFolder;
 
-    public String getOrigin() {
-        return origin;
+    public String getOriginFolder() {
+        return originFolder;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setOriginFolder(String originFolder) {
+        this.originFolder = originFolder;
+    }
+
+    public String getOriginFile() {
+        return originFile;
+    }
+
+    public void setOriginFile(String originFile) {
+        this.originFile = originFile;
     }
 
     public Table(){
@@ -56,7 +64,7 @@ public class Table {
         }
 
         Table tempTable = new Table(newHeaders,newEntries);
-        tempTable.setOrigin(this.getOrigin());
+        tempTable.setOriginFile(this.getOriginFile());
         return tempTable;
 
     }

@@ -97,26 +97,26 @@ public class Read implements Command {
                     entry = parseFile(originalHeaders, finalHeaders, filename);
                     if (entry == null) continue;
 
-                    Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i));
+                    Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i),false);
 
                     symbolTable.put(fileID.get(i), Collections.singletonList(table));
                 }else{
-                  if(Files.isDirectory(Path.of(filename))){
-                      File f = new File(filename);
+                    if(Files.isDirectory(Path.of(filename))){
+                        File f = new File(filename);
 
-                      String[] pathNames = f.list();
+                        String[] pathNames = f.list();
 
-                      assert pathNames != null;
-                      List<Table> tableList = new ArrayList<>();
-                      for (String pathname : pathNames) {
-                          entry = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
-                          if (entry == null) continue;
-                          tableList.add(getTable(originalHeaders, finalHeaders, entry, pathname));
-                      }
-                      symbolTable.put(fileID.get(i), tableList);
-                  }else{
-                      throw new Error("Filename "+ filename +" is not a accepted file or a folder ");
-                  }
+                        assert pathNames != null;
+                        List<Table> tableList = new ArrayList<>();
+                        for (String pathname : pathNames) {
+                            entry = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
+                            if (entry == null) continue;
+                            tableList.add(getTable(originalHeaders, finalHeaders, entry, filename+"/"+pathname,true));
+                        }
+                        symbolTable.put(fileID.get(i), tableList);
+                    }else{
+                        throw new Error("Filename "+ filename +" is not a accepted file or a folder ");
+                    }
                 }
             }
 
@@ -147,7 +147,7 @@ public class Read implements Command {
         return entry;
     }
 
-    private static Table getTable(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, ArrayList<HashMap<String, String>> entry, String file) {
+    private static Table getTable(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, ArrayList<HashMap<String, String>> entry, String file,boolean folder) {
         Table table = new Table();
         table.setEntries(entry);
         table.setHeaders(finalHeaders);
@@ -155,7 +155,9 @@ public class Read implements Command {
         Path path = Paths.get(file);
         Path fileName = path.getFileName();
 
-        table.setOrigin(fileName.toString());
+        table.setOriginFile(fileName.toString());
+        if (folder)
+            table.setOriginFolder(path.getParent().toString());
 
         if(originalHeaders.size() == 0){
             var e  = table.getEntries().get(0);

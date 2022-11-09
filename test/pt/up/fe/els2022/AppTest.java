@@ -80,7 +80,7 @@ public class AppTest {
 
     @Test
     public void json1() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/outTestJson1.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testJson1.txt");
         app.run();
         /*assertEquals(
                 "File,FF,BRAMs,Col\n" +

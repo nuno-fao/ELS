@@ -2,4 +2,10 @@ Read files XML as xml
     Parent Resources
 End
 
-Write CSV xml to test/pt/up/fe/els2022/outFiles/
+Read files JSON as json
+    Parent ROOT
+End
+
+
+Write CSV xml to test/pt/up/fe/els2022/outFiles/xml/
+Write CSV json to test/pt/up/fe/els2022/outFiles/json/

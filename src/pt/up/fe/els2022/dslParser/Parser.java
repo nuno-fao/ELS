@@ -60,7 +60,7 @@ public class Parser {
                 }else if (line.startsWith("Join")) {
                     ParseCommandJoin(line);
                 } else {
-                        throw new Error("Command not found around ");
+                    throw new Error("Command not found around ");
                 }
             }catch (Error e) {
                 throw new Error(e.getMessage() +"LINE: " + lineCounter);
@@ -85,7 +85,7 @@ public class Parser {
 
         if(m.find()) {
             if(m.groupCount() == 4){
-               builder.addColumn()
+                builder.addColumn()
                         .setFileId(m.group(1))
                         .setColumn(m.group(2))
                         .setDefault(m.group(3))
@@ -196,7 +196,7 @@ public class Parser {
     int ParseCommandRead(String commandLine,BufferedReader reader) throws IOException{
         int lineCounter = 0;
 
-        Pattern p = Pattern.compile("^Read +([^ ]+) +(JSON|XML|TEXT)? +as +([^ ]+) *$");
+        Pattern p = Pattern.compile("^Read +([^ ]+)(?: +(TEXT|JSON|XML))? +as +([^ ]+) *$");
         Matcher m = p.matcher(commandLine);
 
         BuilderRead b = builder.read();
