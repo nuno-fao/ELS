@@ -1,7 +1,7 @@
 Flat profile:
 
 Each sample counts as 0.01 seconds.
-  %   cumulative   self              self     total           
+  %   cumulative   self              self     total            
  time   seconds   seconds    calls   s/call   s/call  name    
  99.39      1.62     1.62        8     0.20     0.20  matrix_mulv3_tdtdptd
   0.61      1.63     0.01                             __chkstk_ms
