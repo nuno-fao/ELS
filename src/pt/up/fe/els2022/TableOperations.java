@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class TableOperations {
-    public static void addColumn(Table table, String name, String value){
+    public static void addColumn(List<Table> table, String name, String value){
         table.getHeaders().add(name);
         List<HashMap<String, String>> entries = table.getEntries();
         for (HashMap<String,String> entry:entries) {
@@ -19,7 +19,7 @@ public class TableOperations {
         }
     }
 
-    public static void removeColumn(Table table, String name){
+    public static void removeColumn(List<Table> table, String name){
         table.getHeaders().remove(name);
         List<HashMap<String, String>> entries = table.getEntries();
         for (HashMap<String,String> entry:entries) {
@@ -38,7 +38,7 @@ public class TableOperations {
         return pattern.matcher(strNum).matches();
     }
 
-    public static void sortBy(Table table, String col, boolean ascending){
+    public static void sortBy(List<Table> table, String col, boolean ascending){
 
         List<HashMap<String,String>> entries = table.getEntries();
 
@@ -63,7 +63,7 @@ public class TableOperations {
         });
     }
 
-    public static Table mergeTables(Table table1, Table table2){
+    public static Table mergeTables(List<Table> table1, List<Table> table2){
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class TableOperations {
 
     }
 
-    public static void write(Table table, String path)  {
+    public static void write(List<Table> table, String path)  {
         ArrayList<String> order;
         if(!table.getOutput().isEmpty()){
             order = table.getOutput();
@@ -132,7 +132,7 @@ public class TableOperations {
         }
     }
 
-    public static Table joinTables(Table table1, Table table2)  {
+    public static Table joinTables(List<Table> table1, List<Table> table2)  {
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>();
 

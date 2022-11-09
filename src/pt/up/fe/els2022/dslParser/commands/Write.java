@@ -5,6 +5,7 @@ import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Write implements Command {
@@ -44,9 +45,8 @@ public class Write implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
         if(Objects.equals(type, "CSV")){
-            var a = symbolTable.get(fileId);
             TableOperations.write(symbolTable.get(fileId),filePath);
         }
         else{

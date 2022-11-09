@@ -5,6 +5,7 @@ import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class RemoveColumn implements Command {
     String fileId;
@@ -49,11 +50,11 @@ public class RemoveColumn implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
         if(newFileId!=null){
-            Table newTable = symbolTable.get(fileId).copy();
-            TableOperations.removeColumn(newTable,column);
-            symbolTable.put(newFileId,newTable);
+            List<Table> newList = TableOperations.listCopy(symbolTable.get(fileId));
+            TableOperations.removeColumn(newList,column);
+            symbolTable.put(newFileId,newList);
         }
         else{
             TableOperations.removeColumn(symbolTable.get(fileId),column);

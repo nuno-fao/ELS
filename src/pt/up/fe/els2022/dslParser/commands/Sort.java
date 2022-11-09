@@ -58,14 +58,14 @@ public class Sort implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
 
         boolean ascending = Objects.equals(direction, "asc");
 
         if(newFileId!=null){
-            Table newTable = symbolTable.get(fileId).copy();
-            TableOperations.sortBy(newTable,col,ascending);
-            symbolTable.put(newFileId,newTable);
+            List<Table> newList = TableOperations.listCopy(symbolTable.get(fileId));
+            TableOperations.sortBy(newList,col,ascending);
+            symbolTable.put(newFileId,newList);
         }
         else{
             TableOperations.sortBy(symbolTable.get(fileId),col,ascending);

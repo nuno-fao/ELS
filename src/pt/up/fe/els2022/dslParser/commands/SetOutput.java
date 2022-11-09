@@ -5,6 +5,7 @@ import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +30,9 @@ public class SetOutput implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
-        symbolTable.get(fileId).setOutput(outCols);
+    public void execute(HashMap<String, List<Table>> symbolTable) {
+        for (Table t : symbolTable.get(fileId)){
+            t.setOutput(outCols);
+        }
     }
 }
