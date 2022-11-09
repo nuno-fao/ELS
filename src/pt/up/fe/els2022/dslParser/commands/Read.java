@@ -156,8 +156,7 @@ public class Read implements Command {
         Path fileName = path.getFileName();
 
         table.setOriginFile(fileName.toString());
-        if (folder)
-            table.setOriginFolder(path.getParent().toString());
+        table.setOriginFolder(path.getParent().toString());
 
         if(originalHeaders.size() == 0){
             var e  = table.getEntries().get(0);
