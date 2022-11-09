@@ -6,9 +6,7 @@ import pt.up.fe.els2022.builders.BuilderSetOutput;
 import pt.up.fe.els2022.dslParser.commands.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +57,8 @@ public class Parser {
                     ParseCommandWrite(line);
                 }else if (line.startsWith("Join")) {
                     ParseCommandJoin(line);
+                }else if (line.startsWith("Extract")) {
+                    ParseCommandExtract(line);
                 } else {
                     throw new Error("Command not found around ");
                 }
@@ -184,6 +184,37 @@ public class Parser {
                         .setFileId(m.group(1))
                         .setCol(m.group(2))
                         .setDirection(m.group(3))
+                        .setNewFileId(m.group(4));
+            }else{
+                throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
+            }
+        }else{
+            throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");
+        }
+    }
+
+    void ParseCommandExtract(String commandLine){
+        Pattern p = Pattern.compile("^Extract +([^ ]+)(?: +Columns +([^ ]+))?(?: +Lines +([^ ]+))?(?: +as ([^ ]+))? *$");
+        Matcher m = p.matcher(commandLine);
+
+        var a = m.groupCount();
+
+        if(m.find()) {
+            if(m.groupCount() == 4){
+                Set<Integer> lines = null;
+                List<String> columns = null;
+                if(m.group(3) != null){
+                    lines = new HashSet<>();
+                    for(String line:m.group(3).split(",")){
+                        lines.add(Integer.parseInt(line));
+                    }
+                }if(m.group(2) != null){
+                    columns = Arrays.asList(m.group(2).split(","));
+                }
+                builder.extract()
+                        .setFileId(m.group(1))
+                        .setColumns(columns)
+                        .setLines(lines)
                         .setNewFileId(m.group(4));
             }else{
                 throw new Error("Sort command must be ' <filename> <col> <direction; desc or asc> [as <newfileID>]' ");

@@ -103,4 +103,16 @@ public class AppTest {
         App app = new App("test/pt/up/fe/els2022/configFiles/testMultipleRead.txt");
         app.run();
     }
+
+    @Test
+    public void extract() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadExtract.txt");
+        app.run();
+
+        assertEquals(
+                "DSP48E,BRAM_18K\n" +
+                        "240,270",
+                SpecsIo.getResource("pt/up/fe/els2022/outFiles/f3.csv")
+        );
+    }
 }

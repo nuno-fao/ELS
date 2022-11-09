@@ -5,13 +5,10 @@ import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.builders.InterfaceBuilder;
 import pt.up.fe.els2022.dslParser.Command;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Extract implements Command {
-    List<Integer> lines;
+    Set<Integer> lines;
     List<String> columns;
     String fileId;
 
@@ -28,11 +25,11 @@ public class Extract implements Command {
     public Extract() {
     }
 
-    public List<Integer> getLines() {
+    public Set<Integer> getLines() {
         return lines;
     }
 
-    public void setLines(List<Integer> lines) {
+    public void setLines(Set<Integer> lines) {
         this.lines = lines;
     }
 
@@ -59,13 +56,36 @@ public class Extract implements Command {
 
     @Override
     public void execute(HashMap<String, List<Table>> symbolTable) {
-        /*List<Table> copyList = new ArrayList<>();
-        for(Table t: symbolTable.get(fileId)){
-            Table copy
+        List<Table> copyList = TableOperations.listCopy(symbolTable.get(fileId));
+        if(this.columns != null) {
+            for (Table t : copyList) {
+                ArrayList<String> removeList = new ArrayList<>();
+                for(String column:t.getHeaders()){
+                    if(!this.columns.contains(column)){
+                        removeList.add(column);
+                    }
+                }
+                for (String c:removeList){
+                    TableOperations.removeColumn(Collections.singletonList(t),c);
+                }
+            }
+        }
+        if(this.lines != null) {
+            for (Table t : copyList) {
+                ArrayList<Integer> removeList = new ArrayList<>();
+                for (int i = 1; i < t.getEntries().size() + 1; i++) {
+                    if (!lines.contains(i)) {
+                        removeList.add(i);
+                    }
+                }
+                for (int i = removeList.size() - 1; i >= 0; i--) {
+                    t.getEntries().remove(removeList.get(i) - 1);
+                }
+            }
         }
         if(newFileId != null)
-            symbolTable.put(newFileId , tables);
+            symbolTable.put(newFileId , copyList);
         else
-            symbolTable.put(fileId , tables);*/
+            symbolTable.put(fileId , copyList);
     }
 }

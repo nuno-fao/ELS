@@ -52,6 +52,12 @@ public class BuilderExecutor {
         return b;
     }
 
+    public BuilderExtract extract() {
+        var b = new BuilderExtract(this);
+        builders.add(b);
+        return b;
+    }
+
     public Executor build() {
         List<Command> commands = new ArrayList<Command>();
         for (InterfaceBuilder i: this.builders) {

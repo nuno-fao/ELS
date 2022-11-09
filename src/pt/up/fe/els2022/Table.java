@@ -67,6 +67,7 @@ public class Table {
         Table tempTable = new Table(newHeaders,newEntries);
         tempTable.setOutput(newOutput);
         tempTable.setOriginFile(this.getOriginFile());
+        tempTable.setOriginFolder(this.getOriginFolder());
         return tempTable;
 
     }

@@ -1,0 +1,11 @@
+Read files XML as f1
+    Parent Resources
+End
+
+Merge f1 with Name on File as f2
+
+Extract f2 Columns DSP48E,BRAM_18K Lines 3 as f3
+
+Write CSV f1 to test/pt/up/fe/els2022/outFiles/f1/f1
+Write CSV f2 to test/pt/up/fe/els2022/outFiles/f2
+Write CSV f3 to test/pt/up/fe/els2022/outFiles/f3
