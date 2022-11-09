@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class TableOperations {
@@ -26,13 +27,38 @@ public class TableOperations {
         }
     }
 
+
+
+    private static Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
+    }
+
     public static void sortBy(Table table, String col, boolean ascending){
+
         List<HashMap<String,String>> entries = table.getEntries();
 
+        boolean is_numeric = true;
+        for (var v : entries){
+            if(!isNumeric(v.get(col))){
+                is_numeric = false;
+                break;
+            }
+        }
+        boolean finalIs_numeric = is_numeric;
         entries.sort(new Comparator<HashMap<String, String>>() {
             public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
                 // compare two instance of `Score` and return `int` as result.
-                return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
+                if(finalIs_numeric){
+                    var v = ascending ? (int) (Float.parseFloat(o1.get(col)) - Float.parseFloat(o2.get(col))) : (int) (Float.parseFloat(o2.get(col)) - Float.parseFloat(o1.get(col)));
+                    return v;
+                }else{
+                    return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
+                }
             }
         });
     }

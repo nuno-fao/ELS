@@ -11,7 +11,7 @@ Merge f1,f4
 
 AddColumn f1 Col Default as f2
 
-Sort f2 FF asc
+Sort f2 FF desc
 
 SetOutput f2
     File
