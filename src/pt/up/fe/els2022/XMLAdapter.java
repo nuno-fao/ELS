@@ -17,8 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class XMLAdapter{
-    public static ArrayList<HashMap<String, String>> parseFile(String filename, List<String> headers, List<String> elements, List<String> parentElements) throws IOException, SAXException, ParserConfigurationException {
+    public static Pair parseFile(String filename, List<String> headers, List<String> elements, List<String> parentElements) throws IOException, SAXException, ParserConfigurationException {
         ArrayList<HashMap<String, String>> entry = new ArrayList<>();
+        ArrayList<String> order = new ArrayList<>();
 
         parentElements = List.of(parentElements.get(0).split("/"));
 
@@ -55,16 +56,19 @@ public class XMLAdapter{
                     String value = parentNode.getElementsByTagName(headers.get(ii)).item(0).getTextContent();
                     entry.get(i).put(elements.get(ii), value);
                 }
+                order = (ArrayList<String>) elements;
+
             }else{
                 for(int ii = 0; ii < parentNode.getChildNodes().getLength(); ii++){
                     Node value = parentNode.getChildNodes().item(ii);
                     if(!value.getNodeName().equals("#text")) {
                         entry.get(i).put(value.getNodeName(), value.getTextContent());
+                        order.add(value.getNodeName());
                     }
                 }
             }
         }
 
-        return entry;
+        return new Pair(entry, order);
     }
 }

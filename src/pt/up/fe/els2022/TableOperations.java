@@ -17,6 +17,7 @@ public class TableOperations {
             List<HashMap<String, String>> entries = table.getEntries();
             for (HashMap<String, String> entry : entries) {
                 entry.put(name, value);
+                table.getOutput().add(name);
             }
         }
     }
@@ -27,6 +28,7 @@ public class TableOperations {
             List<HashMap<String, String>> entries = table.getEntries();
             for (HashMap<String, String> entry : entries) {
                 entry.remove(name);
+                table.getOutput().remove(name);
             }
         }
     }
@@ -71,11 +73,19 @@ public class TableOperations {
     public static Table mergeTables(Table table1, Table table2){
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>();
+        ArrayList<String> newOutput = new ArrayList<>();
 
         newHeaders.addAll(table1.getHeaders());
         for(String header : table2.getHeaders()){
             if(!newHeaders.contains(header)){
                 newHeaders.add(header);
+            }
+        }
+
+        newOutput.addAll(table1.getOutput());
+        for(String output : table2.getOutput()){
+            if(!newOutput.contains(output)){
+                newOutput.add(output);
             }
         }
 
@@ -90,7 +100,10 @@ public class TableOperations {
             newEntries.add(newMap);
         }
 
-        return new Table(newHeaders,newEntries);
+        Table outTable = new Table(newHeaders,newEntries);
+        outTable.setOutput(newOutput);
+
+        return outTable;
 
     }
 
@@ -160,8 +173,12 @@ public class TableOperations {
                 newEntries.add(table2.getEntries().get(i));
             }
         }
-
-        return new Table(newHeaders,newEntries);
+        Table outTable = new Table(newHeaders, newEntries);
+        ArrayList<String> newOutput = new ArrayList<>();
+        newOutput.addAll(table1.getOutput());
+        newOutput.addAll(table2.getOutput());
+        outTable.setOutput(newOutput);
+        return outTable;
     }
 
     public static List<Table> listCopy(List<Table> list){

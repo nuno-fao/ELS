@@ -13,9 +13,10 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class JSONAdapter {
-    public static ArrayList<HashMap<String, String>> parseFile(String filename, List<String> headers, List<String> elements, List<String> parentElements, boolean root) throws IOException {
+    public static Pair parseFile(String filename, List<String> headers, List<String> elements, List<String> parentElements, boolean root) throws IOException {
         ArrayList<HashMap<String, String>> entry = new ArrayList<>();
         HashMap<String, HashMap<String, String>> elems = new HashMap<>();
+        ArrayList<String> order = new ArrayList<>();
 
         Reader reader = Files.newBufferedReader(Path.of(filename));
         JsonElement jsonElement = JsonParser.parseReader(reader);
@@ -29,9 +30,12 @@ public class JSONAdapter {
             for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
                 if (obj.getValue().isJsonPrimitive() || obj.getValue().isJsonNull()) {
                     elemList.put(obj.getKey(), obj.getValue().getAsString());
+                    order.add(obj.getKey());
                 } else if(obj.getValue().isJsonNull()){
                     elemList.put(obj.getKey(), null);
+                    order.add(obj.getKey());
                 }
+
             }
         }
 
@@ -41,8 +45,10 @@ public class JSONAdapter {
                 for (Map.Entry<String, JsonElement> child: obj.getValue().getAsJsonObject().entrySet()) {
                     if (child.getValue().isJsonPrimitive()) {
                         elemList.put(child.getKey(), child.getValue().getAsString());
+                        order.add(child.getKey());
                     } else if(child.getValue().isJsonNull()){
                         elemList.put(child.getKey(), null);
+                        order.add(child.getKey());
                     }
                 }
             }
@@ -59,7 +65,8 @@ public class JSONAdapter {
                     entry.get(0).put(elements.get(i),elemList.get(headers.get(i)));
                 }
             }
+            order = (ArrayList<String>) elements;
         }
-        return entry;
+        return new Pair(entry, order);
     }
 }
