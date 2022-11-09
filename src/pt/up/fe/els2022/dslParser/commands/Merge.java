@@ -80,7 +80,9 @@ public class Merge implements Command {
             List<Table> listCopy = TableOperations.listCopy(symbolTable.get(ID));
 
             if(aggregate != null && aggregate.equals("Name")){
-                TableOperations.addColumn(listCopy,destinyColumn,listCopy.get(0).getOriginFile());
+                for(Table t :listCopy){
+                    TableOperations.addColumn(Collections.singletonList(t),destinyColumn,t.getOriginFile());
+                }
             }
 
             for(Table t: listCopy){
