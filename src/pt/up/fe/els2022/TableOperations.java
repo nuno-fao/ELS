@@ -159,4 +159,12 @@ public class TableOperations {
         return new Table(newHeaders,newEntries);
     }
 
+    public static List<Table> listCopy(List<Table> list){
+        List<Table> newList = new ArrayList<>();
+        for (Table t : list){
+            newList.add(t.copy());
+        }
+        return newList;
+    }
+
 }

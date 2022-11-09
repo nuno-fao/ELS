@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Executor {
     private List<Command> commands;
-    private HashMap<String, Table> symbolTable = new HashMap<>();
+    private HashMap<String, List<Table>> symbolTable = new HashMap<>();
 
     Executor(List<Command> commands) {
         this.commands = commands;

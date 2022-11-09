@@ -5,9 +5,12 @@ import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.dslParser.Command;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,7 +67,7 @@ public class Read implements Command {
     public void println() {}
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
         try {
             ArrayList<String> originalHeaders = new ArrayList<>();
             ArrayList<String> finalHeaders = new ArrayList<>();
@@ -77,38 +80,61 @@ public class Read implements Command {
                 String filename = filePath.get(i);
                 ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
-                if (filename.endsWith("json")) {
-                    boolean root = false;
-                    if (parentElements.contains("ROOT")) {
-                        root = true;
-                        parentElements.remove("ROOT");
+                if (filename.endsWith(".json") || filename.endsWith(".xml")) {
+                    if (filename.endsWith(".json")) {
+                        boolean root = false;
+                        if (parentElements.contains("ROOT")) {
+                            root = true;
+                            parentElements.remove("ROOT");
+                        }
+                        entry = JSONAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements, root);
+                    } else if (filename.endsWith(".xml")) {
+                        entry = XMLAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements);
                     }
-                    entry = JSONAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements, root);
-                } else if (filename.endsWith("xml")) {
-                    entry = XMLAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements);
+
+                    Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i));
+
+                    symbolTable.put(fileID.get(i), Collections.singletonList(table));
+                }else{
+                  if(Files.isDirectory(Path.of(filename))){
+                      File f = new File(filename);
+
+                      String[] pathNames = f.list();
+
+                      assert pathNames != null;
+                      List<Table> tableList = new ArrayList<>();
+                      for (String pathname : pathNames) {
+                          tableList.add(getTable(originalHeaders, finalHeaders, entry, pathname));
+                      }
+                      symbolTable.put(fileID.get(i), tableList);
+                  }else{
+                      throw new Error("Filename "+ filename +" is not a accepted file or a folder ");
+                  }
                 }
 
-                Table table = new Table();
-                table.setEntries(entry);
-                table.setHeaders(finalHeaders);
-
-                Path path = Paths.get(filePath.get(i));
-                Path fileName = path.getFileName();
-
-                table.setOrigin(fileName.toString());
-
-                if(originalHeaders.size() == 0){
-                    var e  = table.getEntries().get(0);
-                    table.setHeaders(new ArrayList<>(e.keySet()));
-                }
-
-                symbolTable.put(fileID.get(i),table);
             }
 
         }catch (Exception e) {
             System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");
         }
+    }
+
+    private static Table getTable(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, ArrayList<HashMap<String, String>> entry, String file) {
+        Table table = new Table();
+        table.setEntries(entry);
+        table.setHeaders(finalHeaders);
+
+        Path path = Paths.get(file);
+        Path fileName = path.getFileName();
+
+        table.setOrigin(fileName.toString());
+
+        if(originalHeaders.size() == 0){
+            var e  = table.getEntries().get(0);
+            table.setHeaders(new ArrayList<>(e.keySet()));
+        }
+        return table;
     }
 }
 

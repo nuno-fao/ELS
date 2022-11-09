@@ -73,22 +73,22 @@ public class Merge implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
         Table newTable = new Table();
 
         for(String ID : fileIds){
-            Table tableCopy = symbolTable.get(ID).copy();
+            List<Table> listCopy = TableOperations.listCopy(symbolTable.get(ID));
 
             if(aggregate != null && aggregate.equals("Name")){
-                TableOperations.addColumn(tableCopy,destinyColumn,tableCopy.getOrigin());
+                TableOperations.addColumn(listCopy,destinyColumn,listCopy.get(0).getOrigin());
             }
 
-            newTable = TableOperations.mergeTables(newTable,tableCopy);
+            newTable = TableOperations.mergeTables(newTable,listCopy);
         }
 
         if(newFileId != null)
-            symbolTable.put(newFileId ,newTable);
+            symbolTable.put(newFileId , Collections.singletonList(newTable));
         else
-            symbolTable.put(fileIds.get(0) ,newTable);
+            symbolTable.put(fileIds.get(0) , Collections.singletonList(newTable));
     }
 }

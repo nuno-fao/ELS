@@ -5,6 +5,7 @@ import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.dslParser.Command;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,18 +61,18 @@ public class Join implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
         Table newTable = new Table();
 
         for(String ID : fileIds){
-            Table tableCopy = symbolTable.get(ID).copy();
+            List<Table> listCopy = TableOperations.listCopy(symbolTable.get(ID));
 
-            newTable = TableOperations.joinTables(newTable,tableCopy);
+            newTable = TableOperations.joinTables(newTable,listCopy);
         }
 
         if(newFileId != null)
-            symbolTable.put(newFileId ,newTable);
+            symbolTable.put(newFileId , Collections.singletonList(newTable));
         else
-            symbolTable.put(fileIds.get(0) ,newTable);
+            symbolTable.put(fileIds.get(0) , Collections.singletonList(newTable));
     }
 }

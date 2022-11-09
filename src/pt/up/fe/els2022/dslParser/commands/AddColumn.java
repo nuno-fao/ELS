@@ -4,7 +4,9 @@ import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.dslParser.Command;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AddColumn implements Command {
     String fileId;
@@ -57,11 +59,11 @@ public class AddColumn implements Command {
     }
 
     @Override
-    public void execute(HashMap<String, Table> symbolTable) {
+    public void execute(HashMap<String, List<Table>> symbolTable) {
         if(newFileId!=null){
-            Table newTable = symbolTable.get(fileId).copy();
-            TableOperations.addColumn(newTable,column,def);
-            symbolTable.put(newFileId,newTable);
+            List<Table> newList = TableOperations.listCopy(symbolTable.get(fileId));
+            TableOperations.addColumn(newList,column,def);
+            symbolTable.put(newFileId,newList);
         }
         else{
             TableOperations.addColumn(symbolTable.get(fileId),column,def);
