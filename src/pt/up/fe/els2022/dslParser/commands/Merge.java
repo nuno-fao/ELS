@@ -83,7 +83,9 @@ public class Merge implements Command {
                 TableOperations.addColumn(listCopy,destinyColumn,listCopy.get(0).getOrigin());
             }
 
-            newTable = TableOperations.mergeTables(newTable,listCopy);
+            for(Table t: listCopy){
+                newTable = TableOperations.mergeTables(newTable,t);
+            }
         }
 
         if(newFileId != null)

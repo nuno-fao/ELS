@@ -67,7 +67,9 @@ public class Join implements Command {
         for(String ID : fileIds){
             List<Table> listCopy = TableOperations.listCopy(symbolTable.get(ID));
 
-            newTable = TableOperations.joinTables(newTable,listCopy);
+            for (Table t: listCopy){
+                newTable = TableOperations.joinTables(newTable,t);
+            }
         }
 
         if(newFileId != null)

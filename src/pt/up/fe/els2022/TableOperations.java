@@ -11,19 +11,23 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class TableOperations {
-    public static void addColumn(List<Table> table, String name, String value){
-        table.getHeaders().add(name);
-        List<HashMap<String, String>> entries = table.getEntries();
-        for (HashMap<String,String> entry:entries) {
-            entry.put(name,value);
+    public static void addColumn(List<Table> tables, String name, String value){
+        for(Table table : tables) {
+            table.getHeaders().add(name);
+            List<HashMap<String, String>> entries = table.getEntries();
+            for (HashMap<String, String> entry : entries) {
+                entry.put(name, value);
+            }
         }
     }
 
-    public static void removeColumn(List<Table> table, String name){
-        table.getHeaders().remove(name);
-        List<HashMap<String, String>> entries = table.getEntries();
-        for (HashMap<String,String> entry:entries) {
-            entry.remove(name);
+    public static void removeColumn(List<Table> tables, String name){
+        for(Table table : tables) {
+            table.getHeaders().remove(name);
+            List<HashMap<String, String>> entries = table.getEntries();
+            for (HashMap<String, String> entry : entries) {
+                entry.remove(name);
+            }
         }
     }
 
@@ -38,32 +42,33 @@ public class TableOperations {
         return pattern.matcher(strNum).matches();
     }
 
-    public static void sortBy(List<Table> table, String col, boolean ascending){
+    public static void sortBy(List<Table> tables, String col, boolean ascending){
+        for(Table table : tables) {
+            List<HashMap<String, String>> entries = table.getEntries();
 
-        List<HashMap<String,String>> entries = table.getEntries();
-
-        boolean is_numeric = true;
-        for (var v : entries){
-            if(!isNumeric(v.get(col))){
-                is_numeric = false;
-                break;
-            }
-        }
-        boolean finalIs_numeric = is_numeric;
-        entries.sort(new Comparator<HashMap<String, String>>() {
-            public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
-                // compare two instance of `Score` and return `int` as result.
-                if(finalIs_numeric){
-                    var v = ascending ? (int) (Float.parseFloat(o1.get(col)) - Float.parseFloat(o2.get(col))) : (int) (Float.parseFloat(o2.get(col)) - Float.parseFloat(o1.get(col)));
-                    return v;
-                }else{
-                    return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
+            boolean is_numeric = true;
+            for (var v : entries) {
+                if (!isNumeric(v.get(col))) {
+                    is_numeric = false;
+                    break;
                 }
             }
-        });
+            boolean finalIs_numeric = is_numeric;
+            entries.sort(new Comparator<HashMap<String, String>>() {
+                public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
+                    // compare two instance of `Score` and return `int` as result.
+                    if (finalIs_numeric) {
+                        var v = ascending ? (int) (Float.parseFloat(o1.get(col)) - Float.parseFloat(o2.get(col))) : (int) (Float.parseFloat(o2.get(col)) - Float.parseFloat(o1.get(col)));
+                        return v;
+                    } else {
+                        return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
+                    }
+                }
+            });
+        }
     }
 
-    public static Table mergeTables(List<Table> table1, List<Table> table2){
+    public static Table mergeTables(Table table1, Table table2){
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>();
 
@@ -89,7 +94,7 @@ public class TableOperations {
 
     }
 
-    public static void write(List<Table> table, String path)  {
+    public static void write(Table table, String path)  {
         ArrayList<String> order;
         if(!table.getOutput().isEmpty()){
             order = table.getOutput();
@@ -132,7 +137,7 @@ public class TableOperations {
         }
     }
 
-    public static Table joinTables(List<Table> table1, List<Table> table2)  {
+    public static Table joinTables(Table table1, Table table2)  {
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>();
 

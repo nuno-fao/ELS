@@ -47,7 +47,16 @@ public class Write implements Command {
     @Override
     public void execute(HashMap<String, List<Table>> symbolTable) {
         if(Objects.equals(type, "CSV")){
-            TableOperations.write(symbolTable.get(fileId),filePath);
+            List<Table> list = symbolTable.get(fileId);
+            if(list.size() == 1){
+                TableOperations.write(symbolTable.get(fileId).get(0),filePath);
+            }else{
+                int i = 0;
+                for (Table t : list){
+                    TableOperations.write(symbolTable.get(fileId).get(0),filePath+"/"+t.getOrigin()+"_"+i+".csv");
+                    i++;
+                }
+            }
         }
         else{
             throw new Error("file type not supported");
