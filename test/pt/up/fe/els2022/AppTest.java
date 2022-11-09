@@ -110,8 +110,8 @@ public class AppTest {
         app.run();
 
         assertEquals(
-                "DSP48E,FF,BRAM_18K,LUT,URAM,File\n" +
-                        "240,82000,270,41000,0,vitis-report.xml",
+                "DSP48E,BRAM_18K\n" +
+                        "240,270",
                 SpecsIo.getResource("pt/up/fe/els2022/outFiles/f3.csv")
         );
     }

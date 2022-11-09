@@ -58,19 +58,29 @@ public class Extract implements Command {
     public void execute(HashMap<String, List<Table>> symbolTable) {
         List<Table> copyList = TableOperations.listCopy(symbolTable.get(fileId));
         if(this.columns != null) {
-            for (String col : columns) {
-                TableOperations.removeColumn(copyList, col);
-            }
-        }
-        for(Table t: copyList){
-            ArrayList<Integer> removeList = new ArrayList<>();
-            for (int i = 1;i < t.getEntries().size()+1;i++){
-                if(!lines.contains(i)){
-                    removeList.add(i);
+            for (Table t : copyList) {
+                ArrayList<String> removeList = new ArrayList<>();
+                for(String column:t.getHeaders()){
+                    if(!this.columns.contains(column)){
+                        removeList.add(column);
+                    }
+                }
+                for (String c:removeList){
+                    TableOperations.removeColumn(Collections.singletonList(t),c);
                 }
             }
-            for(int i = removeList.size()-1;i >=0;i--){
-                t.getEntries().remove(removeList.get(i) -1);
+        }
+        if(this.lines != null) {
+            for (Table t : copyList) {
+                ArrayList<Integer> removeList = new ArrayList<>();
+                for (int i = 1; i < t.getEntries().size() + 1; i++) {
+                    if (!lines.contains(i)) {
+                        removeList.add(i);
+                    }
+                }
+                for (int i = removeList.size() - 1; i >= 0; i--) {
+                    t.getEntries().remove(removeList.get(i) - 1);
+                }
             }
         }
         if(newFileId != null)
