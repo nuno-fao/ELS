@@ -109,7 +109,7 @@ public class Read implements Command {
                         for (String pathname : pathNames) {
                             Table out = null;
                             for(var table_or_word: tables_and_words){
-                                Table t = getWordOrTable(symbolTable, i, filename+"/"+pathname, table_or_word);
+                                Table t = getWordOrTable( i, filename+"/"+pathname, table_or_word);
                                 if(out == null){
                                     out = t;
                                 }else{
@@ -122,7 +122,7 @@ public class Read implements Command {
                     } else {
                         Table out = null;
                         for(var table_or_word: tables_and_words){
-                            Table t = getWordOrTable(symbolTable, i, filename, table_or_word);
+                            Table t = getWordOrTable( i, filename, table_or_word);
                             if(out == null){
                                 out = t;
                             }else{
@@ -141,7 +141,6 @@ public class Read implements Command {
 
                         Table table = getTable(originalHeaders, finalHeaders, pair.entry, filePath.get(i),false);
                         table.setOutput(pair.order);
-
 
                         symbolTable.put(fileID.get(i), Collections.singletonList(table));
                     } else {
@@ -174,8 +173,9 @@ public class Read implements Command {
         }
     }
 
-    private Table getWordOrTable(HashMap<String, List<Table>> symbolTable, int i, String pathname, HashMap<String, String> table_or_word) {
+    private Table getWordOrTable(int i, String pathname, HashMap<String, String> table_or_word) {
         String w = null;
+        Table t = null;
         if(table_or_word.containsKey("start") && table_or_word.containsKey("col")){
             w = TextAdapter.wordSwCol(pathname, table_or_word.get("start"), Integer.parseInt(table_or_word.get("col")));
         }else if(table_or_word.containsKey("start") && table_or_word.containsKey("word")){
@@ -184,6 +184,8 @@ public class Read implements Command {
             w = TextAdapter.wordLineNum(pathname, Integer.parseInt(table_or_word.get("line")), Integer.parseInt(table_or_word.get("word")));
         }else if(table_or_word.containsKey("line") && table_or_word.containsKey("col")){
             w = TextAdapter.wordLineCol(pathname, Integer.parseInt(table_or_word.get("line")), Integer.parseInt(table_or_word.get("col")));
+        }else if(table_or_word.containsKey("start") && table_or_word.containsKey("header")){
+            t = TextAdapter.table(pathname,Integer.parseInt(table_or_word.get("start")),Integer.parseInt(table_or_word.get("header")));
         }
         if(w != null){
             ArrayList<HashMap<String,String>> list = new ArrayList<>();
@@ -195,10 +197,13 @@ public class Read implements Command {
             Table table = getTable(new ArrayList<>(Collections.singleton(table_or_word.get("name"))), new ArrayList<>(Collections.singleton(table_or_word.get("name"))), list, filePath.get(i),false);
             table.setOutput(new ArrayList<>(Collections.singleton(table_or_word.get("name"))));
             return table;
-        }else{
-
+        }else if(t != null){
+            Path p = Paths.get(pathname);
+            t.setOriginFile(p.getFileName().toString());
+            t.setOriginFolder(p.getParent().toString());
+            return t;
         }
-        return null;
+        throw new Error(" ");
     }
 
     private Pair parseFile(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, String filename) throws IOException, SAXException, ParserConfigurationException {

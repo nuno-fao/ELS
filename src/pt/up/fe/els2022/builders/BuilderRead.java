@@ -71,6 +71,14 @@ public class BuilderRead implements InterfaceBuilder{
         return this;
     }
 
+    public BuilderRead addTable(int start,int headerLength){
+        HashMap<String,String> w = new HashMap<>();
+        w.put("start", String.valueOf(start));
+        w.put("header", String.valueOf(headerLength));
+        this.read.getTables_and_words().add(w);
+        return this;
+    }
+
     public void addColumn(String initName, String finalName){
         this.read.addColumn(initName, finalName);
     }

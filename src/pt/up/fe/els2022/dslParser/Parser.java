@@ -311,7 +311,11 @@ public class Parser {
                     if(!Objects.equals(m.group(2), "TEXT")){
                         throw new Error("Table can only be used on TXT files ");
                     }else{
-
+                        Pattern p1 = Pattern.compile("^Table Line +([^ ]+) +Header height +([^ ]+) *$");
+                        Matcher m1 = p1.matcher(commandLine);
+                        if(m1.find()){
+                            b.addTable(Integer.parseInt(m1.group(1)),Integer.parseInt(m1.group(2)));
+                        }
                     }
                 }else if (commandLine.startsWith("End")){
                     b.close();

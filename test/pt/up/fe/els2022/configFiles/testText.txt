@@ -3,6 +3,7 @@ Read files/gprof.txt TEXT as f1
     Word Line 1 Column 2 as lc
     Word Starts With time Word 2 as sww
     Word Starts With time Column 4 as swc
+    Table Line 6 Header height 2
 End
 
 Write CSV f1 to test/pt/up/fe/els2022/outFiles/outTestText.csv

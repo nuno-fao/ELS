@@ -162,11 +162,15 @@ public class TableOperations {
             }
         }
 
-        for (int i = 0; i < table2.getEntries().size(); i++) {
+        for (int i = 0; i < Math.max(table2.getEntries().size(),table1.getEntries().size()); i++) {
             if(table1.getEntries().size() != 0 ){
                 HashMap<String,String> aux = new HashMap<>();
-                aux.putAll(table1.getEntries().get(i));
-                aux.putAll(table2.getEntries().get(i));
+                if(table1.getEntries().size() > i){
+                    aux.putAll(table1.getEntries().get(i));
+                }
+                if(table2.getEntries().size() > i){
+                    aux.putAll(table2.getEntries().get(i));
+                }
                 newEntries.add(aux);
             }
             else {
