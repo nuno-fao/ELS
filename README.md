@@ -139,7 +139,37 @@ End
 ```
 In this command we list the "parents" on the JSON file from which we want to read the primitives. In this example, we want to read all primitives that are under the attribute params (which is a composite attribute) and under the root of the file (since root doesn't have a name we choose the keyword "ROOT").
 
+We also added the possibility to add the Folder info into a table with "Include folder".
+
 As we can see, it is almost the same as the XML use case. 
+
+### EXTRACT 
+```
+Extract gprof Lines 1
+Extract gprof Columns "% time","name","folder" 
+Extract gprof Columns "% time","name","folder" Lines 1
+Extract gprof Columns "% time","name","folder" Lines 1 as i2
+```
+With this command we extract lines and/or column from a table and save it in a new table or in the original table.
+
+
+### Aditional command on Read 
+```
+    Table Line 6 Header height 2
+    Word Line 1 Word 2 as lw
+    Word Line 1 Column 2 as lc
+    Word Starts With time Word 2 as sww
+    Word Starts With time Column 4 as swc
+```
+We added more command to the read block.
+
+We can extract a table specifing the line of start and the header height
+
+We can also extract words with the word command.
+
+We have to know the line and word:
+    The line can be extracted with "Starts with" or Line
+    The word can be specified by the word number (e.g. 3rd on the line) or the column number(e.g. word that has a char in the column 20)
 
 ## Overview of the system
 ![Imgur](https://i.imgur.com/zmcq3R2.png)
