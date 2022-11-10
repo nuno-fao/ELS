@@ -4,12 +4,10 @@ Read files/vitis-report.xml as xml
 End
 
 Read files/decision_tree.json as json
-    Include folder
     Parent ROOT params
 End
 
 Read files/gprof.txt TEXT as gprof
-    Include folder
     Table Line 6 Header height 2
 End
 

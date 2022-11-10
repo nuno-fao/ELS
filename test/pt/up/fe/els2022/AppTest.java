@@ -3,6 +3,9 @@ package pt.up.fe.els2022;
 import org.junit.Test;
 import pt.up.fe.specs.util.SpecsIo;
 
+import java.util.Collections;
+import java.util.List;
+
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
@@ -98,8 +101,8 @@ public class AppTest {
         app.run();
 
         assertEquals(
-                "folder,DSP48E,FF,LUT,BRAM_18K,URAM,folder,max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,criterion,min_impurity_decrease,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,splitter,folder,% time,name\n" +
-                        "files,1,64,145,0,0,files,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best,files,99.39,matrix_mulv3_tdtdptd",
+                "folder,DSP48E,FF,LUT,BRAM_18K,URAM,max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,criterion,min_impurity_decrease,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,splitter,% time,name\n" +
+                        "files,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best,99.39,matrix_mulv3_tdtdptd",
                 SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestAssignment2.csv")
         );
     }
@@ -133,4 +136,36 @@ public class AppTest {
         App app = new App("test/pt/up/fe/els2022/configFiles/uaReader.txt");
         app.run();
     }
+
+
+    @Test
+    public void equivalent_json() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/equivalent_json.txt");
+        app.run();
+
+        assertEquals(
+                "nodes,functions\n" +
+                        "300,30",
+                SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestEquivalent.csv")
+        );
+    }
+
+    @Test
+    public void api_run() throws InterruptedException {
+        new    BuilderExecutor()
+                                .read()
+                                    .setFilesPaths(Collections.singletonList("checkpoint2/equivalent.json"))
+                                    .setFilesIds(Collections.singletonList("f1"))
+                                    .setParentElements(Collections.singletonList("total/results/static"))
+                                .close()
+                                .write()
+                                    .setType("CSV")
+                                    .setFileId("f1")
+                                    .setFilePath("test/pt/up/fe/els2022/outFiles/outEquivalentAPI.csv")
+                                .close()
+                            .build()
+                .run();
+    }
+
+
 }

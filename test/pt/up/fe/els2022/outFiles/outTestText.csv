@@ -1,17 +1,16 @@
-% time,cumulative seconds,self seconds,calls,self s/call,total s/call,name,lw,lc,sww,swc
-99.39,1.62,1.62,8,0.20,0.20,matrix_mulv3_tdtdptd,profile,Flat,seconds,time
-0.61,1.63,0.01,,,,__chkstk_ms,,,,
-0.00,1.63,0.00,19,0.00,0.00,new_array_helper_d,,,,
-0.00,1.63,0.00,9,0.00,0.00,copy_alloc_d,,,,
-0.00,1.63,0.00,9,0.00,0.00,new_array_d_2,,,,
-0.00,1.63,0.00,9,0.00,0.00,new_const_array_d2,,,,
-0.00,1.63,0.00,9,0.00,0.00,zeros_d2,,,,
-0.00,1.63,0.00,2,0.00,0.00,tensor_free_d,,,,
-0.00,1.63,0.00,1,0.00,1.62,closure_tdptd,,,,
-0.00,1.63,0.00,1,0.00,0.00,element_wise_greaterthan_ptdiptd,,,,
-0.00,1.63,0.00,1,0.00,0.00,new_array_helper_i,,,,
-0.00,1.63,0.00,1,0.00,0.00,new_array_i_2,,,,
-0.00,1.63,0.00,1,0.00,0.00,new_array_ti_d,,,,
-0.00,1.63,0.00,1,0.00,0.00,new_from_matrix_double_0_d_tiptd,,,,
-0.00,1.63,0.00,1,0.00,0.00,size_d,,,,
-0.00,1.63,0.00,1,0.00,0.00,tensor_free_i,,,,
+% time,cumulative seconds,self seconds,calls,self us/call,total us/call,total name
+37.50,0.15,0.15,48000,3.12,,3.12  Life::neighbor_count(int, int)
+17.50,0.22,0.07,,,,_IO_do_write
+10.00,0.26,0.04,,,,__overflow
+7.50,0.29,0.03,,,,_IO_file_overflow
+7.50,0.32,0.03,,,,_IO_putc
+5.00,0.34,0.02,12,1666.67 1,1,4166.67  Life::update(void)
+5.00,0.36,0.02,,,,stdiobuf::overflow(int)
+5.00,0.38,0.02,,,,stdiobuf::sys_write(char const *, int)
+2.50,0.39,0.01,,,,ostream::operator<<(char)
+2.50,0.40,0.01,,,,internal_mcount
+0.00,0.40,0.00,12,0.00,,0.00  Life::print(void)
+0.00,0.40,0.00,12,0.00,,0.00  to_continue(void)
+0.00,0.40,0.00,1,0.00,,0.00  Life::initialize(void)
+0.00,0.40,0.00,1,0.00,,0.00  instructions(void)
+0.00,0.40,0.00,1,0.00 1,1,70000.0  main

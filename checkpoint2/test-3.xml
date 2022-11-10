@@ -1,0 +1,32 @@
+<root>
+	<results name="app1">
+		<static>
+			<nodes>100</nodes>
+			<functions>10</functions>				
+		</static>
+		<dynamic>
+			<iterations>1000</iterations>								
+			<calls>100</calls>												
+		</dynamic>			
+	</results>
+	<results name="app2">
+		<static>
+			<nodes>200</nodes>
+			<functions>20</functions>				
+		</static>
+		<dynamic>
+			<iterations>2000</iterations>								
+			<calls>200</calls>												
+		</dynamic>			
+	</results>
+	<results name="total">
+		<static>
+			<nodes>300</nodes>
+			<functions>30</functions>				
+		</static>
+		<dynamic>
+			<iterations>3000</iterations>								
+			<calls>300</calls>												
+		</dynamic>			
+	</results>
+</root>

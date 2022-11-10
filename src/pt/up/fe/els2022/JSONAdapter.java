@@ -26,6 +26,12 @@ public class JSONAdapter {
         HashMap<String, String> elemList = new HashMap<>();
         entry.add(new HashMap<>());
 
+        List<List<String>> best_parents = new ArrayList<>();
+
+        for (var p :parentElements){
+            best_parents.add(List.of(p.split("/")));
+        }
+
         // get root children
         if(getNull) {
             if (root) {
@@ -37,14 +43,27 @@ public class JSONAdapter {
                         elemList.put(obj.getKey(), null);
                         order.add(obj.getKey());
                     }
-
                 }
             }
 
             // get children of parents
-            for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
+            /*for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
                 if (parentElements.contains(obj.getKey())) {
                     for (Map.Entry<String, JsonElement> child : obj.getValue().getAsJsonObject().entrySet()) {
+                        if (child.getValue().isJsonPrimitive()) {
+                            elemList.put(child.getKey(), child.getValue().getAsString());
+                            order.add(child.getKey());
+                        } else if (child.getValue().isJsonNull()) {
+                            elemList.put(child.getKey(), null);
+                            order.add(child.getKey());
+                        }
+                    }
+                }
+            }*/
+            for (var p:best_parents){
+                var o = explore(jsonElement,p,0);
+                if(o != null) {
+                    for (Map.Entry<String, JsonElement> child : o.getAsJsonObject().entrySet()) {
                         if (child.getValue().isJsonPrimitive()) {
                             elemList.put(child.getKey(), child.getValue().getAsString());
                             order.add(child.getKey());
@@ -67,7 +86,20 @@ public class JSONAdapter {
             }
 
             // get children of parents
-            for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
+
+            for (var p:best_parents){
+                var o = explore(jsonElement,p,0);
+                if(o != null) {
+                    for (Map.Entry<String, JsonElement> child : o.getAsJsonObject().entrySet()) {
+                        if (child.getValue().isJsonPrimitive()) {
+                            elemList.put(child.getKey(), child.getValue().getAsString());
+                            order.add(child.getKey());
+                        }
+                    }
+                }
+            }
+
+            /*for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
                 if (parentElements.contains(obj.getKey())) {
                     for (Map.Entry<String, JsonElement> child : obj.getValue().getAsJsonObject().entrySet()) {
                         if (child.getValue().isJsonPrimitive()) {
@@ -76,7 +108,7 @@ public class JSONAdapter {
                         }
                     }
                 }
-            }
+            }*/
         }
 
         // put all header-value pairs in table entry with same names
@@ -93,5 +125,18 @@ public class JSONAdapter {
             order = (ArrayList<String>) elements;
         }
         return new Pair(entry, order);
+    }
+
+    private static JsonElement explore(JsonElement element,List<String> p,int depth){
+        if(p.size() <= depth){
+            return null;
+        }
+        if(p.size() == depth + 1){
+            return element.getAsJsonObject().get(p.get(depth));
+        }
+        if(element.getAsJsonObject().has(p.get(depth))){
+            return explore(element.getAsJsonObject().get(p.get(depth)),p,depth+1);
+        }
+        return null;
     }
 }

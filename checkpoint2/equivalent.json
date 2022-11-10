@@ -1,0 +1,40 @@
+{
+	"app1": {
+		"results": {
+			"static": {
+				"nodes": 100,
+				"functions": 10
+			},
+			"dynamic": {
+				"iterations": 1000,
+				"calls": 100			
+			}
+		}
+	},
+	
+	"app2": {
+		"results": {
+			"static": {
+				"nodes": 200,
+				"functions": 20
+			},
+			"dynamic": {
+				"iterations": 2000,
+				"calls": 200			
+			}
+		}
+	},
+	
+	"total": {
+		"results": {
+			"static": {
+				"nodes": 300,
+				"functions": 30
+			},
+			"dynamic": {
+				"iterations": 3000,
+				"calls": 300			
+			}
+		}
+	}
+}
