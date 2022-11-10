@@ -19,6 +19,7 @@ public class Read implements Command {
     List<String> filePath = new ArrayList<>();
     List<String> fileID = new ArrayList<>();
     List<Column> cols = new ArrayList<>();
+    List<String> include = new ArrayList<>();
 
     List<HashMap<String,String>> tables_and_words = new ArrayList<>();
 
@@ -28,6 +29,14 @@ public class Read implements Command {
 
     public void setTables_and_words(List<HashMap<String, String>> tables_and_words) {
         this.tables_and_words = tables_and_words;
+    }
+
+    public List<String> getInclude() {
+        return include;
+    }
+
+    public void setInclude(List<String> include) {
+        this.include = include;
     }
 
     FileType type = null;
@@ -116,11 +125,24 @@ public class Read implements Command {
                                     out = TableOperations.joinTables(out,t);
                                 }
                             }
+                            for (String include: include) {
+                                if(Objects.equals(include, "folder")) {
+                                    assert out != null;
+                                    TableOperations.addColumn(Collections.singletonList(out), include, out.getOriginFolder());
+                                    out.getOutput().remove(include);
+                                    out.getOutput().add(0,include);
+                                }else if(Objects.equals(include, "file")){
+                                    assert out != null;
+                                    TableOperations.addColumn(Collections.singletonList(out), include, out.getOriginFile());
+                                    out.getOutput().add(0,include);
+                                }
+                            }
                             tableList.add(out);
                         }
                         symbolTable.put(fileID.get(i), tableList);
                     } else {
                         Table out = null;
+                        List<Table> outList = new ArrayList<>();
                         for(var table_or_word: tables_and_words){
                             Table t = getWordOrTable( i, filename, table_or_word);
                             if(out == null){
@@ -129,7 +151,22 @@ public class Read implements Command {
                                 out = TableOperations.joinTables(out,t);
                             }
                         }
-                        symbolTable.put(fileID.get(i), Collections.singletonList(out));
+                        outList.add(out);
+                        for (String include: include) {
+                            include = include.trim();
+                            if(Objects.equals(include, "folder")) {
+                                assert out != null;
+                                TableOperations.addColumn(outList, include, out.getOriginFolder());
+                                out.getOutput().remove(include);
+                                out.getOutput().add(0,include);
+                            }else if(Objects.equals(include, "file")){
+                                assert out != null;
+                                TableOperations.addColumn(outList, include, out.getOriginFile());
+                                out.getOutput().remove(include);
+                                out.getOutput().add(0,include);
+                            }
+                        }
+                        symbolTable.put(fileID.get(i), outList);
                     }
                 }else{
                     Pair pair;
@@ -141,6 +178,20 @@ public class Read implements Command {
 
                         Table table = getTable(originalHeaders, finalHeaders, pair.entry, filePath.get(i),false);
                         table.setOutput(pair.order);
+
+
+                        for (String include: include) {
+                            include = include.trim();
+                            if(include.equals("folder")) {
+                                TableOperations.addColumn(Collections.singletonList(table), include, table.getOriginFolder());
+                                table.getOutput().remove(include);
+                                table.getOutput().add(0,include);
+                            }else if(Objects.equals(include, "file")){
+                                TableOperations.addColumn(Collections.singletonList(table), include, table.getOriginFile());
+                                table.getOutput().remove(include);
+                                table.getOutput().add(0,include);
+                            }
+                        }
 
                         symbolTable.put(fileID.get(i), Collections.singletonList(table));
                     } else {
@@ -155,9 +206,24 @@ public class Read implements Command {
                                 pair = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
                                 if (pair == null) continue;
 
-                                tableList.add(getTable(originalHeaders, finalHeaders, pair.entry, filename+"/"+pathname,true));
-                                tableList.get(tableList.size()-1).setOutput(pair.order);
 
+                                Table t = getTable(originalHeaders, finalHeaders, pair.entry, filename+"/"+pathname,true);
+                                t.setOutput(pair.order);
+
+                                for (String include: include) {
+                                    include = include.trim();
+                                    if(Objects.equals(include, "folder")) {
+                                        TableOperations.addColumn(Collections.singletonList(t), include, t.getOriginFolder());
+                                        t.getOutput().remove(include);
+                                        t.getOutput().add(0,include);
+                                    }else if(Objects.equals(include, "file")){
+                                        TableOperations.addColumn(Collections.singletonList(t), include, t.getOriginFile());
+                                        t.getOutput().remove(include);
+                                        t.getOutput().add(0,include);
+                                    }
+                                }
+
+                                tableList.add(t);
                             }
                             symbolTable.put(fileID.get(i), tableList);
                         } else {

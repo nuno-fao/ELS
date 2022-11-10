@@ -79,6 +79,12 @@ public class BuilderRead implements InterfaceBuilder{
         return this;
     }
 
+
+    public BuilderRead setIncludes(List<String> includes){
+        this.read.setInclude(includes);
+        return this;
+    }
+
     public void addColumn(String initName, String finalName){
         this.read.addColumn(initName, finalName);
     }

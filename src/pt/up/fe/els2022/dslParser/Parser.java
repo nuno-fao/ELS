@@ -40,6 +40,7 @@ public class Parser {
 
             try {
                 if(line.startsWith("#")) {
+                    line = reader.readLine();
                     continue;
                 } else if (line.startsWith("Read")) {
                     lineCounter += ParseCommandRead(line,reader);
@@ -175,7 +176,7 @@ public class Parser {
         }
     }
     void ParseCommandSort(String commandLine){
-        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))? *$");
+        Pattern p = Pattern.compile("^Sort +([^ ]+) +\"?(.*?)\"? +(asc|desc)(?: as ([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {
@@ -194,7 +195,7 @@ public class Parser {
     }
 
     void ParseCommandExtract(String commandLine){
-        Pattern p = Pattern.compile("^Extract +([^ ]+)(?: +Columns +([^ ]+))?(?: +Lines +([^ ]+))?(?: +as ([^ ]+))? *$");
+        Pattern p = Pattern.compile("^Extract +([^ ]+)(?: +Columns +\"?(.*?)\"?)?(?: +Lines +([^ ]+))?(?: +as ([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         var a = m.groupCount();
@@ -209,7 +210,10 @@ public class Parser {
                         lines.add(Integer.parseInt(line));
                     }
                 }if(m.group(2) != null){
-                    columns = Arrays.asList(m.group(2).split(","));
+                    columns = new ArrayList<>();
+                    for(String s: m.group(2).split(",")){
+                        columns.add(s.replace("\"",""));
+                    }
                 }
                 builder.extract()
                         .setFileId(m.group(1))
@@ -280,6 +284,9 @@ public class Parser {
                 }else if (commandLine.startsWith("End")){
                     b.close();
                     return lineCounter;
+                }else if(commandLine.startsWith("Include")) {
+                    var list = commandLine.trim().substring(7).split(",");
+                    b.setIncludes(List.of(list));
                 }else{
                     throw new Error("Read command incorrect, command "+commandLine+" not found ");
                 }
@@ -320,6 +327,9 @@ public class Parser {
                 }else if (commandLine.startsWith("End")){
                     b.close();
                     return lineCounter;
+                }else if(commandLine.startsWith("Include")) {
+                    var list = commandLine.trim().substring(7).split(",");
+                    b.setIncludes(List.of(list));
                 }else{
                     throw new Error("Read command incorrect, command "+commandLine+" not found ");
                 }
