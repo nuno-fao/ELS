@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class JSONAdapter {
+    static boolean getNull = false;
     public static Pair parseFile(String filename, List<String> headers, List<String> elements, List<String> parentElements, boolean root) throws IOException {
         ArrayList<HashMap<String, String>> entry = new ArrayList<>();
         HashMap<String, HashMap<String, String>> elems = new HashMap<>();
@@ -26,29 +27,53 @@ public class JSONAdapter {
         entry.add(new HashMap<>());
 
         // get root children
-        if (root) {
-            for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
-                if (obj.getValue().isJsonPrimitive() || obj.getValue().isJsonNull()) {
-                    elemList.put(obj.getKey(), obj.getValue().getAsString());
-                    order.add(obj.getKey());
-                } else if(obj.getValue().isJsonNull()){
-                    elemList.put(obj.getKey(), null);
-                    order.add(obj.getKey());
+        if(getNull) {
+            if (root) {
+                for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
+                    if (obj.getValue().isJsonPrimitive() || obj.getValue().isJsonNull()) {
+                        elemList.put(obj.getKey(), obj.getValue().getAsString());
+                        order.add(obj.getKey());
+                    } else if (obj.getValue().isJsonNull()) {
+                        elemList.put(obj.getKey(), null);
+                        order.add(obj.getKey());
+                    }
+
                 }
-
             }
-        }
 
-        // get children of parents
-        for (Map.Entry<String, JsonElement> obj: jsonObject.entrySet()) {
-            if (parentElements.contains(obj.getKey())) {
-                for (Map.Entry<String, JsonElement> child: obj.getValue().getAsJsonObject().entrySet()) {
-                    if (child.getValue().isJsonPrimitive()) {
-                        elemList.put(child.getKey(), child.getValue().getAsString());
-                        order.add(child.getKey());
-                    } else if(child.getValue().isJsonNull()){
-                        elemList.put(child.getKey(), null);
-                        order.add(child.getKey());
+            // get children of parents
+            for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
+                if (parentElements.contains(obj.getKey())) {
+                    for (Map.Entry<String, JsonElement> child : obj.getValue().getAsJsonObject().entrySet()) {
+                        if (child.getValue().isJsonPrimitive()) {
+                            elemList.put(child.getKey(), child.getValue().getAsString());
+                            order.add(child.getKey());
+                        } else if (child.getValue().isJsonNull()) {
+                            elemList.put(child.getKey(), null);
+                            order.add(child.getKey());
+                        }
+                    }
+                }
+            }
+        }else{
+            if (root) {
+                for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
+                    if (obj.getValue().isJsonPrimitive()) {
+                        elemList.put(obj.getKey(), obj.getValue().getAsString());
+                        order.add(obj.getKey());
+                    }
+
+                }
+            }
+
+            // get children of parents
+            for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
+                if (parentElements.contains(obj.getKey())) {
+                    for (Map.Entry<String, JsonElement> child : obj.getValue().getAsJsonObject().entrySet()) {
+                        if (child.getValue().isJsonPrimitive()) {
+                            elemList.put(child.getKey(), child.getValue().getAsString());
+                            order.add(child.getKey());
+                        }
                     }
                 }
             }

@@ -115,4 +115,10 @@ public class AppTest {
                 SpecsIo.getResource("pt/up/fe/els2022/outFiles/f3.csv")
         );
     }
+
+    @Test
+    public void text() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/testText.txt");
+        app.run();
+    }
 }

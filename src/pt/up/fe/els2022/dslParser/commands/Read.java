@@ -1,10 +1,7 @@
 package pt.up.fe.els2022.dslParser.commands;
 
 import org.xml.sax.SAXException;
-import pt.up.fe.els2022.JSONAdapter;
-import pt.up.fe.els2022.Pair;
-import pt.up.fe.els2022.Table;
-import pt.up.fe.els2022.XMLAdapter;
+import pt.up.fe.els2022.*;
 import pt.up.fe.els2022.dslParser.Command;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,6 +19,7 @@ public class Read implements Command {
     List<String> filePath = new ArrayList<>();
     List<String> fileID = new ArrayList<>();
     List<Column> cols = new ArrayList<>();
+    List<String> include = new ArrayList<>();
 
     List<HashMap<String,String>> tables_and_words = new ArrayList<>();
 
@@ -31,6 +29,14 @@ public class Read implements Command {
 
     public void setTables_and_words(List<HashMap<String, String>> tables_and_words) {
         this.tables_and_words = tables_and_words;
+    }
+
+    public List<String> getInclude() {
+        return include;
+    }
+
+    public void setInclude(List<String> include) {
+        this.include = include;
     }
 
     FileType type = null;
@@ -99,10 +105,70 @@ public class Read implements Command {
             }
 
             for (int i = 0;i < filePath.size(); i++){
-                if(type == TEXT) {
+                String filename = filePath.get(i);
 
+                if(type == TEXT) {
+                    if (Files.isDirectory(Path.of(filename))) {
+                        File f = new File(filename);
+
+                        String[] pathNames = f.list();
+
+                        assert pathNames != null;
+                        List<Table> tableList = new ArrayList<>();
+                        for (String pathname : pathNames) {
+                            Table out = null;
+                            for(var table_or_word: tables_and_words){
+                                Table t = getWordOrTable( i, filename+"/"+pathname, table_or_word);
+                                if(out == null){
+                                    out = t;
+                                }else{
+                                    out = TableOperations.joinTables(out,t);
+                                }
+                            }
+                            for (String include: include) {
+                                if(Objects.equals(include, "folder")) {
+                                    assert out != null;
+                                    TableOperations.addColumn(Collections.singletonList(out), include, out.getOriginFolder());
+                                    out.getOutput().remove(include);
+                                    out.getOutput().add(0,include);
+                                }else if(Objects.equals(include, "file")){
+                                    assert out != null;
+                                    TableOperations.addColumn(Collections.singletonList(out), include, out.getOriginFile());
+                                    out.getOutput().add(0,include);
+                                }
+                            }
+                            tableList.add(out);
+                        }
+                        symbolTable.put(fileID.get(i), tableList);
+                    } else {
+                        Table out = null;
+                        List<Table> outList = new ArrayList<>();
+                        for(var table_or_word: tables_and_words){
+                            Table t = getWordOrTable( i, filename, table_or_word);
+                            if(out == null){
+                                out = t;
+                            }else{
+                                out = TableOperations.joinTables(out,t);
+                            }
+                        }
+                        outList.add(out);
+                        for (String include: include) {
+                            include = include.trim();
+                            if(Objects.equals(include, "folder")) {
+                                assert out != null;
+                                TableOperations.addColumn(outList, include, out.getOriginFolder());
+                                out.getOutput().remove(include);
+                                out.getOutput().add(0,include);
+                            }else if(Objects.equals(include, "file")){
+                                assert out != null;
+                                TableOperations.addColumn(outList, include, out.getOriginFile());
+                                out.getOutput().remove(include);
+                                out.getOutput().add(0,include);
+                            }
+                        }
+                        symbolTable.put(fileID.get(i), outList);
+                    }
                 }else{
-                    String filename = filePath.get(i);
                     Pair pair;
                     ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
@@ -113,6 +179,19 @@ public class Read implements Command {
                         Table table = getTable(originalHeaders, finalHeaders, pair.entry, filePath.get(i),false);
                         table.setOutput(pair.order);
 
+
+                        for (String include: include) {
+                            include = include.trim();
+                            if(include.equals("folder")) {
+                                TableOperations.addColumn(Collections.singletonList(table), include, table.getOriginFolder());
+                                table.getOutput().remove(include);
+                                table.getOutput().add(0,include);
+                            }else if(Objects.equals(include, "file")){
+                                TableOperations.addColumn(Collections.singletonList(table), include, table.getOriginFile());
+                                table.getOutput().remove(include);
+                                table.getOutput().add(0,include);
+                            }
+                        }
 
                         symbolTable.put(fileID.get(i), Collections.singletonList(table));
                     } else {
@@ -127,9 +206,24 @@ public class Read implements Command {
                                 pair = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
                                 if (pair == null) continue;
 
-                                tableList.add(getTable(originalHeaders, finalHeaders, pair.entry, filename+"/"+pathname,true));
-                                tableList.get(tableList.size()-1).setOutput(pair.order);
 
+                                Table t = getTable(originalHeaders, finalHeaders, pair.entry, filename+"/"+pathname,true);
+                                t.setOutput(pair.order);
+
+                                for (String include: include) {
+                                    include = include.trim();
+                                    if(Objects.equals(include, "folder")) {
+                                        TableOperations.addColumn(Collections.singletonList(t), include, t.getOriginFolder());
+                                        t.getOutput().remove(include);
+                                        t.getOutput().add(0,include);
+                                    }else if(Objects.equals(include, "file")){
+                                        TableOperations.addColumn(Collections.singletonList(t), include, t.getOriginFile());
+                                        t.getOutput().remove(include);
+                                        t.getOutput().add(0,include);
+                                    }
+                                }
+
+                                tableList.add(t);
                             }
                             symbolTable.put(fileID.get(i), tableList);
                         } else {
@@ -143,6 +237,39 @@ public class Read implements Command {
             System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");
         }
+    }
+
+    private Table getWordOrTable(int i, String pathname, HashMap<String, String> table_or_word) {
+        String w = null;
+        Table t = null;
+        if(table_or_word.containsKey("start") && table_or_word.containsKey("col")){
+            w = TextAdapter.wordSwCol(pathname, table_or_word.get("start"), Integer.parseInt(table_or_word.get("col")));
+        }else if(table_or_word.containsKey("start") && table_or_word.containsKey("word")){
+            w = TextAdapter.wordSwNum(pathname, table_or_word.get("start"), Integer.parseInt(table_or_word.get("word")));
+        }else if(table_or_word.containsKey("line") && table_or_word.containsKey("word")){
+            w = TextAdapter.wordLineNum(pathname, Integer.parseInt(table_or_word.get("line")), Integer.parseInt(table_or_word.get("word")));
+        }else if(table_or_word.containsKey("line") && table_or_word.containsKey("col")){
+            w = TextAdapter.wordLineCol(pathname, Integer.parseInt(table_or_word.get("line")), Integer.parseInt(table_or_word.get("col")));
+        }else if(table_or_word.containsKey("start") && table_or_word.containsKey("header")){
+            t = TextAdapter.table(pathname,Integer.parseInt(table_or_word.get("start")),Integer.parseInt(table_or_word.get("header")));
+        }
+        if(w != null){
+            ArrayList<HashMap<String,String>> list = new ArrayList<>();
+            HashMap<String,String> map = new HashMap<>();
+            map.put(table_or_word.get("name"),w);
+            list.add(map);
+
+
+            Table table = getTable(new ArrayList<>(Collections.singleton(table_or_word.get("name"))), new ArrayList<>(Collections.singleton(table_or_word.get("name"))), list, filePath.get(i),false);
+            table.setOutput(new ArrayList<>(Collections.singleton(table_or_word.get("name"))));
+            return table;
+        }else if(t != null){
+            Path p = Paths.get(pathname);
+            t.setOriginFile(p.getFileName().toString());
+            t.setOriginFolder(p.getParent().toString());
+            return t;
+        }
+        throw new Error(" ");
     }
 
     private Pair parseFile(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, String filename) throws IOException, SAXException, ParserConfigurationException {

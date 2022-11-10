@@ -40,6 +40,7 @@ public class Parser {
 
             try {
                 if(line.startsWith("#")) {
+                    line = reader.readLine();
                     continue;
                 } else if (line.startsWith("Read")) {
                     lineCounter += ParseCommandRead(line,reader);
@@ -175,7 +176,7 @@ public class Parser {
         }
     }
     void ParseCommandSort(String commandLine){
-        Pattern p = Pattern.compile("^Sort +([^ ]+) +([^ ]+) +(asc|desc)(?: as ([^ ]+))? *$");
+        Pattern p = Pattern.compile("^Sort +([^ ]+) +\"?(.*?)\"? +(asc|desc)(?: as ([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         if(m.find()) {
@@ -194,7 +195,7 @@ public class Parser {
     }
 
     void ParseCommandExtract(String commandLine){
-        Pattern p = Pattern.compile("^Extract +([^ ]+)(?: +Columns +([^ ]+))?(?: +Lines +([^ ]+))?(?: +as ([^ ]+))? *$");
+        Pattern p = Pattern.compile("^Extract +([^ ]+)(?: +Columns +\"?(.*?)\"?)?(?: +Lines +([^ ]+))?(?: +as ([^ ]+))? *$");
         Matcher m = p.matcher(commandLine);
 
         var a = m.groupCount();
@@ -209,7 +210,10 @@ public class Parser {
                         lines.add(Integer.parseInt(line));
                     }
                 }if(m.group(2) != null){
-                    columns = Arrays.asList(m.group(2).split(","));
+                    columns = new ArrayList<>();
+                    for(String s: m.group(2).split(",")){
+                        columns.add(s.replace("\"",""));
+                    }
                 }
                 builder.extract()
                         .setFileId(m.group(1))
@@ -280,6 +284,9 @@ public class Parser {
                 }else if (commandLine.startsWith("End")){
                     b.close();
                     return lineCounter;
+                }else if(commandLine.startsWith("Include")) {
+                    var list = commandLine.trim().substring(7).split(",");
+                    b.setIncludes(List.of(list));
                 }else{
                     throw new Error("Read command incorrect, command "+commandLine+" not found ");
                 }
@@ -292,17 +299,17 @@ public class Parser {
                         Pattern p1 = Pattern.compile("^Word +(Starts With|Line) +([^ ]+) +(Column|Word) +([^ ]+) +as +([^ ]+) *$");
                         Matcher m1 = p1.matcher(commandLine);
                         if(m1.find()){
-                            if(Objects.equals(m.group(1), "Starts With")){
-                                if(m.group(3).equals("Column")){
-                                    b.addWordByCol(m.group(2), Integer.parseInt(m.group(4)));
+                            if(Objects.equals(m1.group(1), "Starts With")){
+                                if(m1.group(3).equals("Column")){
+                                    b.addWordByCol(m1.group(2), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }else{
-                                    b.addWordByWord(m.group(2), Integer.parseInt(m.group(4)));
+                                    b.addWordByWord(m1.group(2), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }
                             }else{
-                                if(m.group(3).equals("Column")){
-                                    b.addWordByCol(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(4)));
+                                if(m1.group(3).equals("Column")){
+                                    b.addWordByCol(Integer.parseInt(m1.group(2)), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }else{
-                                    b.addWordByWord(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(4)));
+                                    b.addWordByWord(Integer.parseInt(m1.group(2)), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }
                             }
                         }
@@ -311,11 +318,18 @@ public class Parser {
                     if(!Objects.equals(m.group(2), "TEXT")){
                         throw new Error("Table can only be used on TXT files ");
                     }else{
-
+                        Pattern p1 = Pattern.compile("^Table Line +([^ ]+) +Header height +([^ ]+) *$");
+                        Matcher m1 = p1.matcher(commandLine);
+                        if(m1.find()){
+                            b.addTable(Integer.parseInt(m1.group(1)),Integer.parseInt(m1.group(2)));
+                        }
                     }
                 }else if (commandLine.startsWith("End")){
                     b.close();
                     return lineCounter;
+                }else if(commandLine.startsWith("Include")) {
+                    var list = commandLine.trim().substring(7).split(",");
+                    b.setIncludes(List.of(list));
                 }else{
                     throw new Error("Read command incorrect, command "+commandLine+" not found ");
                 }

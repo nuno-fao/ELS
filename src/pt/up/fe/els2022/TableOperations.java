@@ -17,8 +17,9 @@ public class TableOperations {
             List<HashMap<String, String>> entries = table.getEntries();
             for (HashMap<String, String> entry : entries) {
                 entry.put(name, value);
-                table.getOutput().add(name);
             }
+            if(!table.getOutput().contains(name))
+                table.getOutput().add(name);
         }
     }
 
@@ -28,8 +29,8 @@ public class TableOperations {
             List<HashMap<String, String>> entries = table.getEntries();
             for (HashMap<String, String> entry : entries) {
                 entry.remove(name);
-                table.getOutput().remove(name);
             }
+            table.getOutput().remove(name);
         }
     }
 
@@ -60,8 +61,7 @@ public class TableOperations {
                 public int compare(HashMap<String, String> o1, HashMap<String, String> o2) {
                     // compare two instance of `Score` and return `int` as result.
                     if (finalIs_numeric) {
-                        var v = ascending ? (int) (Float.parseFloat(o1.get(col)) - Float.parseFloat(o2.get(col))) : (int) (Float.parseFloat(o2.get(col)) - Float.parseFloat(o1.get(col)));
-                        return v;
+                        return ascending ?  Float.compare(Float.parseFloat(o1.get(col)), Float.parseFloat(o2.get(col))) : Float.compare(Float.parseFloat(o2.get(col)), Float.parseFloat(o1.get(col)));
                     } else {
                         return ascending ? o1.get(col).compareTo(o2.get(col)) : o2.get(col).compareTo(o1.get(col));
                     }
@@ -162,11 +162,15 @@ public class TableOperations {
             }
         }
 
-        for (int i = 0; i < table2.getEntries().size(); i++) {
+        for (int i = 0; i < Math.max(table2.getEntries().size(),table1.getEntries().size()); i++) {
             if(table1.getEntries().size() != 0 ){
                 HashMap<String,String> aux = new HashMap<>();
-                aux.putAll(table1.getEntries().get(i));
-                aux.putAll(table2.getEntries().get(i));
+                if(table1.getEntries().size() > i){
+                    aux.putAll(table1.getEntries().get(i));
+                }
+                if(table2.getEntries().size() > i){
+                    aux.putAll(table2.getEntries().get(i));
+                }
                 newEntries.add(aux);
             }
             else {

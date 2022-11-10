@@ -1,2 +1,2 @@
-max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,class_weight,criterion,max_depth,max_features,max_leaf_nodes,min_impurity_decrease,min_impurity_split,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,random_state,splitter
-16,decision-tree,2,16,1,0.0,,gini,,,,0.0,,1,2,0.0,,best
+max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,criterion,min_impurity_decrease,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,splitter
+16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best

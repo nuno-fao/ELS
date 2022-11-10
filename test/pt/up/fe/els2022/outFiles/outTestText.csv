@@ -1,0 +1,17 @@
+% time,cumulative seconds,self seconds,calls,self s/call,total s/call,name,lw,lc,sww,swc
+99.39,1.62,1.62,8,0.20,0.20,matrix_mulv3_tdtdptd,profile,Flat,seconds,time
+0.61,1.63,0.01,,,,__chkstk_ms,,,,
+0.00,1.63,0.00,19,0.00,0.00,new_array_helper_d,,,,
+0.00,1.63,0.00,9,0.00,0.00,copy_alloc_d,,,,
+0.00,1.63,0.00,9,0.00,0.00,new_array_d_2,,,,
+0.00,1.63,0.00,9,0.00,0.00,new_const_array_d2,,,,
+0.00,1.63,0.00,9,0.00,0.00,zeros_d2,,,,
+0.00,1.63,0.00,2,0.00,0.00,tensor_free_d,,,,
+0.00,1.63,0.00,1,0.00,1.62,closure_tdptd,,,,
+0.00,1.63,0.00,1,0.00,0.00,element_wise_greaterthan_ptdiptd,,,,
+0.00,1.63,0.00,1,0.00,0.00,new_array_helper_i,,,,
+0.00,1.63,0.00,1,0.00,0.00,new_array_i_2,,,,
+0.00,1.63,0.00,1,0.00,0.00,new_array_ti_d,,,,
+0.00,1.63,0.00,1,0.00,0.00,new_from_matrix_double_0_d_tiptd,,,,
+0.00,1.63,0.00,1,0.00,0.00,size_d,,,,
+0.00,1.63,0.00,1,0.00,0.00,tensor_free_i,,,,
