@@ -36,33 +36,37 @@ public class BuilderRead implements InterfaceBuilder{
         return this;
     }
 
-    public BuilderRead addWordByCol(String startswith,int col){
+    public BuilderRead addWordByCol(String startswith,int col,String name){
         HashMap<String,String> word = new HashMap<>();
-        word.put("starts",startswith);
+        word.put("start",startswith);
         word.put("col", String.valueOf(col));
+        word.put("name", name);
         this.read.getTables_and_words().add(word);
         return this;
     }
 
-    public BuilderRead addWordByCol(int line,int col){
+    public BuilderRead addWordByCol(int line,int col,String name){
         HashMap<String,String> word = new HashMap<>();
         word.put("line", String.valueOf(line));
         word.put("col", String.valueOf(col));
+        word.put("name", name);
         this.read.getTables_and_words().add(word);
         return this;
     }
-    public BuilderRead addWordByWord(String startswith,int word){
+    public BuilderRead addWordByWord(String startswith,int word,String name){
         HashMap<String,String> w = new HashMap<>();
         w.put("start",startswith);
         w.put("word", String.valueOf(word));
+        w.put("name", name);
         this.read.getTables_and_words().add(w);
         return this;
     }
 
-    public BuilderRead addWordByWord(int line,int word){
+    public BuilderRead addWordByWord(int line,int word,String name){
         HashMap<String,String> w = new HashMap<>();
-        w.put("linw", String.valueOf(line));
+        w.put("line", String.valueOf(line));
         w.put("word", String.valueOf(word));
+        w.put("name", name);
         this.read.getTables_and_words().add(w);
         return this;
     }

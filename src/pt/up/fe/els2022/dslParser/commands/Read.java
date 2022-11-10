@@ -1,10 +1,7 @@
 package pt.up.fe.els2022.dslParser.commands;
 
 import org.xml.sax.SAXException;
-import pt.up.fe.els2022.JSONAdapter;
-import pt.up.fe.els2022.Pair;
-import pt.up.fe.els2022.Table;
-import pt.up.fe.els2022.XMLAdapter;
+import pt.up.fe.els2022.*;
 import pt.up.fe.els2022.dslParser.Command;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -99,10 +96,42 @@ public class Read implements Command {
             }
 
             for (int i = 0;i < filePath.size(); i++){
-                if(type == TEXT) {
+                String filename = filePath.get(i);
 
+                if(type == TEXT) {
+                    if (Files.isDirectory(Path.of(filename))) {
+                        File f = new File(filename);
+
+                        String[] pathNames = f.list();
+
+                        assert pathNames != null;
+                        List<Table> tableList = new ArrayList<>();
+                        for (String pathname : pathNames) {
+                            Table out = null;
+                            for(var table_or_word: tables_and_words){
+                                Table t = getWordOrTable(symbolTable, i, filename+"/"+pathname, table_or_word);
+                                if(out == null){
+                                    out = t;
+                                }else{
+                                    out = TableOperations.joinTables(out,t);
+                                }
+                            }
+                            tableList.add(out);
+                        }
+                        symbolTable.put(fileID.get(i), tableList);
+                    } else {
+                        Table out = null;
+                        for(var table_or_word: tables_and_words){
+                            Table t = getWordOrTable(symbolTable, i, filename, table_or_word);
+                            if(out == null){
+                                out = t;
+                            }else{
+                                out = TableOperations.joinTables(out,t);
+                            }
+                        }
+                        symbolTable.put(fileID.get(i), Collections.singletonList(out));
+                    }
                 }else{
-                    String filename = filePath.get(i);
                     Pair pair;
                     ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
@@ -143,6 +172,33 @@ public class Read implements Command {
             System.out.println(e.getMessage());
             throw new Error("Column does not exist in table '"+fileID+"'  ");
         }
+    }
+
+    private Table getWordOrTable(HashMap<String, List<Table>> symbolTable, int i, String pathname, HashMap<String, String> table_or_word) {
+        String w = null;
+        if(table_or_word.containsKey("start") && table_or_word.containsKey("col")){
+            w = TextAdapter.wordSwCol(pathname, table_or_word.get("start"), Integer.parseInt(table_or_word.get("col")));
+        }else if(table_or_word.containsKey("start") && table_or_word.containsKey("word")){
+            w = TextAdapter.wordSwNum(pathname, table_or_word.get("start"), Integer.parseInt(table_or_word.get("word")));
+        }else if(table_or_word.containsKey("line") && table_or_word.containsKey("word")){
+            w = TextAdapter.wordLineNum(pathname, Integer.parseInt(table_or_word.get("line")), Integer.parseInt(table_or_word.get("word")));
+        }else if(table_or_word.containsKey("line") && table_or_word.containsKey("col")){
+            w = TextAdapter.wordLineCol(pathname, Integer.parseInt(table_or_word.get("line")), Integer.parseInt(table_or_word.get("col")));
+        }
+        if(w != null){
+            ArrayList<HashMap<String,String>> list = new ArrayList<>();
+            HashMap<String,String> map = new HashMap<>();
+            map.put(table_or_word.get("name"),w);
+            list.add(map);
+
+
+            Table table = getTable(new ArrayList<>(Collections.singleton(table_or_word.get("name"))), new ArrayList<>(Collections.singleton(table_or_word.get("name"))), list, filePath.get(i),false);
+            table.setOutput(new ArrayList<>(Collections.singleton(table_or_word.get("name"))));
+            return table;
+        }else{
+
+        }
+        return null;
     }
 
     private Pair parseFile(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, String filename) throws IOException, SAXException, ParserConfigurationException {

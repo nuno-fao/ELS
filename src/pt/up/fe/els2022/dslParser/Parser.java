@@ -292,17 +292,17 @@ public class Parser {
                         Pattern p1 = Pattern.compile("^Word +(Starts With|Line) +([^ ]+) +(Column|Word) +([^ ]+) +as +([^ ]+) *$");
                         Matcher m1 = p1.matcher(commandLine);
                         if(m1.find()){
-                            if(Objects.equals(m.group(1), "Starts With")){
-                                if(m.group(3).equals("Column")){
-                                    b.addWordByCol(m.group(2), Integer.parseInt(m.group(4)));
+                            if(Objects.equals(m1.group(1), "Starts With")){
+                                if(m1.group(3).equals("Column")){
+                                    b.addWordByCol(m1.group(2), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }else{
-                                    b.addWordByWord(m.group(2), Integer.parseInt(m.group(4)));
+                                    b.addWordByWord(m1.group(2), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }
                             }else{
-                                if(m.group(3).equals("Column")){
-                                    b.addWordByCol(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(4)));
+                                if(m1.group(3).equals("Column")){
+                                    b.addWordByCol(Integer.parseInt(m1.group(2)), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }else{
-                                    b.addWordByWord(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(4)));
+                                    b.addWordByWord(Integer.parseInt(m1.group(2)), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }
                             }
                         }
