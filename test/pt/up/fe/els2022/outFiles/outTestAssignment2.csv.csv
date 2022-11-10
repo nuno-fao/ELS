@@ -1,2 +1,0 @@
-DSP48E,FF,BRAM_18K,LUT,URAM,criterion,n_features_,ccp_alpha,min_impurity_split,max_depth,min_samples_split,min_impurity_decrease,min_weight_fraction_leaf,random_state,splitter,min_samples_leaf,max_features,n_classes_,max_leaf_nodes,meta,class_weight,max_features_,n_outputs_
-1,64,0,145,0,gini,16,0.0,,,2,0.0,0.0,,best,1,,2,,decision-tree,,16,1

@@ -2,6 +2,7 @@ package pt.up.fe.els2022.dslParser.commands;
 
 import org.xml.sax.SAXException;
 import pt.up.fe.els2022.JSONAdapter;
+import pt.up.fe.els2022.Pair;
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.XMLAdapter;
 import pt.up.fe.els2022.dslParser.Command;
@@ -102,13 +103,16 @@ public class Read implements Command {
 
                 }else{
                     String filename = filePath.get(i);
+                    Pair pair;
                     ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
                     if (filename.endsWith(".json") || filename.endsWith(".xml")) {
-                        entry = parseFile(originalHeaders, finalHeaders, filename);
-                        if (entry == null) continue;
+                        pair = parseFile(originalHeaders, finalHeaders, filename);
+                        if (pair == null) continue;
 
-                        Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i), false);
+                        Table table = getTable(originalHeaders, finalHeaders, pair.entry, filePath.get(i),false);
+                        table.setOutput(pair.order);
+
 
                         symbolTable.put(fileID.get(i), Collections.singletonList(table));
                     } else {
@@ -120,9 +124,12 @@ public class Read implements Command {
                             assert pathNames != null;
                             List<Table> tableList = new ArrayList<>();
                             for (String pathname : pathNames) {
-                                entry = parseFile(originalHeaders, finalHeaders, filename + "/" + pathname);
-                                if (entry == null) continue;
-                                tableList.add(getTable(originalHeaders, finalHeaders, entry, filename + "/" + pathname, true));
+                                pair = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
+                                if (pair == null) continue;
+
+                                tableList.add(getTable(originalHeaders, finalHeaders, pair.entry, filename+"/"+pathname,true));
+                                tableList.get(tableList.size()-1).setOutput(pair.order);
+
                             }
                             symbolTable.put(fileID.get(i), tableList);
                         } else {
@@ -138,8 +145,9 @@ public class Read implements Command {
         }
     }
 
-    private ArrayList<HashMap<String, String>> parseFile(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, String filename) throws IOException, SAXException, ParserConfigurationException {
-        ArrayList<HashMap<String, String>> entry = null;
+    private Pair parseFile(ArrayList<String> originalHeaders, ArrayList<String> finalHeaders, String filename) throws IOException, SAXException, ParserConfigurationException {
+        Pair entry = null;
+
         if ((filename.endsWith(".json") && this.type == FileType.JSON) || (filename.endsWith(".json") && this.type == null)) {
             if(this.type == FileType.JSON && !filename.endsWith(".json")){
                 return null;

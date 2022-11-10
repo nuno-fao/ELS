@@ -49,7 +49,12 @@ public class Write implements Command {
         if(Objects.equals(type, "CSV")){
             List<Table> list = symbolTable.get(fileId);
             if(list.size() == 1 ){
-                TableOperations.write(symbolTable.get(fileId).get(0),filePath + ".csv");
+                if(!filePath.endsWith(".csv")){
+                    TableOperations.write(symbolTable.get(fileId).get(0),filePath + ".csv");
+                }
+                else{
+                    TableOperations.write(symbolTable.get(fileId).get(0),filePath);
+                }
             }else{
                 int i = 0;
                 for (Table t : list){

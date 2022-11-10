@@ -1,6 +1,6 @@
-DSP48E,FF,BRAM_18K,LUT,URAM,File
-1,64,0,145,0,vitis-report_1.xml
-1,64,0,145,0,vitis-report.xml
-240,82000,270,41000,0,vitis-report.xml
-40,1050,10,524,0,vitis-report_3.xml
-20,525,5,200,0,vitis-report_2.xml
+DSP48E,FF,LUT,BRAM_18K,URAM,File
+1,64,145,0,0,vitis-report_1.xml
+1,64,145,0,0,vitis-report.xml
+240,82000,41000,270,0,vitis-report.xml
+40,1050,524,10,0,vitis-report_3.xml
+20,525,200,5,0,vitis-report_2.xml

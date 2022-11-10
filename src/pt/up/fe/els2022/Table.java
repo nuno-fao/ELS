@@ -57,6 +57,7 @@ public class Table {
     public Table copy(){
         ArrayList<HashMap<String, String>> newEntries = new ArrayList<>();
         ArrayList<String> newHeaders = new ArrayList<>(headers);
+        ArrayList<String> newOutput = new ArrayList<>(output);
 
         for(HashMap<String, String> mapCopy : entries){
             HashMap<String, String> newMap = new HashMap<>(mapCopy);
@@ -64,6 +65,7 @@ public class Table {
         }
 
         Table tempTable = new Table(newHeaders,newEntries);
+        tempTable.setOutput(newOutput);
         tempTable.setOriginFile(this.getOriginFile());
         tempTable.setOriginFolder(this.getOriginFolder());
         return tempTable;
