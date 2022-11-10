@@ -1,0 +1,6 @@
+Read files/nas_ua.text TEXT as f1
+    Word Starts With " Heat source radius:" Word 4 as heat_source_radius
+    Word Starts With " Time in seconds" Word 5 as time_in_seconds
+End
+
+Write CSV f1 to test/pt/up/fe/els2022/outFiles/outUaReader.csv

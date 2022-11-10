@@ -296,14 +296,14 @@ public class Parser {
                     if(!Objects.equals(m.group(2), "TEXT")){
                         throw new Error("Word can only be used on TXT files ");
                     }else{
-                        Pattern p1 = Pattern.compile("^Word +(Starts With|Line) +([^ ]+) +(Column|Word) +([^ ]+) +as +([^ ]+) *$");
+                        Pattern p1 = Pattern.compile("^Word +(Starts With|Line) +\"?(.+)\"? +(Column|Word) +([^ ]+) +as +([^ ]+) *$");
                         Matcher m1 = p1.matcher(commandLine);
                         if(m1.find()){
                             if(Objects.equals(m1.group(1), "Starts With")){
                                 if(m1.group(3).equals("Column")){
-                                    b.addWordByCol(m1.group(2), Integer.parseInt(m1.group(4)),m1.group(5));
+                                    b.addWordByCol(m1.group(2).replace("\"",""), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }else{
-                                    b.addWordByWord(m1.group(2), Integer.parseInt(m1.group(4)),m1.group(5));
+                                    b.addWordByWord(m1.group(2).replace("\"",""), Integer.parseInt(m1.group(4)),m1.group(5));
                                 }
                             }else{
                                 if(m1.group(3).equals("Column")){

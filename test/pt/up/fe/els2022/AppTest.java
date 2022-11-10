@@ -96,6 +96,12 @@ public class AppTest {
     public void assignment2() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testAssignment2.txt");
         app.run();
+
+        assertEquals(
+                "folder,DSP48E,FF,LUT,BRAM_18K,URAM,folder,max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,criterion,min_impurity_decrease,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,splitter,folder,% time,name\n" +
+                        "files,1,64,145,0,0,files,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best,files,99.39,matrix_mulv3_tdtdptd",
+                SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestAssignment2.csv")
+        );
     }
 
     @Test
@@ -119,6 +125,12 @@ public class AppTest {
     @Test
     public void text() throws InterruptedException {
         App app = new App("test/pt/up/fe/els2022/configFiles/testText.txt");
+        app.run();
+    }
+
+    @Test
+    public void usReader() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/uaReader.txt");
         app.run();
     }
 }

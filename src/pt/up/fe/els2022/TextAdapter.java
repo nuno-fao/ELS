@@ -87,7 +87,7 @@ public class TextAdapter{
 
         for(int i=0; i< lines.length;i++){
             String[] words = TextAdapter.splitSpaces(lines[i]);
-            if(TextAdapter.cleanWord(words[0]).equals(startsWith))
+            if(TextAdapter.cleanWord(words[0]).equals(startsWith) || lines[i].startsWith(startsWith))
                 return TextAdapter.cleanWord(words[num]);
         }
        
@@ -120,7 +120,7 @@ public class TextAdapter{
 
         for(int i=0; i< lines.length;i++){
             String[] words = TextAdapter.splitSpaces(lines[i].trim());
-            if(words.length>0 && TextAdapter.cleanWord(words[0]).equals(startsWith)){
+            if(words.length>0 && TextAdapter.cleanWord(words[0]).equals(startsWith) || lines[i].startsWith(startsWith)){
                 String[] ch = lines[i].split("");
                 
                 if(ch[col].equals(" "))
