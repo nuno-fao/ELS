@@ -108,10 +108,49 @@ We wanted the DSL to feel powerful but yet easy to use.
 Our syntax was chosen to allow for a easier parse of the language. The Beginning of each line starts with a Keyword, that allows us to easily identify which command we are parsing.  
 Multiline Commands (SetOutput and Read) follow the same principle but we further include the End token so we can easily decide if the commands bellong inside or not those multile Commands.  
 
-Our Implementation works around the Idea of commands. Th language parser decides which command to create, depending on the keyword, and delegates the parsing problem to the command itself.  
+Our Implementation works around the Idea of commands. The language parser decides which command to create, depending on the keyword, and delegates the parsing problem to the command itself.  
 This modularity allows for an easy way to create and add more commands as we go.  
 The app stores a list of commands, by the order they appear on the Config file, and executes them by order.  
 This works similar to a Visitor in the way that each command knows which function of the table to call and execute, depending on the said command. 
 The Commands also have access to a global symbolTable, where the tables are stored and it is able to assign reassign tables to identifiers(like variables).
 
 One particular part of the language is the ability to store the result of each command on a new variable or on the same one, allowing for more flexibility.
+
+## Assignment 2
+
+In this assignment we mostly refactored our code and introduced features which did not require many new commands. As such, the new commands are almost all for the reading of TXT files, and one for joining tables without creating new lines
+
+### JOIN
+```
+Join xml,json as xml
+```
+We stay consistent in or syntax. This command can join two tables, creating another table. **Warning**: Both tables need to have the same number of lines
+
+To do so, the user just needs to list the two tables he whishes to join
+
+The user can use the keywork as to overwrite one of the tables or just create a new one (just like in commands created in the last assignment).
+
+### READ (JSON)
+This read is not an addition. It is instead yet another use case. The user can use the same READ command for XML and JSON. TO use for JSON we do:
+```
+Read files/decision_tree.json as json
+    Parent ROOT params
+End
+```
+In this command we list the "parents" on the JSON file from which we want to read the primitives. In this example, we want to read all primitives that are under the attribute params (which is a composite attribute) and under the root of the file (since root doesn't have a name we choose the keyword "ROOT").
+
+As we can see, it is almost the same as the XML use case. 
+
+## Overview of the system
+![Imgur](https://i.imgur.com/zmcq3R2.png)
+
+## Design decisions
+In our project specifically, because we started out with a preliminary DSL, a lot of the effourt spent in this assignment was refactoring our project to implement the builder pattern and fluent API which both introduced a whole new level of complexy to our code.
+
+We decided to use the same READ command for XML and JSON because they are so similar in how they work. In the same line of thought, we chose to create a new READ specific for TXT files because they lack any structure and so their interpreting is interely different and requires new functions we didn't have before.
+
+Besides that we also added the possibility to read folders of files. The behaviour will be the same for all files. If a type of file is specificied, the program will only read and create tables from that filetype. The identifier used on the READ will map to all tables originated from the command so when an operation is used it will be used on all of them besides JOIN and MERGE which will result in only 1 (aggregate functions). 
+
+This means that now identifiers map to a list of tables instead of just one. When only one file is read at a time, it will be a list conatining only one table but it was the tradeoff of implementing the folder reading feature.
+
+Now, the tables also have a default output order. Since, internally, Tables are Hashmaps, output order was sort of random before. We changed that so now the order, if not specified will be same as the order they are read from the file.
