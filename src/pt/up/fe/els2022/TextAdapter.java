@@ -283,7 +283,9 @@ public class TextAdapter{
             headerList.add(headers[i].trim());
         }
 
-        return new Table(headerList,entries);
+        Table t = new Table(headerList,entries);
+        t.setOutput(headerList);
+        return t;
     }
 
 
@@ -301,17 +303,15 @@ public class TextAdapter{
         String text = TextAdapter.readFileAsString(filename);
         Table table = TextAdapter.buildTable(text, start, headerLength);
 
-
         return table.getEntries().get(line-1).get(table.getHeaders().get(col-1)); 
     }
 
-    public static ArrayList<HashMap<String, String>> table(String filename, int start, int headerLength) {
+    public static Table table(String filename, int start, int headerLength) {
 
         String text = TextAdapter.readFileAsString(filename);
         Table table = TextAdapter.buildTable(text, start, headerLength);
 
-
-        return table.getEntries();
+        return table;
     }
 
 

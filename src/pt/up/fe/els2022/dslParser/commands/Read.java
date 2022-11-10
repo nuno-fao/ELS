@@ -12,17 +12,25 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import static pt.up.fe.els2022.dslParser.commands.FileType.TEXT;
 
 public class Read implements Command {
     List<String> parentElements;
     List<String> filePath = new ArrayList<>();
     List<String> fileID = new ArrayList<>();
-
     List<Column> cols = new ArrayList<>();
+
+    List<HashMap<String,String>> tables_and_words = new ArrayList<>();
+
+    public List<HashMap<String, String>> getTables_and_words() {
+        return tables_and_words;
+    }
+
+    public void setTables_and_words(List<HashMap<String, String>> tables_and_words) {
+        this.tables_and_words = tables_and_words;
+    }
 
     FileType type = null;
     public Read() throws Error {
@@ -90,32 +98,36 @@ public class Read implements Command {
             }
 
             for (int i = 0;i < filePath.size(); i++){
-                String filename = filePath.get(i);
-                ArrayList<HashMap<String, String>> entry = new ArrayList<>();
+                if(type == TEXT) {
 
-                if (filename.endsWith(".json") || filename.endsWith(".xml")) {
-                    entry = parseFile(originalHeaders, finalHeaders, filename);
-                    if (entry == null) continue;
-
-                    Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i),false);
-
-                    symbolTable.put(fileID.get(i), Collections.singletonList(table));
                 }else{
-                    if(Files.isDirectory(Path.of(filename))){
-                        File f = new File(filename);
+                    String filename = filePath.get(i);
+                    ArrayList<HashMap<String, String>> entry = new ArrayList<>();
 
-                        String[] pathNames = f.list();
+                    if (filename.endsWith(".json") || filename.endsWith(".xml")) {
+                        entry = parseFile(originalHeaders, finalHeaders, filename);
+                        if (entry == null) continue;
 
-                        assert pathNames != null;
-                        List<Table> tableList = new ArrayList<>();
-                        for (String pathname : pathNames) {
-                            entry = parseFile(originalHeaders, finalHeaders, filename+"/"+pathname);
-                            if (entry == null) continue;
-                            tableList.add(getTable(originalHeaders, finalHeaders, entry, filename+"/"+pathname,true));
+                        Table table = getTable(originalHeaders, finalHeaders, entry, filePath.get(i), false);
+
+                        symbolTable.put(fileID.get(i), Collections.singletonList(table));
+                    } else {
+                        if (Files.isDirectory(Path.of(filename))) {
+                            File f = new File(filename);
+
+                            String[] pathNames = f.list();
+
+                            assert pathNames != null;
+                            List<Table> tableList = new ArrayList<>();
+                            for (String pathname : pathNames) {
+                                entry = parseFile(originalHeaders, finalHeaders, filename + "/" + pathname);
+                                if (entry == null) continue;
+                                tableList.add(getTable(originalHeaders, finalHeaders, entry, filename + "/" + pathname, true));
+                            }
+                            symbolTable.put(fileID.get(i), tableList);
+                        } else {
+                            throw new Error("Filename " + filename + " is not a accepted file or a folder ");
                         }
-                        symbolTable.put(fileID.get(i), tableList);
-                    }else{
-                        throw new Error("Filename "+ filename +" is not a accepted file or a folder ");
                     }
                 }
             }

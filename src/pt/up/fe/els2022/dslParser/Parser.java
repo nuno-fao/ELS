@@ -240,7 +240,7 @@ public class Parser {
                 b
                         .setFilesPaths(filePath)
                         .setFilesIds(fileID)
-                        .setFileTYpe(FileType.fromString(m.group(2)));
+                        .setFileType(FileType.fromString(m.group(2)));
 
                 if(filePath.size() != fileID.size()) {
                     throw new Error("Read command incorrect, number of files must be equal to number of identifiers, ");
@@ -262,25 +262,63 @@ public class Parser {
                 continue;
             }
 
-            if(commandLine.startsWith("Parent")){
-                List<String> elems = new ArrayList<>(Arrays.asList((commandLine.substring(6).trim().split(" "))));
-                b.setParentElements(elems);
-            } else if (commandLine.startsWith("Col")) {
-                var col = commandLine.substring(3).trim();
-                String[] parts = col.trim().split("=>");
-                if(((parts.length != 2) && parts.length != 1) || (parts.length == 1 &&  col.contains("=>"))){
-                    throw new Error("Col command must be '<originalName> => <newName>' ");
-                }
-                if(parts.length == 2) {
-                    b.addColumn(parts[0].trim(),parts[1].trim());
+            if(m.group(2) == null || !m.group(2).equals("TEXT")) {
+                if (commandLine.startsWith("Parent")) {
+                    List<String> elems = new ArrayList<>(Arrays.asList((commandLine.substring(6).trim().split(" "))));
+                    b.setParentElements(elems);
+                } else if (commandLine.startsWith("Col")) {
+                    var col = commandLine.substring(3).trim();
+                    String[] parts = col.trim().split("=>");
+                    if (((parts.length != 2) && parts.length != 1) || (parts.length == 1 && col.contains("=>"))) {
+                        throw new Error("Col command must be '<originalName> => <newName>' ");
+                    }
+                    if (parts.length == 2) {
+                        b.addColumn(parts[0].trim(), parts[1].trim());
+                    } else {
+                        b.addColumn(col, col);
+                    }
+                }else if (commandLine.startsWith("End")){
+                    b.close();
+                    return lineCounter;
                 }else{
-                    b.addColumn(col,col);
+                    throw new Error("Read command incorrect, command "+commandLine+" not found ");
                 }
-            }else if (commandLine.startsWith("End")){
-                b.close();
-                return lineCounter;
-            }else{
-                throw new Error("Read command incorrect");
+            }
+            else{
+                if(commandLine.startsWith("Word")){
+                    if(!Objects.equals(m.group(2), "TEXT")){
+                        throw new Error("Word can only be used on TXT files ");
+                    }else{
+                        Pattern p1 = Pattern.compile("^Word +(Starts With|Line) +([^ ]+) +(Column|Word) +([^ ]+) +as +([^ ]+) *$");
+                        Matcher m1 = p1.matcher(commandLine);
+                        if(m1.find()){
+                            if(Objects.equals(m.group(1), "Starts With")){
+                                if(m.group(3).equals("Column")){
+                                    b.addWordByCol(m.group(2), Integer.parseInt(m.group(4)));
+                                }else{
+                                    b.addWordByWord(m.group(2), Integer.parseInt(m.group(4)));
+                                }
+                            }else{
+                                if(m.group(3).equals("Column")){
+                                    b.addWordByCol(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(4)));
+                                }else{
+                                    b.addWordByWord(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(4)));
+                                }
+                            }
+                        }
+                    }
+                }else if(commandLine.startsWith("Table")){
+                    if(!Objects.equals(m.group(2), "TEXT")){
+                        throw new Error("Table can only be used on TXT files ");
+                    }else{
+
+                    }
+                }else if (commandLine.startsWith("End")){
+                    b.close();
+                    return lineCounter;
+                }else{
+                    throw new Error("Read command incorrect, command "+commandLine+" not found ");
+                }
             }
 
             commandLine = reader.readLine();

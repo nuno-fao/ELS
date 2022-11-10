@@ -5,6 +5,7 @@ import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.FileType;
 import pt.up.fe.els2022.dslParser.commands.Read;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class BuilderRead implements InterfaceBuilder{
@@ -30,8 +31,39 @@ public class BuilderRead implements InterfaceBuilder{
         return this;
     }
 
-    public BuilderRead setFileTYpe(FileType type){
+    public BuilderRead setFileType(FileType type){
         this.read.setType(type);
+        return this;
+    }
+
+    public BuilderRead addWordByCol(String startswith,int col){
+        HashMap<String,String> word = new HashMap<>();
+        word.put("starts",startswith);
+        word.put("col", String.valueOf(col));
+        this.read.getTables_and_words().add(word);
+        return this;
+    }
+
+    public BuilderRead addWordByCol(int line,int col){
+        HashMap<String,String> word = new HashMap<>();
+        word.put("line", String.valueOf(line));
+        word.put("col", String.valueOf(col));
+        this.read.getTables_and_words().add(word);
+        return this;
+    }
+    public BuilderRead addWordByWord(String startswith,int word){
+        HashMap<String,String> w = new HashMap<>();
+        w.put("start",startswith);
+        w.put("word", String.valueOf(word));
+        this.read.getTables_and_words().add(w);
+        return this;
+    }
+
+    public BuilderRead addWordByWord(int line,int word){
+        HashMap<String,String> w = new HashMap<>();
+        w.put("linw", String.valueOf(line));
+        w.put("word", String.valueOf(word));
+        this.read.getTables_and_words().add(w);
         return this;
     }
 
