@@ -148,9 +148,11 @@ As we can see, it is almost the same as the XML use case.
 Extract gprof Lines 1
 Extract gprof Columns "% time","name","folder" 
 Extract gprof Columns "% time","name","folder" Lines 1
-Extract gprof Columns "% time","name","folder" Lines 1 as i2
+Extract gprof Columns "% time","name","folder" Lines 1,2 as i2
 ```
 With this command we extract lines and/or column from a table and save it in a new table or in the original table.
+
+This is command also represents another way to remove columns from a table including the ones specified in the Column part
 
 
 ### Aditional command on Read 
@@ -171,16 +173,27 @@ We have to know the line and word:
     The line can be extracted with "Starts with" or Line
     The word can be specified by the word number (e.g. 3rd on the line) or the column number(e.g. word that has a char in the column 20)
 
+Each Table and Word command creates a new table, these are then joined into the READ output table.
+
+The Table command idrectly maps to an ordinary representation of a table.
+The Word command creates a table with one column with the key being the specified with the "as X" sintax an the value, the word extracted with the command. 
+
 ## Overview of the system
 ![Imgur](https://i.imgur.com/zmcq3R2.png)
 
 ## Design decisions
 In our project specifically, because we started out with a preliminary DSL, a lot of the effourt spent in this assignment was refactoring our project to implement the builder pattern and fluent API which both introduced a whole new level of complexy to our code.
 
-We decided to use the same READ command for XML and JSON because they are so similar in how they work. In the same line of thought, we chose to create a new READ specific for TXT files because they lack any structure and so their interpreting is interely different and requires new functions we didn't have before.
+We decided to use the same READ command for XML and JSON because they are so similar in how they work. In the same line of thought, we chose to create a new syntax for the commands inside the READ block specific for TXT files because they lack any structure and so their interpreting is interely different and requires new functions we didn't have before.
 
-Besides that we also added the possibility to read folders of files. The behaviour will be the same for all files. If a type of file is specificied, the program will only read and create tables from that filetype. The identifier used on the READ will map to all tables originated from the command so when an operation is used it will be used on all of them besides JOIN and MERGE which will result in only 1 (aggregate functions). 
+Besides that we also added the possibility to read folders of files. The behaviour will be the same for all files. If a type of file is specificied, the program will only read and create tables from that filetype. The identifier used on the READ will map to all tables originated from the command so when an operation is used it will be used on all of them besides JOIN and MERGE which will result in only 1 (aggregate functions).  
 
-This means that now identifiers map to a list of tables instead of just one. When only one file is read at a time, it will be a list conatining only one table but it was the tradeoff of implementing the folder reading feature.
+This means that now identifiers map to a list of tables instead of just one. When only one file is read at a time, it will be a list conatining only one table but it was the tradeoff of implementing the folder reading feature.  
+We faced a decision problem when implementing the way lists of lists were implemented. Some commands like Sort and RemoveColumn operate over a list of tables and the result is a list with the same length with the operation made in each table.  
+However the Merge and Join commands are different in purpose, they dont operate over a list of tables only changing each table separately, they operate over a range of tables unifying them.  
+This lead to a conundrum, we could join/merge tables according to their index on their respective list (output list would be a list that would contain the merge/join of the 1 element of each list, the second, third, and so on) or we could concatenate every table in a single list and then merge/join them into one table.  
+We took this last approach mainly due to a problem that the first solution had, how could we handle lists that had diferent sizes? It would lead to a command with a strange output, and so the more straightforward approach was chosen.
 
 Now, the tables also have a default output order. Since, internally, Tables are Hashmaps, output order was sort of random before. We changed that so now the order, if not specified will be same as the order they are read from the file.
+
+We decided to add the possibility to extract tables directly from the file in a more automated way, rather than using the manual word command. This means the extraction of tables from an unstructured file is simplified.
