@@ -201,14 +201,14 @@ The Word command creates a table with one column with the key being the specifie
 
 The example above shows how one can read a file, set its identifier and the xml/json structure parent, and then write the result into a new file.  
 
-This new api approac lead to an easier and more straightforward connection between the parser and the underlying implementation.
+This new api approach lead to an easier and more straightforward connection between the parser and the underlying implementation.
 
 ## Design decisions
 In our project specifically, because we started out with a preliminary DSL, a lot of the effourt spent in this assignment was refactoring our project to implement the builder pattern and fluent API which both introduced a whole new level of complexy to our code.
 We decided to use an hierarchy of Builders. The main builder would return a builder specific for each command that would return the original builder on close.  
 This allowed us to retrict the parameters that we could set for each command, making the API more consistent and easy to use.  
 This was mainly because different commands had the need for different parameters and, e.g. it would make no sense to allow to add a path into a command like AddColumn.  
-The only drawback of such approach was that we now need to call the fucntion close() every time we want to introduce a new command, as those are only accessible in th emain builder.
+The only drawback of such approach was that we now need to call the fucntion close() every time we want to introduce a new command, as those are only accessible in the main builder.
 
 We decided to use the same READ command for XML and JSON because they are so similar in how they work. In the same line of thought, we chose to create a new syntax for the commands inside the READ block specific for TXT files because they lack any structure and so their interpreting is interely different and requires new functions we didn't have before.
 
