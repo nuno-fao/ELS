@@ -2,6 +2,7 @@ package pt.up.fe.els2022;
 
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.Parser;
+import pt.up.fe.els2022.dslParser.dslParser;
 
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class App {
 
     public void run() {
         try {
-            Parser parse = new Parser(cf);
-//            List<Command> commands = parse.parse();
-            parse.parse();
-            parse.getBuilder().build().run();
+//            Parser parse = new Parser(cf);
+//            parse.parse();
+//            parse.getBuilder().build().run();
+
+            dslParser dslParser = new dslParser(cf);
+            dslParser.parse();
 
         } catch (Exception e) {
             e.printStackTrace();
