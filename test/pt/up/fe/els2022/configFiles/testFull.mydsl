@@ -1,0 +1,19 @@
+Read "files/vitis-report_1.xml","files/vitis-report_2.xml","files/vitis-report_3.xml" XML as "f1","f2","f3"
+    Parent "Resources"
+    Col "LUT" => "LUTs"
+    Col "FF" => "FFs"
+    Col "DSP48E" => "DSPs"
+    Col "BRAM_18K" => "BRAMs"
+End
+
+Merge "f1","f2","f3" with "Name" on "File" as "f4"
+
+SetOutput "f4"
+    "File"
+    "LUTs"
+    "FFs"
+    "DSPs"
+    "BRAMs"
+End
+
+Write CSV "f4" to "test/pt/up/fe/els2022/outFiles/outTestFull.csv"

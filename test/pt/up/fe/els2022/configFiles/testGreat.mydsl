@@ -1,0 +1,23 @@
+Read "files/vitis-report_1.xml","files/vitis-report_2.xml","files/vitis-report_3.xml" XML as "f1","f2","f3"
+    Parent "Resources"
+    Col "LUT" => "LUTs"
+    Col "FF"
+    Col "DSP48E" => "DSPs"
+    Col "BRAM_18K" => "BRAMs"
+End
+
+Merge "f1","f2","f3" with "Name" on "File" as "f4"
+Merge "f1","f4"
+
+AddColumn "f1" "Col" "Default" as "f2"
+
+Sort "f2" "FF" desc
+
+SetOutput "f2"
+    "File"
+    "FF"
+    "BRAMs"
+    "Col"
+End
+
+Write CSV "f2" to "test/pt/up/fe/els2022/outFiles/outTestGreat.csv"

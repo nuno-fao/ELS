@@ -29,7 +29,7 @@ public class BuilderExecutor {
         builders.add(b);
         return b;
     }
-    public BuilderJoin Join() {
+    public BuilderJoin join() {
         var b = new BuilderJoin(this);
         builders.add(b);
         return b;
