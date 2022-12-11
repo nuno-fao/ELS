@@ -1,0 +1,48 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 17.23      0.40     0.00       12     0.00     0.00  foo10()
+ 14.30      0.40     0.00                             foo12()
+ 10.03      0.40     0.00                             foo9()
+  9.63      0.40     0.00       12     0.00     0.00  foo11()
+  8.36      0.40     0.00       12     0.00     0.00  foo13()
+  7.01      0.40     0.00       12     0.00     0.00  foo4()
+  6.44      0.40     0.00                             foo6()
+  6.04      0.40     0.00       12     0.00     0.00  foo8()
+  5.29      0.40     0.00       12     0.00     0.00  foo1()
+  4.88      0.40     0.00       12     0.00     0.00  foo7()
+  3.97      0.40     0.00       12     0.00     0.00  foo2()
+  3.10      0.40     0.00       12     0.00     0.00  foo0()
+  2.26      0.40     0.00       12     0.00     0.00  foo14()
+  1.46      0.40     0.00                             foo3()
+  0.00      0.40     0.00                             foo5()
+
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
