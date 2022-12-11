@@ -1,0 +1,9 @@
+Read "files/vitis-report_1.xml" XML as "f1"
+    Parent "Resources"
+    Col "LUT" => "LUTs"
+    Col "FF" => "FFs"
+    Col "DSP48E" => "DSPs"
+    Col "BRAM_18K" => "BRAMs"
+End
+
+Write CSV "f1" to "test/pt/up/fe/els2022/outFiles/outTestReadWrite.csv"

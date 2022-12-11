@@ -1,0 +1,5 @@
+Read "checkpoint2/another_gprof.txt" TEXT as "f1"
+    Table Line 6 Header height 2
+End
+
+Write CSV "f1" to "test/pt/up/fe/els2022/outFiles/outTestText.csv"

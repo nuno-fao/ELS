@@ -1,0 +1,20 @@
+Read "files/vitis-report.xml" XML as "xml"
+    Include folder
+    Parent "AreaEstimates/Resources"
+End
+
+Read "files/decision_tree.json" JSON as "json"
+    Parent ROOT "params"
+End
+
+Read "files/gprof.txt" TEXT as "gprof"
+    Table Line 6 Header height 2
+End
+
+Sort "gprof" "% time"
+
+Extract "gprof" Columns "% time","name","folder" Lines 1
+
+Join "xml","json","gprof" as "out"
+
+Write CSV "out" to "test/pt/up/fe/els2022/outFiles/outTestAssignment2.csv"

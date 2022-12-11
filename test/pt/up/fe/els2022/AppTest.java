@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class AppTest {
     @Test
     public void readWrite() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testReadWrite.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadWrite.mydsl");
         app.run();
         assertEquals(
                 "LUTs,FFs,DSPs,BRAMs\n" +
@@ -22,7 +22,7 @@ public class AppTest {
     }
     @Test
     public void readSortWrite() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testReadSortWrite.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadSortWrite.mydsl");
         app.run();
         assertEquals(
                 "LUTs,FFs,DSPs,BRAMs\n" +
@@ -33,7 +33,7 @@ public class AppTest {
     }
     @Test
     public void readAddWrite() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testReadAddWrite.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadAddWrite.mydsl");
         app.run();
         assertEquals(
                 "LUTs,FFs,DSPs,BRAMs,TESTCOL\n" +
@@ -43,7 +43,7 @@ public class AppTest {
     }
     @Test
     public void readRemoveWrite() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testReadRemoveWrite.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadRemoveWrite.mydsl");
         app.run();
         assertEquals(
                 "FFs,DSPs,BRAMs\n" +
@@ -55,7 +55,7 @@ public class AppTest {
 
     @Test
     public void full() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testFull.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testFull.mydsl");
         app.run();
         assertEquals(
                 "File,LUTs,FFs,DSPs,BRAMs\n" +
@@ -69,7 +69,7 @@ public class AppTest {
 
     @Test
     public void great() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testGreat.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testGreat.mydsl");
         app.run();
         assertEquals(
                 "File,FF,BRAMs,Col\n" +
@@ -83,21 +83,18 @@ public class AppTest {
 
     @Test
     public void json1() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testJson1.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testJson1.mydsl");
         app.run();
-        /*assertEquals(
-                "File,FF,BRAMs,Col\n" +
-                        "vitis-report_3.xml,1050,10,Default\n" +
-                        "vitis-report_2.xml,525,5,Default\n" +
-                        ",64,0,Default\n" +
-                        "vitis-report_1.xml,64,0,Default",
-                SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestGreat.csv")
-        );*/
+        assertEquals(
+                "max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,criterion,min_impurity_decrease,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,splitter\n" +
+                        "16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best",
+                SpecsIo.getResource("pt/up/fe/els2022/outFiles/outTestJson1.csv")
+        );
     }
 
     @Test
     public void assignment2() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testAssignment2.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testAssignment2.mydsl");
         app.run();
 
         assertEquals(
@@ -109,13 +106,13 @@ public class AppTest {
 
     @Test
     public void multipleRead() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testMultipleRead.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testMultipleRead.mydsl");
         app.run();
     }
 
     @Test
     public void extract() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testReadExtract.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadExtract.mydsl");
         app.run();
 
         assertEquals(
@@ -127,20 +124,20 @@ public class AppTest {
 
     @Test
     public void text() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/testText.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/testText.mydsl");
         app.run();
     }
 
     @Test
     public void usReader() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/uaReader.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/uaReader.mydsl");
         app.run();
     }
 
 
     @Test
     public void equivalent_json() throws InterruptedException {
-        App app = new App("test/pt/up/fe/els2022/configFiles/equivalent_json.txt");
+        App app = new App("test/pt/up/fe/els2022/configFiles/equivalent_json.mydsl");
         app.run();
 
         assertEquals(

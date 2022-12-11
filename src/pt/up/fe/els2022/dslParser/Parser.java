@@ -162,7 +162,7 @@ public class Parser {
 
         if(m.find()) {
             if(m.groupCount() == 2){
-                var b = builder.Join();
+                var b = builder.join();
                 var fileIds = Arrays.asList(m.group(1).split(","));
                 for(int i = 0;i < fileIds.size();i++){
                     b = b.addFileId(fileIds.get(i).trim());
