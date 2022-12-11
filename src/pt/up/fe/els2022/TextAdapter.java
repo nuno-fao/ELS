@@ -184,28 +184,7 @@ public class TextAdapter{
     }
 
 
-    public static Table buildTable(String text, int tableStart, int headerLength){
-        tableStart-=1;
-
-        String[] lines = text.split("\n");
-        if(headerLength==0)
-            headerLength=2;
-
-        int tableEnd=0;
-        for(int i=tableStart; i<lines.length;i++){
-            tableEnd=i;
-            if(lines[i].equals("\r") || lines[i].trim().length() == 0)
-                break;
-        }
-        String[] tableLines=Arrays.copyOfRange(lines, tableStart, tableEnd);
-        String[] tableHeader=Arrays.copyOfRange(lines, tableStart-headerLength, tableStart);
-
-        String[] headerLastWords = TextAdapter.splitSpaces(tableHeader[headerLength-1].trim());
-        int numberCols = headerLastWords.length;
-
-        String[] headers = headerLastWords.clone();
-        
-
+    private static ArrayList<Position> getHeaderPositions(String[] tableHeader,int numberCols, int headerLength){
         ArrayList<Position> headerPos = new ArrayList<>();
 
 
@@ -249,6 +228,33 @@ public class TextAdapter{
             }
             headerPos.add(pos);
         }
+        return headerPos;
+    }
+
+
+    public static Table buildTable(String text, int tableStart, int headerLength){
+        tableStart-=1;
+
+        String[] lines = text.split("\n");
+        if(headerLength==0)
+            headerLength=2;
+
+        int tableEnd=0;
+        for(int i=tableStart; i<lines.length;i++){
+            tableEnd=i;
+            if(lines[i].equals("\r") || lines[i].trim().length() == 0)
+                break;
+        }
+        String[] tableLines=Arrays.copyOfRange(lines, tableStart, tableEnd);
+        String[] tableHeader=Arrays.copyOfRange(lines, tableStart-headerLength, tableStart);
+
+        String[] headerLastWords = TextAdapter.splitSpaces(tableHeader[headerLength-1].trim());
+        int numberCols = headerLastWords.length;
+
+        String[] headers = headerLastWords.clone();
+        
+
+        ArrayList<Position> headerPos =getHeaderPositions(tableHeader, numberCols,  headerLength);
 
         for(int i=headerLength-2; i>=0; i--){
             String[] headerWords = TextAdapter.splitSpaces(tableHeader[i].trim());
@@ -268,13 +274,20 @@ public class TextAdapter{
 
         for(int i=0; i<tableLines.length;i++){
             HashMap<String,String> cols = new HashMap<>();
-            if(numberCols>1)
-                cols.put(headers[0].trim(), tableLines[i].substring(0,headerPos.get(1).start).trim());
-            for(int j=1; j<numberCols-1;j++){
-                cols.put(headers[j].trim(), tableLines[i].substring(headerPos.get(j-1).end+2, headerPos.get(j+1).start).trim());
+            String[] lineStrings = tableLines[i].trim().replaceAll("  +", " ").split(" ");
+            if(lineStrings.length==numberCols){
+                for(int j=0; j<numberCols; j++){
+                    cols.put(headers[j].trim(),lineStrings[j]);
+                }
             }
-
-            cols.put(headers[numberCols-1].trim(), tableLines[i].substring(headerPos.get(numberCols-1).start).trim());
+            else{
+                if(numberCols>1)
+                    cols.put(headers[0].trim(), tableLines[i].substring(0,headerPos.get(1).start).trim());
+                for(int j=1; j<numberCols-1;j++){
+                    cols.put(headers[j].trim(), tableLines[i].substring(headerPos.get(j-1).end+2, headerPos.get(j+1).start).trim());
+                }
+                cols.put(headers[numberCols-1].trim(), tableLines[i].substring(headerPos.get(numberCols-1).start).trim());
+            }
             entries.add(cols);
         }
         
