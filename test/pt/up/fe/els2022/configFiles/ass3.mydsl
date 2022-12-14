@@ -1,0 +1,26 @@
+ReadDir "files/ass3/" as outTable
+    Read "analysis.json" JSON as json
+        Parent "total/dynamic"
+    End
+
+    Read "analysis.xml" XML as xml
+        Include folder
+        Parent "total/static"
+    End
+
+    Read "gprof.txt" TEXT as text
+        Table Line 6 Header height 2
+    End
+
+
+    Extract text Columns "% time","name" Lines 1,2,3
+
+    Join xml,json,text as line
+
+    Pile line
+End
+
+Write CSV outTable to "test/pt/up/fe/els2022/outFiles/ass3.csv"
+
+
+

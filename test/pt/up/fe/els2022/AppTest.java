@@ -194,4 +194,10 @@ public class AppTest {
         App app = new App("test/pt/up/fe/els2022/configFiles/testReadDir.mydsl");
         app.run();
     }
+
+    @Test
+    public void ass3() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/ass3.mydsl");
+        app.run();
+    }
 }

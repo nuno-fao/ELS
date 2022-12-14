@@ -32,7 +32,6 @@ public class JSONAdapter {
             best_parents.add(List.of(p.split("/")));
         }
 
-        // get root children
         if(getNull) {
             if (root) {
                 for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
@@ -46,20 +45,6 @@ public class JSONAdapter {
                 }
             }
 
-            // get children of parents
-            /*for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
-                if (parentElements.contains(obj.getKey())) {
-                    for (Map.Entry<String, JsonElement> child : obj.getValue().getAsJsonObject().entrySet()) {
-                        if (child.getValue().isJsonPrimitive()) {
-                            elemList.put(child.getKey(), child.getValue().getAsString());
-                            order.add(child.getKey());
-                        } else if (child.getValue().isJsonNull()) {
-                            elemList.put(child.getKey(), null);
-                            order.add(child.getKey());
-                        }
-                    }
-                }
-            }*/
             for (var p:best_parents){
                 var o = explore(jsonElement,p,0);
                 if(o != null) {
@@ -98,17 +83,6 @@ public class JSONAdapter {
                     }
                 }
             }
-
-            /*for (Map.Entry<String, JsonElement> obj : jsonObject.entrySet()) {
-                if (parentElements.contains(obj.getKey())) {
-                    for (Map.Entry<String, JsonElement> child : obj.getValue().getAsJsonObject().entrySet()) {
-                        if (child.getValue().isJsonPrimitive()) {
-                            elemList.put(child.getKey(), child.getValue().getAsString());
-                            order.add(child.getKey());
-                        }
-                    }
-                }
-            }*/
         }
 
         // put all header-value pairs in table entry with same names
@@ -128,15 +102,35 @@ public class JSONAdapter {
     }
 
     private static JsonElement explore(JsonElement element,List<String> p,int depth){
-        if(p.size() <= depth){
+        if (depth == p.size()){
+            return element;
+        }
+        try {
+            var elems = element.getAsJsonObject().keySet();
+            for (var elem : elems){
+                if(Objects.equals(elem, p.get(depth))){
+                    return explore(element.getAsJsonObject().get(elem),p,depth+1);
+                }
+                else {
+                    var temp_elem = explore(element.getAsJsonObject().get(elem),p,depth);
+                    if (temp_elem != null){
+                        return temp_elem;
+                    }
+                }
+            }
+        }catch (Exception e){
             return null;
         }
-        if(p.size() == depth + 1){
-            return element.getAsJsonObject().get(p.get(depth));
-        }
-        if(element.getAsJsonObject().has(p.get(depth))){
-            return explore(element.getAsJsonObject().get(p.get(depth)),p,depth+1);
-        }
+
         return null;
+//        if(p.size() <= depth){
+//            return null;
+//        }
+//        if(p.size() == depth + 1){
+//            return element.getAsJsonObject().get(p.get(depth));
+//        }
+//        if(element.getAsJsonObject().has(p.get(depth))){
+//            return explore(element.getAsJsonObject().get(p.get(depth)),p,depth+1);
+//        }
     }
 }
