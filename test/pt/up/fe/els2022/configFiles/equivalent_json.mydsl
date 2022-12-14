@@ -1,4 +1,4 @@
-Read "checkpoint2/equivalent.json" JSON as f1
+Read "files/ass2/equivalent.json" JSON as f1
     Parent "total/results/static"
 End
 

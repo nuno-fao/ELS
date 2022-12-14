@@ -186,7 +186,7 @@ The Word command creates a table with one column with the key being the specifie
 ```
  new    BuilderExecutor()
                                 .read()
-                                    .setFilesPaths(Collections.singletonList("checkpoint2/equivalent.json"))
+                                    .setFilesPaths(Collections.singletonList("files/ass2/equivalent.json"))
                                     .setFilesIds(Collections.singletonList("f1"))
                                     .setParentElements(Collections.singletonList("total/results/static"))
                                 .close()

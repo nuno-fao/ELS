@@ -1,4 +1,4 @@
 folder,DSP48E,FF,LUT,BRAM_18K,URAM,max_features_,meta,n_classes_,n_features_,n_outputs_,ccp_alpha,criterion,min_impurity_decrease,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,splitter
-testFolder\subFolder1,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best
-testFolder\subFolder2,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best
-testFolder\subFolder3,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best
+files/testFolder/subFolder2,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best
+files/testFolder/subFolder1,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best
+files/testFolder/subFolder3,1,64,145,0,0,16,decision-tree,2,16,1,0.0,gini,0.0,1,2,0.0,best

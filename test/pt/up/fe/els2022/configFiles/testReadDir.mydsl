@@ -1,4 +1,4 @@
-ReadDir "testFolder/" as final
+ReadDir "files/testFolder/" as final
     Read "decision_tree.json" JSON as json
         Parent ROOT "params"
     End
