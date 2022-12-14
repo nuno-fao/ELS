@@ -8,6 +8,6 @@ End
 
 Merge f1,f2 as f3
 
-Sort f3 "LUTs" desc as f4
+Average f3 as f4
 
-Write CSV f4 to "test/pt/up/fe/els2022/outFiles/outTestReadSortWrite.csv"
+Write CSV f4 to "test/pt/up/fe/els2022/outFiles/outTestAverage.csv"
