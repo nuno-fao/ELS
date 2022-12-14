@@ -329,14 +329,33 @@ public class dslParser {
     }
 
     private Object parseRename(Rename rename) {
+        builder.rename()
+                .setFileId(rename.getTableName())
+                .setColList(rename.getColNames())
+                .setNewColllist(rename.getNewColNames())
+                .setNewFileId(rename.getNewTableName())
+                .close();
+
         return null;
     }
 
     private Object parseAppend(Append append) {
+        builder.append()
+                .setFileId(append.getTableName())
+                .setSuffix(append.getSuffix())
+                .setNewFileId(append.getNewTableName())
+                .close();
+
         return null;
     }
 
     private Object parseCompress(Compress compress) {
+        builder.compress()
+                .setFileId(compress.getTableName())
+                .setSuffix(compress.getSuffix())
+                .setNewFileId(compress.getNewTableName())
+                .close();
+
         return null;
     }
 }

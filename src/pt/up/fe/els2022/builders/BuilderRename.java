@@ -15,7 +15,6 @@ public class BuilderRename implements InterfaceBuilder{
         this.builder = builder;
     }
 
-
     public BuilderRename setNewFileId(String newFileId) {
         rename.setNewFileId(newFileId);
         return this;
@@ -28,7 +27,7 @@ public class BuilderRename implements InterfaceBuilder{
         rename.setColList(colllist);
         return this;
     }
-    public BuilderRename setFileId(List<String> colllist) {
+    public BuilderRename setNewColllist(List<String> colllist) {
         rename.setNewNames(colllist);
         return this;
     }
