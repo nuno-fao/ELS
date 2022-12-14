@@ -91,6 +91,13 @@ public class BuilderExecutor implements CMDHolder {
         return b;
     }
 
+    public BuilderCompress compress() {
+        var b = new BuilderCompress(this);
+        builders.add(b);
+        return b;
+    }
+
+
     public BuilderReadDir readDir() {
         var b = new BuilderReadDir(this);
         builders.add(b);

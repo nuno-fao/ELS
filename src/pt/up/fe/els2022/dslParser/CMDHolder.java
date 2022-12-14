@@ -25,4 +25,6 @@ public interface CMDHolder {
     public BuilderAppend append();
     public BuilderRename rename();
 
+    public BuilderCompress compress();
+
 }
