@@ -193,51 +193,51 @@ public class TableOperations {
         return newList;
     }
 
-    public static ArrayList<Double> getSums(Table table){
-        ArrayList<Double> sums = new ArrayList<>();
-        for (String header: table.getHeaders()) {
-            double auxFloat = 0.0;
+    public static void getSums(List<Table> tableList){
+        for(Table table : tableList){
+            HashMap<String, String>sums = new HashMap<>();
+            for (String header: table.getHeaders()) {
+                double auxFloat = 0.0;
 
-            for (HashMap<String, String> entry: table.getEntries()){
-                try
-                {
-                    auxFloat += Double.parseDouble(entry.get(header));
+                for (HashMap<String, String> entry: table.getEntries()){
+                    try
+                    {
+                        auxFloat += Double.parseDouble(entry.get(header));
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        sums.put(header,null);
+                        break;
+                    }
                 }
-                catch (NumberFormatException e)
-                {
-                    sums.add(null);
-                    break;
-                }
+                sums.put(header,Double.toString(auxFloat));
+
             }
-            sums.add(auxFloat);
-
+            table.getEntries().add(sums);
         }
 
-        return sums;
     }
 
-    public static ArrayList<Double> getAverage(Table table){
-        ArrayList<Double> sums = new ArrayList<>();
-        for (String header: table.getHeaders()) {
-            double auxFloat = 0.0;
-            int i = 0;
+    public static void getAverage(List<Table> tableList){
+        for(Table table : tableList) {
+            HashMap<String, String> sums = new HashMap<>();
+            for (String header : table.getHeaders()) {
+                double auxFloat = 0.0;
+                int i = 0;
 
-            for (HashMap<String, String> entry: table.getEntries()){
-                try
-                {
-                    auxFloat += Double.parseDouble(entry.get(header));
+                for (HashMap<String, String> entry : table.getEntries()) {
+                    try {
+                        auxFloat += Double.parseDouble(entry.get(header));
+                        i++;
+                    } catch (NumberFormatException e) {
+                        sums.put(header, null);
+                        break;
+                    }
                 }
-                catch (NumberFormatException e)
-                {
-                    sums.add(null);
-                    break;
-                }
+                sums.put(header, Double.toString(auxFloat / i));
             }
-            sums.add(auxFloat/i);
-
+            table.getEntries().add(sums);
         }
-
-        return sums;
     }
 
 }
