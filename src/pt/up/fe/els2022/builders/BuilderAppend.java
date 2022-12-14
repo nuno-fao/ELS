@@ -14,6 +14,19 @@ public class BuilderAppend implements InterfaceBuilder{
         this.builder = builder;
     }
 
+    public BuilderAppend setFileId(String fileId) {
+        append.setFileId(fileId);
+        return this;
+    }
+    public BuilderAppend setSuffix(String suffix) {
+        append.setSuffix(suffix);
+        return this;
+    }
+    public BuilderAppend setNewFileId(String newFileId) {
+        append.setNewFileId(newFileId);
+        return this;
+    }
+
 
     public CMDHolder close(){
         return builder;
