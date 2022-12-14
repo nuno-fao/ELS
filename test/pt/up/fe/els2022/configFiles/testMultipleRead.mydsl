@@ -1,11 +1,11 @@
-Read "files" XML as "xml"
+Read "files" XML as xml
     Parent "Resources"
 End
 
-Read "files" JSON as "json"
+Read "files" JSON as json
     Parent ROOT "params"
 End
 
 
-Write CSV "xml" to "test/pt/up/fe/els2022/outFiles/xml/testXml"
-Write CSV "json" to "test/pt/up/fe/els2022/outFiles/json/testJson"
+Write CSV xml to "test/pt/up/fe/els2022/outFiles/xml/testXml"
+Write CSV json to "test/pt/up/fe/els2022/outFiles/json/testJson"

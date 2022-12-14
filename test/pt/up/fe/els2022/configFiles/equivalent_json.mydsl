@@ -1,5 +1,5 @@
-Read "checkpoint2/equivalent.json" JSON as "f1"
+Read "checkpoint2/equivalent.json" JSON as f1
     Parent "total/results/static"
 End
 
-Write CSV "f1" to "test/pt/up/fe/els2022/outFiles/outTestEquivalent.csv"
+Write CSV f1 to "test/pt/up/fe/els2022/outFiles/outTestEquivalent.csv"

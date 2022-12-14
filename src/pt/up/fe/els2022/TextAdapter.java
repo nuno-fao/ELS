@@ -228,6 +228,14 @@ public class TextAdapter{
             }
             headerPos.add(pos);
         }
+        if(headerPos.size() >= 2){
+            var last = headerPos.get(headerPos.size()-1);
+            var before_last = headerPos.get(headerPos.size()-2);
+            if(last.start == before_last.start && last.end == before_last.end){
+                last.start = before_last.end +1;
+                last.end = before_last.end +1;
+            }
+        }
         return headerPos;
     }
 
@@ -264,8 +272,17 @@ public class TextAdapter{
                 }
             }
             else{
-                for(int j=0; j<numberCols;j++){
-                    headers[j]=tableHeader[i].substring(headerPos.get(j).start, headerPos.get(j).end+1).trim()+" "+headers[j];
+                for(int j=0; j<numberCols;j++) {
+                    try {
+                        headers[j] = tableHeader[i].substring(headerPos.get(j).start, headerPos.get(j).end + 1).trim() + " " + headers[j];
+                    } catch (Exception ignored) {
+                        try {
+                            headers[j] = tableHeader[i].substring(headerPos.get(j).start, Math.min(headerPos.get(j).end + 1, tableHeader[i].length())).trim() + " " + headers[j];
+                            System.out.println(headerPos.get(j).start + " "+headerPos.get(j).end + 1 +" "+ tableHeader[i].length()+" "+i+" "+j);
+                        } catch (Exception ignored1) {
+                            System.out.println(headerPos.get(j).start + " "+headerPos.get(j).end + 1 +" "+ tableHeader[i].length());
+                        }
+                    }
                 }
             }
         }
