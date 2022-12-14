@@ -1,0 +1,18 @@
+ReadDir "testFolder/" as final
+    Read "decision_tree.json" JSON as json
+        Parent ROOT "params"
+    End
+
+    Read "vitis-report.xml" XML as xml
+        Include folder
+        Parent "AreaEstimates/Resources"
+    End
+    Join xml,json as out
+
+    Pile out
+End
+
+Write CSV final to "test/pt/up/fe/els2022/outFiles/outTestReadDir.csv"
+
+
+

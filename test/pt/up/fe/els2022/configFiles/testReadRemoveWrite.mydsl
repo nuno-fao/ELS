@@ -1,4 +1,4 @@
-Read "files/vitis-report_1.xml" XML as "f1"
+Read "files/vitis-report_1.xml" XML as f1
     Parent "Resources"
     Col "LUT" => "LUTs"
     Col "FF" => "FFs"
@@ -6,6 +6,6 @@ Read "files/vitis-report_1.xml" XML as "f1"
     Col "BRAM_18K" => "BRAMs"
 End
 
-RemoveColumn "f1" "LUTs" as "f4"
+RemoveColumn f1 "LUTs" as f4
 
-Write CSV "f4" to "test/pt/up/fe/els2022/outFiles/outTestReadRemoveWrite.csv"
+Write CSV f4 to "test/pt/up/fe/els2022/outFiles/outTestReadRemoveWrite.csv"
