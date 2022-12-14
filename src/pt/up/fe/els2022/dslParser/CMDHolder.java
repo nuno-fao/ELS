@@ -22,5 +22,9 @@ public interface CMDHolder {
     public BuilderAverage average();
 
     public BuilderReadDir readDir();
+    public BuilderAppend append();
+    public BuilderRename rename();
+
+    public BuilderCompress compress();
 
 }

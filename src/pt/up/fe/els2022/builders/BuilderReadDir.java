@@ -90,6 +90,25 @@ public class BuilderReadDir implements CMDHolder,InterfaceBuilder
         return b;
     }
 
+    public BuilderAppend append() {
+        var b = new BuilderAppend(this);
+        builders.add(b);
+        return b;
+    }
+
+    public BuilderRename rename() {
+        var b = new BuilderRename(this);
+        builders.add(b);
+        return b;
+    }
+
+    public BuilderCompress compress() {
+        var b = new BuilderCompress(this);
+        builders.add(b);
+        return b;
+    }
+
+
     public Command build() {
         List<Command> commands = new ArrayList<Command>();
         for (InterfaceBuilder i: this.builders) {
