@@ -357,7 +357,7 @@ This command allows for the execution of a set of all the other commands, to all
 
 ### System Overview
 
-![Imgur](https://imgur.com/a/quYnnfH)
+![Imgur](https://imgur.com/a/Ga6C6MJ)
 
 ### Design Decisions
 
