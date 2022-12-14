@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Join;
 
 public class BuilderJoin implements InterfaceBuilder{
     Join join;
-    BuilderExecutor builder;
+    CMDHolder builder;
 
-    public BuilderJoin(BuilderExecutor builder) {
+    public BuilderJoin(CMDHolder builder) {
         this.join = new Join();
         this.builder = builder;
     }
@@ -27,7 +27,7 @@ public class BuilderJoin implements InterfaceBuilder{
         return this;
     }
 
-    public BuilderExecutor close(){
+    public CMDHolder close(){
         return builder;
     }
 

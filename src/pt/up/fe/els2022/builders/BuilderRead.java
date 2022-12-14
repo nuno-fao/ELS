@@ -1,6 +1,6 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.FileType;
 import pt.up.fe.els2022.dslParser.commands.Read;
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class BuilderRead implements InterfaceBuilder{
     Read read;
-    BuilderExecutor builder;
+    CMDHolder builder;
 
-    public BuilderRead(BuilderExecutor builder) {
+    public BuilderRead(CMDHolder builder) {
         this.read = new Read();
         this.builder = builder;
     }
@@ -90,7 +90,7 @@ public class BuilderRead implements InterfaceBuilder{
     }
 
 
-    public BuilderExecutor close(){
+    public CMDHolder close(){
         return builder;
     }
 

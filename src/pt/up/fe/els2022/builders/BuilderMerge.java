@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Merge;
 
 public class BuilderMerge implements InterfaceBuilder{
     Merge merge;
-    BuilderExecutor builder;
+    CMDHolder builder;
 
-    public BuilderMerge(BuilderExecutor builder) {
+    public BuilderMerge(CMDHolder builder) {
         this.merge = new Merge();
         this.builder = builder;
     }
@@ -31,7 +31,7 @@ public class BuilderMerge implements InterfaceBuilder{
         return this;
     }
 
-    public BuilderExecutor close(){
+    public CMDHolder close(){
         return builder;
     }
 

@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.AddColumn;
 
 public class BuilderAddColumn implements InterfaceBuilder {
     AddColumn addColumn;
-    BuilderExecutor builder;
+    CMDHolder builder;
 
-    public BuilderAddColumn(BuilderExecutor builder) {
+    public BuilderAddColumn(CMDHolder builder) {
         this.addColumn = new AddColumn();
         this.builder = builder;
     }
@@ -30,7 +30,7 @@ public class BuilderAddColumn implements InterfaceBuilder {
         return this;
     }
 
-    public BuilderExecutor close(){
+    public CMDHolder close(){
         return builder;
     }
 

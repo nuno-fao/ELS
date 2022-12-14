@@ -1,6 +1,6 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Read;
 import pt.up.fe.els2022.dslParser.commands.SetOutput;
@@ -9,9 +9,9 @@ import java.util.List;
 
 public class BuilderSetOutput implements InterfaceBuilder{
     SetOutput setOutput;
-    BuilderExecutor builder;
+    CMDHolder builder;
 
-    public BuilderSetOutput(BuilderExecutor builder) {
+    public BuilderSetOutput(CMDHolder builder) {
         this.setOutput = new SetOutput();
         this.builder = builder;
     }
@@ -27,7 +27,7 @@ public class BuilderSetOutput implements InterfaceBuilder{
     }
 
 
-    public BuilderExecutor close(){
+    public CMDHolder close(){
         return builder;
     }
 

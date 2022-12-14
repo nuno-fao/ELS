@@ -1,18 +1,27 @@
-package pt.up.fe.els2022;
+package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.builders.*;
+import pt.up.fe.els2022.Executor;
+import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.ReadDir;
-import pt.up.fe.els2022.dslParser.commands.Write;
+import pt.up.fe.els2022.dslParser.commands.SetOutput;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class BuilderExecutor implements CMDHolder {
+public class BuilderReadDir implements CMDHolder,InterfaceBuilder
+{
+    ReadDir readDir;
+    CMDHolder builder;
 
-
+    public BuilderReadDir(CMDHolder builder) {
+        this.builder = builder;
+        this.readDir = new ReadDir();
+    }
     private List<InterfaceBuilder> builders = new ArrayList<>();
+
     public BuilderAddColumn addColumn() {
         var b = new BuilderAddColumn(this);
         builders.add(b);
@@ -75,12 +84,32 @@ public class BuilderExecutor implements CMDHolder {
         return b;
     }
 
-
-    public Executor build() {
+    public Command build() {
         List<Command> commands = new ArrayList<Command>();
         for (InterfaceBuilder i: this.builders) {
             commands.add(i.build());
         }
-        return new Executor(commands);
+        readDir.setCommandList(commands);
+        return readDir;
     }
+
+
+    public BuilderReadDir setFolderPath(String path){
+        readDir.setFolderPath(path);
+        return this;
+    }
+
+    public BuilderReadDir setFileId(String fileID){
+        readDir.setFileId(fileID);
+        return this;
+    }
+    public BuilderReadDir setPileId(String pileID){
+        readDir.setPileId(pileID);
+        return this;
+    }
+
+    public CMDHolder close(){
+        return builder;
+    }
+
 }

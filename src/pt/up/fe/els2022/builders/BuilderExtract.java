@@ -1,6 +1,6 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.dslParser.CMDHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Extract;
 import pt.up.fe.els2022.dslParser.commands.RemoveColumn;
@@ -10,9 +10,9 @@ import java.util.Set;
 
 public class BuilderExtract implements InterfaceBuilder{
     Extract extract;
-    BuilderExecutor builder;
+    CMDHolder builder;
 
-    public BuilderExtract(BuilderExecutor builder) {
+    public BuilderExtract(CMDHolder builder) {
         this.extract = new Extract();
         this.builder = builder;
     }
@@ -37,7 +37,7 @@ public class BuilderExtract implements InterfaceBuilder{
         return this;
     }
 
-    public BuilderExecutor close(){
+    public CMDHolder close(){
         return builder;
     }
 
