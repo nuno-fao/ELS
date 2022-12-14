@@ -196,8 +196,13 @@ public class TableOperations {
             HashMap<String, String>sums = new HashMap<>();
             for (String header: table.getHeaders()) {
                 double auxFloat = 0.0;
+                boolean should_null = false;
 
+                int line = 0;
                 for (HashMap<String, String> entry: table.getEntries()){
+                    if(table.getOpLines().contains(line)){
+                        continue;
+                    }
                     try
                     {
                         auxFloat += Double.parseDouble(entry.get(header));
@@ -205,12 +210,16 @@ public class TableOperations {
                     catch (NumberFormatException e)
                     {
                         sums.put(header,null);
+                        should_null = true;
                         break;
                     }
+                    line++;
                 }
-                sums.put(header,Double.toString(auxFloat));
+                if(!should_null)
+                    sums.put(header,Double.toString(auxFloat));
 
             }
+            table.addOpLine(table.getEntries().size());
             table.getEntries().add(sums);
         }
 
@@ -219,21 +228,32 @@ public class TableOperations {
     public static void getAverage(List<Table> tableList){
         for(Table table : tableList) {
             HashMap<String, String> sums = new HashMap<>();
-            for (String header : table.getHeaders()) {
+            for (String header: table.getHeaders()) {
                 double auxFloat = 0.0;
-                int i = 0;
+                boolean should_null = false;
 
-                for (HashMap<String, String> entry : table.getEntries()) {
-                    try {
+                int line = 0;
+                for (HashMap<String, String> entry: table.getEntries()){
+                    if(table.getOpLines().contains(line)){
+                        continue;
+                    }
+                    try
+                    {
                         auxFloat += Double.parseDouble(entry.get(header));
-                        i++;
-                    } catch (NumberFormatException e) {
-                        sums.put(header, null);
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        sums.put(header,null);
+                        should_null = true;
                         break;
                     }
+                    line++;
                 }
-                sums.put(header, Double.toString(auxFloat / i));
+                if(!should_null)
+                    sums.put(header,Double.toString(auxFloat/(table.getEntries().size()-table.getOpLines().size())));
+
             }
+            table.addOpLine(table.getEntries().size());
             table.getEntries().add(sums);
         }
     }
@@ -250,7 +270,8 @@ public class TableOperations {
                     table.getHeaders().set(i,newNames.get(i));
                 }
             }
-            table.setOutput(new ArrayList<>());
+            table.addOpLine(table.getEntries().size());
+            table.setOutput(table.getHeaders());
         }
     }
 
@@ -258,13 +279,16 @@ public class TableOperations {
         for(Table table : tables){ //iterar tabelas
             for(int i=0; i<table.getHeaders().size();i++){ //iterar pelas colunas
                 String header = table.getHeaders().get(i);
+                if(header.equals("folder")){
+                    continue;
+                }
                 for(HashMap<String, String> entry : table.getEntries()){ //ir a cada entry, meter no novo nome, apagar antigo
                     entry.put(header + suffix,entry.get(header));
                     entry.remove(header);
                 }
                 table.getHeaders().set(i,header + suffix);
             }
-            table.setOutput(new ArrayList<>());
+            table.setOutput(table.getHeaders());
         }
     }
 
@@ -284,7 +308,7 @@ public class TableOperations {
             aux.add(newEntries);
             table.setEntries(aux);
             table.setHeaders(newHeaders);
-            table.setOutput(new ArrayList<>());
+            table.setOutput(table.getHeaders());
         }
     }
 

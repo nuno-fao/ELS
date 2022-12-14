@@ -3,21 +3,36 @@ ReadDir "files/ass3/" as outTable
         Parent "total/dynamic"
     End
 
+    Append json " (Dynamic)"
+
     Read "analysis.xml" XML as xml
         Include folder
         Parent "total/static"
     End
 
+    Append xml " (Static)"
+
     Read "gprof.txt" TEXT as text
         Table Line 6 Header height 2
     End
 
-    Extract text Columns "% time","name" Lines 1,2,3
+    Rename text "% time" => "%"
+
+    Extract text Columns "%","name" Lines 1,2,3
+
+    Compress text " #"
 
     Join xml,json,text as line
 
+
     Pile line
 End
+
+Sort outTable "folder"
+
+Sum outTable
+
+Average outTable
 
 Write CSV outTable to "test/pt/up/fe/els2022/outFiles/ass3.csv"
 

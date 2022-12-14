@@ -2,8 +2,11 @@ package pt.up.fe.els2022;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Table {
+
+    private List<Integer> opLines = new ArrayList<>();
     private ArrayList<HashMap<String, String>> entries;
     private ArrayList<String> headers;
     private ArrayList<String> output;
@@ -14,6 +17,18 @@ public class Table {
 
     public void setOutput(ArrayList<String> output) {
         this.output = output;
+    }
+
+    public List<Integer> getOpLines() {
+        return opLines;
+    }
+
+    public void setOpLines(List<Integer> opLines) {
+        this.opLines = opLines;
+    }
+
+    public void addOpLine(Integer line){
+        opLines.add(line);
     }
 
     private String originFile;
