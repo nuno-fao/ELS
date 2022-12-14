@@ -5,10 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class TableOperations {
     public static void addColumn(List<Table> tables, String name, String value){
@@ -252,6 +250,7 @@ public class TableOperations {
                     table.getHeaders().set(i,newNames.get(i));
                 }
             }
+            table.setOutput(new ArrayList<>());
         }
     }
 
@@ -265,22 +264,28 @@ public class TableOperations {
                 }
                 table.getHeaders().set(i,header + suffix);
             }
+            table.setOutput(new ArrayList<>());
         }
     }
 
-    /*public static void compress(List<Table> tables, String suffix){
+    public static void compress(List<Table> tables, String suffix){
         for(Table table : tables){
             HashMap<String,String> newEntries = new HashMap<>();
             ArrayList<String> newHeaders = new ArrayList<>();
-            for(int i=1;i<table.getEntries().size();i++){
+            for(int i=0;i<table.getEntries().size();i++){
                 for(int j=0;j<table.getHeaders().size();j++){
-                    String newHeader = table.getHeaders().get(j) + suffix + i
+                    String newHeader = table.getHeaders().get(j) + suffix + (i+1);
                     String value = table.getEntries().get(i).get(table.getHeaders().get(j));
-
+                    newEntries.put(newHeader,value);
+                    newHeaders.add(newHeader);
                 }
             }
+            ArrayList<HashMap<String,String>> aux = new ArrayList<>();
+            aux.add(newEntries);
+            table.setEntries(aux);
+            table.setHeaders(newHeaders);
+            table.setOutput(new ArrayList<>());
         }
-
-    }*/
+    }
 
 }
