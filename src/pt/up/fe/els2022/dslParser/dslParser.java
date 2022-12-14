@@ -50,6 +50,8 @@ public class dslParser {
         nodeFunctions.put(Join.class, this::parseJoin);
         nodeFunctions.put(Write.class, this::parseWrite);
         nodeFunctions.put(Extract.class, this::parseExtract);
+        nodeFunctions.put(Average.class, this::parseAverage);
+        nodeFunctions.put(Sum.class, this::parseSum);
     }
 
     public BuilderExecutor getBuilder() {
@@ -63,7 +65,6 @@ public class dslParser {
             for(INode error: result.getSyntaxErrors()) {
                 System.out.println("Syntax error in configuration file: " + error.getSyntaxErrorMessage());
             }
-
             return;
         }
 
@@ -259,6 +260,24 @@ public class dslParser {
                 .setColumns(extract.getCols())
                 .setLines(new HashSet<>(extract.getLines()))
                 .setNewFileId(extract.getNewTableName())
+                .close();
+
+        return null;
+    }
+
+    private Object parseAverage(Average average) {
+        builder.average()
+                .setFileId(average.getTableName())
+                .setNewFileId(average.getNewTableName())
+                .close();
+
+        return null;
+    }
+
+    private Object parseSum(Sum sum) {
+        builder.sum()
+                .setFileId(sum.getTableName())
+                .setNewFileId(sum.getNewTableName())
                 .close();
 
         return null;
