@@ -218,8 +218,159 @@ This means that now identifiers map to a list of tables instead of just one. Whe
 We faced a decision problem when implementing the way lists of lists were implemented. Some commands like Sort and RemoveColumn operate over a list of tables and the result is a list with the same length with the operation made in each table.  
 However the Merge and Join commands are different in purpose, they dont operate over a list of tables only changing each table separately, they operate over a range of tables unifying them.  
 This lead to a conundrum, we could join/merge tables according to their index on their respective list (output list would be a list that would contain the merge/join of the 1 element of each list, the second, third, and so on) or we could concatenate every table in a single list and then merge/join them into one table.  
-We took this last approach mainly due to a problem that the first solution had, how could we handle lists that had diferent sizes? It would lead to a command with a strange output, and so the more straightforward approach was chosen.
+We took this last approach mainly due to a problem that the first solution had, how could we handle lists that had different sizes? It would lead to a command with a strange output, and so the more straightforward approach was chosen.
 
 Now, the tables also have a default output order. Since, internally, Tables are Hashmaps, output order was sort of random before. We changed that so now the order, if not specified will be same as the order they are read from the file.
 
 We decided to add the possibility to extract tables directly from the file in a more automated way, rather than using the manual word command. This means the extraction of tables from an unstructured file is simplified.
+
+## Assignment 3
+
+In this assignment, an xtext grammar and parser was implemented, both improving on the existing functionalities and extending the language with 3 new commands.
+
+### XTEXT Grammar
+
+#### Read
+
+```
+Read "files/vitis-report_1.xml","files/vitis-report_2.xml","files/vitis-report_3.xml" XML as f1,f2,f3
+    Include folder
+    Parent "Resources"
+    Col "LUT" => "LUTs"
+    Col "FF" => "FFs"
+    Col "DSP48E" => "DSPs"
+    Col "BRAM_18K" => "BRAMs"
+End
+
+Read "files/decision_tree.json" JSON
+    Include file
+    Parent ROOT "params"
+End
+
+Read "files/gprof.txt" TEXT as f4
+    Table Line 6 Header height 2
+    Word Starts With " Time in seconds" Word 5 as "time_in_seconds"
+End
+```
+
+As shown above, the `Read` command requires one or more file paths and the file type (XML, JSON or TEXT). Optionally, the user can give the same amount of file identifiers as file paths, and include the folder and/or the file name as a column in the table row. For XML and JSON files, the user can also specify the parent elements to which the values should be extracted from, and which columns to extract (with new names, if the user wants). For TEXT files, the user can specify a table or a word to read.
+
+#### Add Column
+
+```
+AddColumn f1 "Col" "Default" as f2
+```
+
+With this command, the user can add a column to a table, filling each entry with a default value. The new table can override the old one, or be saved in another one.
+
+#### Remove Column
+
+```
+RemoveColumn f1 "LUTs" as f4
+```
+
+With this command, the user can remove a column from a table. The new table can override the old one, or be saved in another one.
+
+#### Sort
+
+```
+Sort f2 "FF" desc
+```
+
+With this command, the user can sort a table on a specific column. The order is, by default, ascending, but can be specified using the keywords ```asc``` and ```desc```. The new table can override the old one, or be saved in another one.
+
+#### Merge
+
+```
+Merge f1,f2,f3 with "Name" on "File" as f4
+Merge f1,f4
+```
+
+With this command, the user can merge tables. Some parameter can be saved on a new column. The new table can override the old one, or be saved in another one.
+
+#### Join
+
+```
+Join f1,f2,f3 as out
+```
+
+With this command, the user can join tables. The new table can override the old one, or be saved in another one.
+
+#### Extract
+
+```
+Extract f1 Columns "% time","name","folder" Lines 1
+```
+
+With this command, the user can extract a set of columns and/or lines from an existing table. The new table can override the old one, or be saved in another one.
+
+#### Average
+
+```
+Average f3 as f4
+```
+
+With this command, the user can calculate the average on every numerical column of a table. These values are added to a new line. The new table can override the old one, or be saved in another one.
+
+#### Sum
+
+```
+Sum f3 as f4
+```
+
+With this command, the user can calculate the sum on every numerical column of a table. These values are added to a new line. The new table can override the old one, or be saved in another one.
+
+#### Set Output
+
+```
+SetOutput f2
+    "File"
+    "FF"
+    "BRAMs"
+    "Col"
+End
+```
+
+With this command, the user can set which of the columns of a table are to be saved and in what order.
+
+#### Write
+
+```
+Write CSV f4 to "test/pt/up/fe/els2022/outFiles/outTestAssignment2.csv"
+```
+
+With this command, the user can write a table into a CSV file.
+
+#### Read Directory
+
+```
+ReadDir "Desktop/files" as f1
+    Read "test-results.xml" XML as d1
+    Read "test-task2.json" JSON as d2
+    Read "testint-task3.txt" TEXT as d3
+    Join d1,d2,d3 as d4
+    Pile d4
+End
+```
+
+This command allows for the execution of a set of all the other commands, to all the files in a directory. If a table identifier is specified, a final table must be specified as a "Pile" table, i.e. an accumulated table.
+
+### System Overview
+
+![Imgur](missinglink)
+
+### Design Decisions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
