@@ -240,4 +240,47 @@ public class TableOperations {
         }
     }
 
+    public static void rename(List<Table> tables, List<String> targets, List<String> newNames) {
+        for(Table table : tables){ //iterar tabelas
+            for(int i=0; i<targets.size();i++){ //iterar pelas colunas
+                if(table.getHeaders().contains(targets.get(i))){
+                    String header = targets.get(i);
+                    for(HashMap<String, String> entry : table.getEntries()){ //ir a cada entry, meter no novo nome, apagar antigo
+                        entry.put(newNames.get(i),entry.get(header));
+                        entry.remove(header);
+                    }
+                    table.getHeaders().set(i,newNames.get(i));
+                }
+            }
+        }
+    }
+
+    public static void append(List<Table> tables, String suffix){
+        for(Table table : tables){ //iterar tabelas
+            for(int i=0; i<table.getHeaders().size();i++){ //iterar pelas colunas
+                String header = table.getHeaders().get(i);
+                for(HashMap<String, String> entry : table.getEntries()){ //ir a cada entry, meter no novo nome, apagar antigo
+                    entry.put(header + suffix,entry.get(header));
+                    entry.remove(header);
+                }
+                table.getHeaders().set(i,header + suffix);
+            }
+        }
+    }
+
+    /*public static void compress(List<Table> tables, String suffix){
+        for(Table table : tables){
+            HashMap<String,String> newEntries = new HashMap<>();
+            ArrayList<String> newHeaders = new ArrayList<>();
+            for(int i=1;i<table.getEntries().size();i++){
+                for(int j=0;j<table.getHeaders().size();j++){
+                    String newHeader = table.getHeaders().get(j) + suffix + i
+                    String value = table.getEntries().get(i).get(table.getHeaders().get(j));
+
+                }
+            }
+        }
+
+    }*/
+
 }
