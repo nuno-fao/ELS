@@ -7,6 +7,7 @@ import pt.up.fe.els2022.dslParser.Command;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,10 +64,10 @@ public class ReadDir implements Command {
                 for (Command c : commandList) {
                     if (c instanceof Read) {
                         List<String> newFilePath = new ArrayList<>();
-                        for (String i : ((Read) c).getFilePath()) {
+                        for (String i : ((Read) c).getRelativePath()) {
                             newFilePath.add(file.getPath()+"/" + i);
                         }
-                        ((Read) c).setFilePath(newFilePath);
+                        ((Read) c).setRelativeFilePath(newFilePath);
                     }
                     if (c instanceof Write) {
                         ((Write) c).setFilePath(file.getPath()+"/" +((Write) c).getFilePath());
@@ -80,5 +81,6 @@ public class ReadDir implements Command {
                 }
             }
         }
+        symbolTable.put(fileId, Collections.singletonList(pile));
     }
 }

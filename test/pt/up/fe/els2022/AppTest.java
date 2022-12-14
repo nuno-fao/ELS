@@ -149,7 +149,7 @@ public class AppTest {
 
     @Test
     public void api_run() throws InterruptedException {
-        new    BuilderExecutor()
+        ((BuilderExecutor) new      BuilderExecutor()
                                 .read()
                                     .setFilesPaths(Collections.singletonList("checkpoint2/equivalent.json"))
                                     .setFilesIds(Collections.singletonList("f1"))
@@ -159,9 +159,15 @@ public class AppTest {
                                     .setType("CSV")
                                     .setFileId("f1")
                                     .setFilePath("test/pt/up/fe/els2022/outFiles/outEquivalentAPI.csv")
-                                .close()
-                            .build()
+                                .close())
+                        .build()
                 .run();
+    }
+
+    @Test
+    public void readDir() throws InterruptedException {
+        App app = new App("test/pt/up/fe/els2022/configFiles/testReadDir.mydsl");
+        app.run();
     }
 
 

@@ -17,6 +17,8 @@ import static pt.up.fe.els2022.dslParser.commands.FileType.TEXT;
 public class Read implements Command {
     List<String> parentElements;
     List<String> filePath = new ArrayList<>();
+
+    List<String> filePathCopy = new ArrayList<>();
     List<String> fileID = new ArrayList<>();
     List<Column> cols = new ArrayList<>();
     List<String> include = new ArrayList<>();
@@ -49,6 +51,19 @@ public class Read implements Command {
 
     public void setFilePath(List<String> filePath) {
         this.filePath = filePath;
+        for(String string : filePath){
+            this.filePathCopy.add(new String(string));
+        }
+    }
+
+    public void setRelativeFilePath(List<String> filePath) {
+        this.filePath = filePath;
+    }
+
+
+
+    public List<String> getRelativePath(){
+        return this.filePathCopy;
     }
 
     public void setFileID(List<String> fileID) {
@@ -285,6 +300,7 @@ public class Read implements Command {
                 parentElements.remove("ROOT");
             }
             entry = JSONAdapter.parseFile(filename, originalHeaders, finalHeaders, parentElements, root);
+            if(root) parentElements.add("ROOT");
         } else if ((filename.endsWith(".xml") && this.type == FileType.XML) || (filename.endsWith(".xml") && this.type == null)) {
             if(this.type == FileType.XML && !filename.endsWith(".xml")){
                 return null;
