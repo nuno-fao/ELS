@@ -12,7 +12,6 @@ ReadDir "files/ass3/" as outTable
         Table Line 6 Header height 2
     End
 
-
     Extract text Columns "% time","name" Lines 1,2,3
 
     Join xml,json,text as line

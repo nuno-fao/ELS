@@ -123,14 +123,5 @@ public class JSONAdapter {
         }
 
         return null;
-//        if(p.size() <= depth){
-//            return null;
-//        }
-//        if(p.size() == depth + 1){
-//            return element.getAsJsonObject().get(p.get(depth));
-//        }
-//        if(element.getAsJsonObject().has(p.get(depth))){
-//            return explore(element.getAsJsonObject().get(p.get(depth)),p,depth+1);
-//        }
     }
 }
