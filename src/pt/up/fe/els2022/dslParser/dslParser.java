@@ -51,6 +51,9 @@ public class dslParser {
         nodeFunctions.put(Average.class, this::parseAverage);
         nodeFunctions.put(Sum.class, this::parseSum);
         nodeFunctions.put(ReadDir.class, this::parseReadDir);
+        nodeFunctions.put(Rename.class, this::parseRename);
+        nodeFunctions.put(Append.class, this::parseAppend);
+        nodeFunctions.put(Compress.class, this::parseCompress);
     }
 
     public BuilderExecutor getBuilder() {
@@ -257,8 +260,21 @@ public class dslParser {
         builderExtract
                 .setFileId(extract.getTableName())
                 .setColumns(extract.getCols())
-                .setLines(new HashSet<>(extract.getLines()))
                 .setNewFileId(extract.getNewTableName())
+                .close();
+
+        HashSet<Integer> lines = new HashSet<>();
+
+        if (extract.getLines() != null) {
+            for (int i = extract.getInitialLine(); i > extract.getFinalLine(); i++) {
+                lines.add(i);
+            }
+        } else {
+            lines = new HashSet<>(extract.getLines());
+        }
+
+        builderExtract
+                .setLines(new HashSet<>(extract.getLines()))
                 .close();
 
         return null;
@@ -309,6 +325,18 @@ public class dslParser {
 
         builder = mainBuilder;
 
+        return null;
+    }
+
+    private Object parseRename(Rename rename) {
+        return null;
+    }
+
+    private Object parseAppend(Append append) {
+        return null;
+    }
+
+    private Object parseCompress(Compress compress) {
         return null;
     }
 }
