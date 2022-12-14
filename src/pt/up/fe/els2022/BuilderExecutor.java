@@ -58,6 +58,18 @@ public class BuilderExecutor {
         return b;
     }
 
+    public BuilderSum sum() {
+        var b = new BuilderSum(this);
+        builders.add(b);
+        return b;
+    }
+
+    public BuilderAverage average() {
+        var b = new BuilderAverage(this);
+        builders.add(b);
+        return b;
+    }
+
     public Executor build() {
         List<Command> commands = new ArrayList<Command>();
         for (InterfaceBuilder i: this.builders) {

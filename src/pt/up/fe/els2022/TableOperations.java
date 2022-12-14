@@ -193,4 +193,51 @@ public class TableOperations {
         return newList;
     }
 
+    public static void getSums(List<Table> tableList){
+        for(Table table : tableList){
+            HashMap<String, String>sums = new HashMap<>();
+            for (String header: table.getHeaders()) {
+                double auxFloat = 0.0;
+
+                for (HashMap<String, String> entry: table.getEntries()){
+                    try
+                    {
+                        auxFloat += Double.parseDouble(entry.get(header));
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        sums.put(header,null);
+                        break;
+                    }
+                }
+                sums.put(header,Double.toString(auxFloat));
+
+            }
+            table.getEntries().add(sums);
+        }
+
+    }
+
+    public static void getAverage(List<Table> tableList){
+        for(Table table : tableList) {
+            HashMap<String, String> sums = new HashMap<>();
+            for (String header : table.getHeaders()) {
+                double auxFloat = 0.0;
+                int i = 0;
+
+                for (HashMap<String, String> entry : table.getEntries()) {
+                    try {
+                        auxFloat += Double.parseDouble(entry.get(header));
+                        i++;
+                    } catch (NumberFormatException e) {
+                        sums.put(header, null);
+                        break;
+                    }
+                }
+                sums.put(header, Double.toString(auxFloat / i));
+            }
+            table.getEntries().add(sums);
+        }
+    }
+
 }
