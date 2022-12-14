@@ -1,7 +1,6 @@
 package pt.up.fe.els2022.dslParser;
 
 import com.google.inject.Inject;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.parser.IParseResult;
@@ -19,7 +18,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class dslParser {
     @Inject
@@ -27,7 +25,7 @@ public class dslParser {
 
     FileReader configFile;
     private final FunctionClassMap<EObject, Object> nodeFunctions;
-    private BuilderExecutor builder = new BuilderExecutor();
+    private CMDHolder builder = new BuilderExecutor();
 
     public dslParser(String filename) throws FileNotFoundException {
         configFile = new FileReader(filename);
@@ -52,10 +50,11 @@ public class dslParser {
         nodeFunctions.put(Extract.class, this::parseExtract);
         nodeFunctions.put(Average.class, this::parseAverage);
         nodeFunctions.put(Sum.class, this::parseSum);
+        nodeFunctions.put(ReadDir.class, this::parseReadDir);
     }
 
     public BuilderExecutor getBuilder() {
-        return builder;
+        return (BuilderExecutor) builder;
     }
 
     public void parse() {
@@ -279,6 +278,36 @@ public class dslParser {
                 .setFileId(sum.getTableName())
                 .setNewFileId(sum.getNewTableName())
                 .close();
+
+        return null;
+    }
+
+    private Object parseReadDir(ReadDir readDir) {
+        BuilderReadDir builderReadDir = builder.readDir();
+
+        builderReadDir.setFolderPath(readDir.getFolderpath());
+
+        if (readDir.getTableName() != null) {
+            if (readDir.getPileTableName() != null) {
+                builderReadDir
+                        .setFileId(readDir.getTableName())
+                        .setPileId(readDir.getPileTableName());
+            } else {
+                throw new Error("Error in configuration file: if ReadDir has table identifier, it must have pile identifier");
+
+            }
+        } else if (readDir.getPileTableName() != null) {
+            throw new Error("Error in configuration file: if ReadDir has pile identifier, it must have table identifier");
+        }
+
+        CMDHolder mainBuilder = builder;
+        builder = builderReadDir;
+
+        for (Command command : readDir.getCommands()) {
+            nodeFunctions.apply(command);
+        }
+
+        builder = mainBuilder;
 
         return null;
     }

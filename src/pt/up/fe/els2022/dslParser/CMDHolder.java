@@ -21,4 +21,6 @@ public interface CMDHolder {
 
     public BuilderAverage average();
 
+    public BuilderReadDir readDir();
+
 }

@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuilderExecutor implements CMDHolder {
-
-
     private List<InterfaceBuilder> builders = new ArrayList<>();
+
     public BuilderAddColumn addColumn() {
         var b = new BuilderAddColumn(this);
         builders.add(b);
         return b;
     }
+
     public BuilderRemoveColumn removeColumn() {
         var b =  new BuilderRemoveColumn(this);
         builders.add(b);
@@ -29,16 +29,19 @@ public class BuilderExecutor implements CMDHolder {
         builders.add(b);
         return b;
     }
+
     public BuilderMerge merge() {
         var b = new BuilderMerge(this);
         builders.add(b);
         return b;
     }
+
     public BuilderJoin join() {
         var b = new BuilderJoin(this);
         builders.add(b);
         return b;
     }
+
     public BuilderSort sort() {
         var b = new BuilderSort(this);
         builders.add(b);
@@ -75,6 +78,11 @@ public class BuilderExecutor implements CMDHolder {
         return b;
     }
 
+    public BuilderReadDir readDir() {
+        var b = new BuilderReadDir(this);
+        builders.add(b);
+        return b;
+    }
 
     public Executor build() {
         List<Command> commands = new ArrayList<Command>();
