@@ -21,6 +21,8 @@ public class Block implements Command{
 
     @Override
     public void execute(HashMap<String, List<Table>> symbolTable) {
-
+        for (Command command: commands){
+            command.execute(symbolTable);
+        }
     }
 }
