@@ -257,16 +257,10 @@ public class dslParser {
     private Object parseExtract(Extract extract) {
         BuilderExtract builderExtract = builder.extract();
 
-        builderExtract
-                .setFileId(extract.getTableName())
-                .setColumns(extract.getCols())
-                .setNewFileId(extract.getNewTableName())
-                .close();
-
         HashSet<Integer> lines = new HashSet<>();
 
-        if (extract.getLines() != null) {
-            for (int i = extract.getInitialLine(); i > extract.getFinalLine(); i++) {
+        if (extract.getLines().size() == 0) {
+            for (int i = extract.getInitialLine(); i < extract.getFinalLine()+1; i++) {
                 lines.add(i);
             }
         } else {
@@ -274,7 +268,10 @@ public class dslParser {
         }
 
         builderExtract
-                .setLines(new HashSet<>(extract.getLines()))
+                .setFileId(extract.getTableName())
+                .setColumns(extract.getCols())
+                .setNewFileId(extract.getNewTableName())
+                .setLines(lines)
                 .close();
 
         return null;

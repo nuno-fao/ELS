@@ -18,12 +18,11 @@ ReadDir "files/ass3/" as outTable
 
     Rename text "% time" => "%"
 
-    Extract text Columns "%","name" Lines 1,2,3
+    Extract text Columns "%","name" Lines 1=>3
 
     Compress text " #"
 
     Join xml,json,text as line
-
 
     Pile line
 End

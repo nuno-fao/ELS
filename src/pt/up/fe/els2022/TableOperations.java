@@ -270,7 +270,6 @@ public class TableOperations {
                     table.getHeaders().set(i,newNames.get(i));
                 }
             }
-            table.addOpLine(table.getEntries().size());
             table.setOutput(table.getHeaders());
         }
     }
@@ -287,8 +286,11 @@ public class TableOperations {
                     entry.remove(header);
                 }
                 table.getHeaders().set(i,header + suffix);
+                var out_index = table.getOutput().indexOf(header);
+                if (out_index >= 0){
+                    table.getOutput().set(out_index,header + suffix);
+                }
             }
-            table.setOutput(table.getHeaders());
         }
     }
 

@@ -15,7 +15,7 @@ public class App {
         cf = configFile;
     }
 
-    public void run() {
+    public int run() {
         try {
             dslParser dslParser = new dslParser(cf);
             dslParser.parse();
@@ -23,7 +23,8 @@ public class App {
 
         } catch (Exception e) {
             e.printStackTrace();
-            exit(1);
+            return 1;
         }
+        return 0;
     }
 }
