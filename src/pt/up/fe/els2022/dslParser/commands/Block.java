@@ -14,12 +14,6 @@ public class Block implements Command{
         this.commands = commands;
     }
 
-    public void run() {
-        for (Command command : commands) {
-            command.execute(this.symbolTable);
-        }
-    }
-
     @Override
     public void println() {
 
