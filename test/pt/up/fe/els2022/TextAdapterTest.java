@@ -33,14 +33,14 @@ public class TextAdapterTest {
     }
 
 
-    @Test
-    public void tableLineCol() {
-        assertEquals("new_const_array_d2",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2, 6, "name"));
-        assertEquals("1.63",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2, 2, "cumulative seconds"));
-        assertEquals("99.39",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2, 1, 1));
-        assertEquals("",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2,2, 5));
-        assertEquals("19",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2,3, 4));
-        assertEquals("170000.00",TextAdapter.tableLineCol("./files/gprofs/files/ass2_gprof.txt", 6, 2, 15, 6));
-    }
+//    @Test
+//    public void tableLineCol() {
+//        assertEquals("new_const_array_d2",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2, 6, "name"));
+//        assertEquals("1.63",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2, 2, "cumulative seconds"));
+//        assertEquals("99.39",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2, 1, 1));
+//        assertEquals("",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2,2, 5));
+//        assertEquals("19",TextAdapter.tableLineCol("./files/gprofs/gprof.txt", 6, 2,3, 4));
+//        assertEquals("170000.00",TextAdapter.tableLineCol("./files/gprofs/files/ass2_gprof.txt", 6, 2, 15, 6));
+//    }
 
 }
