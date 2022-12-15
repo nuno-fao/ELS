@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.nio.file.*;
 ;
 
+//Position class to help build the headers
 class Position{
     public int start;
     public int end;
@@ -28,12 +29,13 @@ class Position{
 };
 
 public class TextAdapter{
+    //help function that removers non alphanumeric chars from word
     private static String cleanWord(String word)
     {
         return word.replaceAll("[^a-zA-Z0-9]", "");
     }
 
-
+    //takes a file and returns the it's contents in a string
     private static String readFileAsString(String fileName)
     {
         try{
@@ -46,12 +48,14 @@ public class TextAdapter{
 
     }
 
+    //split words by spaces (takes into account multiple spaces)
     private static String[] splitSpaces(String text)
     {
         return  text.replaceAll("\\s+", " ").trim().split(" ");
 
     }
 
+    //returns the word number "num" of line "line" in the file in "filename"
     public static String wordLineNum(String filename, int line, int num) {
         line-=1;
         num-=1;
@@ -68,6 +72,7 @@ public class TextAdapter{
         return "_ERROR_";
     }
 
+    //returns the char number "num" of line "line" in the file in "filename"
     public static String charLineNum(String filename, int line, int num) {
         line-=1;
         num-=1;
@@ -80,6 +85,7 @@ public class TextAdapter{
         return chars[num];
     }
 
+    //returns the word number "num" of the first line starting with "startsWith" in the file in "filename"
     public static String wordSwNum(String filename, String startsWith, int num) {
         num-=1;
         String text = TextAdapter.readFileAsString(filename);
@@ -90,10 +96,11 @@ public class TextAdapter{
             if(TextAdapter.cleanWord(words[0]).equals(startsWith) || lines[i].startsWith(startsWith))
                 return TextAdapter.cleanWord(words[num]);
         }
-       
-        return "_ERROR_"; 
+
+        return "_ERROR_";
     }
 
+    //returns the char number "num" of the first line starting with "startsWith" in the file in "filename"
     public static String charSwNum(String filename, String startsWith, int num) {
         num-=1;
         String text = TextAdapter.readFileAsString(filename);
@@ -104,15 +111,17 @@ public class TextAdapter{
             if(chars[0].equals(startsWith))
                 return chars[num];
         }
-       
-        return "_ERROR_"; 
+
+        return "_ERROR_";
     }
 
+    //returns the char in collumn "col" of the first line starting with "startsWith" in the file in "filename"
     public static String charSwCol(String filename, String startsWith, int num) {
-       
-        return TextAdapter.charSwNum(filename, startsWith, num); 
+
+        return TextAdapter.charSwNum(filename, startsWith, num);
     }
 
+    //returns the word that contains the char in collumn "col" of the first line starting with "startsWith" in the file in "filename"
     public static String wordSwCol(String filename, String startsWith, int col) {
         col-=1;
         String text = TextAdapter.readFileAsString(filename);
@@ -122,10 +131,10 @@ public class TextAdapter{
             String[] words = TextAdapter.splitSpaces(lines[i].trim());
             if(words.length>0 && TextAdapter.cleanWord(words[0]).equals(startsWith) || lines[i].startsWith(startsWith)){
                 String[] ch = lines[i].split("");
-                
+
                 if(ch[col].equals(" "))
                     return ch[col];
-                
+
                 String word = ch[col];
                 for (int j=1; j<=col;j++){
                     if(!ch[col-j].equals(" ")){
@@ -142,15 +151,17 @@ public class TextAdapter{
                 return TextAdapter.cleanWord(word);
             }
         }
-       
-        return "_ERROR_"; 
+
+        return "_ERROR_";
     }
 
+    //returns the char in collumn "col" of the line "line" in the file in "filename"
     public static String charLineCol(String filename, int line, int col) {
 
-        return TextAdapter.charLineNum(filename, line, col); 
+        return TextAdapter.charLineNum(filename, line, col);
     }
 
+    //returns the word that contains the char in collumn "col" of the line "line" in the file in "filename"
     public static String wordLineCol(String filename, int line, int col) {
         line-=1;
         col-=1;
@@ -160,10 +171,10 @@ public class TextAdapter{
         String[] words = TextAdapter.splitSpaces(lines[line].trim());
         if(words.length>0){
             String[] ch = lines[line].split("");
-            
+
             if(ch[col].equals(" "))
                 return ch[col];
-            
+
             String word = ch[col];
             for (int j=1; j<=col;j++){
                 if(!ch[col-j].equals(" ")){
@@ -179,21 +190,23 @@ public class TextAdapter{
             }
             return TextAdapter.cleanWord(word);
         }
-        
-        return "_ERROR_"; 
+
+        return "_ERROR_";
     }
 
-
+    //Creates a position array (left most position of a char in the collumn, right most position of a char in the collumn) of the headers
     private static ArrayList<Position> getHeaderPositions(String[] tableHeader,int numberCols, int headerLength){
         ArrayList<Position> headerPos = new ArrayList<>();
 
-
+        // Each iteration compiles an header
         for(int i= 0; i<numberCols;i++){
             Position pos;
+            //First header always starts at (0,0)
             if(i==0)
                 pos = new Position(0, 0);
             else
                 pos = new Position(headerPos.get(i-1).start,headerPos.get(i-1).end);
+            // Each iteration compiles an header line
             for(int j=headerLength-1; j>=0; j--){
                 String line = tableHeader[j];
                 String[] chars = line.split("");
@@ -204,6 +217,7 @@ public class TextAdapter{
                     tempPos = new Position(headerPos.get(i-1).start,headerPos.get(i-1).end);
 
                 boolean started =false;
+                //Compiles the line
                 for(int k=tempPos.end+1; k<chars.length;k++){
                     if(chars[k].equals(" ")){
                         if(started){
@@ -239,14 +253,14 @@ public class TextAdapter{
         return headerPos;
     }
 
-
+    //Builds the table starting at "tableStart" with a header with "headerLength" lines in "text"
     public static Table buildTable(String text, int tableStart, int headerLength){
         tableStart-=1;
 
         String[] lines = text.split("\n");
         if(headerLength==0)
             headerLength=2;
-
+        //checks were the table ends (considers an empty line as the end)
         int tableEnd=0;
         for(int i=tableStart; i<lines.length;i++){
             tableEnd=i;
@@ -260,17 +274,19 @@ public class TextAdapter{
         int numberCols = headerLastWords.length;
 
         String[] headers = headerLastWords.clone();
-        
+
 
         ArrayList<Position> headerPos =getHeaderPositions(tableHeader, numberCols,  headerLength);
-
+        //Compiles the header one line at a time
         for(int i=headerLength-2; i>=0; i--){
             String[] headerWords = TextAdapter.splitSpaces(tableHeader[i].trim());
+            //If each header is complete in the row it happends all
             if(headerWords.length == numberCols){
                 for(int j=0; j<numberCols;j++){
                     headers[j]=headerWords[j]+" "+headers[j];
                 }
             }
+            //Otherwise it uses the header positions to happends the word
             else{
                 for(int j=0; j<numberCols;j++) {
                     try {
@@ -289,14 +305,17 @@ public class TextAdapter{
 
         ArrayList<HashMap<String,String>> entries= new ArrayList<>();
 
+        //Each iteration gets the values of a line of the table
         for(int i=0; i<tableLines.length;i++){
             HashMap<String,String> cols = new HashMap<>();
             String[] lineStrings = tableLines[i].trim().replaceAll("  +", " ").split(" ");
+            //If each collumn in the line is complete it saves the value according to the word number
             if(lineStrings.length==numberCols){
                 for(int j=0; j<numberCols; j++){
                     cols.put(headers[j].trim(),lineStrings[j]);
                 }
             }
+            //Otherwise it will use the header positions to get the word
             else{
                 if(numberCols>1)
                     cols.put(headers[0].trim(), tableLines[i].substring(0,headerPos.get(1).start).trim());
@@ -307,7 +326,7 @@ public class TextAdapter{
             }
             entries.add(cols);
         }
-        
+
         ArrayList<String> headerList = new ArrayList<String>();
         for(int i=0;i<headers.length;i++){
             headerList.add(headers[i].trim());
@@ -319,23 +338,25 @@ public class TextAdapter{
     }
 
 
-
+    //Returns the value in line and in col (takes the name of the collumn)
     public static String tableLineCol(String filename, int start, int headerLength, int line, String col) {
 
         String text = TextAdapter.readFileAsString(filename);
         Table table = TextAdapter.buildTable(text, start, headerLength);
 
-        return table.getEntries().get(line-1).get(col); 
+        return table.getEntries().get(line-1).get(col);
     }
 
+    //Returns the value in line and in col
     public static String tableLineCol(String filename, int start, int headerLength, int line, int col) {
 
         String text = TextAdapter.readFileAsString(filename);
         Table table = TextAdapter.buildTable(text, start, headerLength);
 
-        return table.getEntries().get(line-1).get(table.getHeaders().get(col-1)); 
+        return table.getEntries().get(line-1).get(table.getHeaders().get(col-1));
     }
 
+    //reads the file and calls buildTable
     public static Table table(String filename, int start, int headerLength) {
 
         String text = TextAdapter.readFileAsString(filename);
