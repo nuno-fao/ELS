@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.RemoveColumn;
 
 public class BuilderRemoveColumn implements InterfaceBuilder{
     RemoveColumn removeColumn;
-    CMDHolder builder;
+    CommandHolder builder;
 
-    public BuilderRemoveColumn(CMDHolder builder) {
+    public BuilderRemoveColumn(CommandHolder builder) {
         this.removeColumn = new RemoveColumn();
         this.builder = builder;
     }
@@ -26,7 +26,7 @@ public class BuilderRemoveColumn implements InterfaceBuilder{
         return this;
     }
 
-    public CMDHolder close(){
+    public CommandHolder close(){
         return builder;
     }
 

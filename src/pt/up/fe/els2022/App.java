@@ -19,7 +19,7 @@ public class App {
         try {
             dslParser dslParser = new dslParser(cf);
             dslParser.parse();
-            dslParser.getBuilder().build().run();
+            new Executor(dslParser.getBuilder().build()).run();
 
         } catch (Exception e) {
             e.printStackTrace();

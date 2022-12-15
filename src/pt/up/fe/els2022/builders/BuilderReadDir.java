@@ -1,22 +1,18 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.Executor;
-import pt.up.fe.els2022.Table;
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.ReadDir;
-import pt.up.fe.els2022.dslParser.commands.SetOutput;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class BuilderReadDir implements CMDHolder,InterfaceBuilder
+public class BuilderReadDir implements CommandHolder,InterfaceBuilder
 {
     ReadDir readDir;
-    CMDHolder builder;
+    CommandHolder builder;
 
-    public BuilderReadDir(CMDHolder builder) {
+    public BuilderReadDir(CommandHolder builder) {
         this.builder = builder;
         this.readDir = new ReadDir();
     }
@@ -133,7 +129,7 @@ public class BuilderReadDir implements CMDHolder,InterfaceBuilder
         return this;
     }
 
-    public CMDHolder close(){
+    public CommandHolder close(){
         return builder;
     }
 

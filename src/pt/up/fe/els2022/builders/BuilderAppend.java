@@ -1,15 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Append;
-import pt.up.fe.els2022.dslParser.commands.Write;
 
 public class BuilderAppend implements InterfaceBuilder{
     Append append;
-    CMDHolder builder;
+    CommandHolder builder;
 
-    public BuilderAppend(CMDHolder builder) {
+    public BuilderAppend(CommandHolder builder) {
         this.append = new Append();
         this.builder = builder;
     }
@@ -28,7 +27,7 @@ public class BuilderAppend implements InterfaceBuilder{
     }
 
 
-    public CMDHolder close(){
+    public CommandHolder close(){
         return builder;
     }
 

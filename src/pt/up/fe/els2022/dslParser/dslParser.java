@@ -8,7 +8,6 @@ import org.eclipse.xtext.parser.IParser;
 import org.xtext.example.mydsl.MyDslStandaloneSetup;
 import org.xtext.example.mydsl.myDsl.Command;
 import org.xtext.example.mydsl.myDsl.*;
-import pt.up.fe.els2022.BuilderExecutor;
 import pt.up.fe.els2022.builders.*;
 import pt.up.fe.els2022.dslParser.commands.FileType;
 import pt.up.fe.specs.util.classmap.FunctionClassMap;
@@ -25,7 +24,7 @@ public class dslParser {
 
     FileReader configFile;
     private final FunctionClassMap<EObject, Object> nodeFunctions;
-    private CMDHolder builder = new BuilderExecutor();
+    private CommandHolder builder = new BuilderBlock();
 
     public dslParser(String filename) throws FileNotFoundException {
         configFile = new FileReader(filename);
@@ -56,8 +55,8 @@ public class dslParser {
         nodeFunctions.put(Compress.class, this::parseCompress);
     }
 
-    public BuilderExecutor getBuilder() {
-        return (BuilderExecutor) builder;
+    public CommandHolder getBuilder() {
+        return builder;
     }
 
     public void parse() {
@@ -313,7 +312,7 @@ public class dslParser {
             throw new Error("Error in configuration file: if ReadDir has pile identifier, it must have table identifier");
         }
 
-        CMDHolder mainBuilder = builder;
+        CommandHolder mainBuilder = builder;
         builder = builderReadDir;
 
         for (Command command : readDir.getCommands()) {

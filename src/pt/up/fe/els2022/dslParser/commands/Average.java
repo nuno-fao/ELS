@@ -1,6 +1,5 @@
 package pt.up.fe.els2022.dslParser.commands;
 
-import pt.up.fe.els2022.BuilderExecutor;
 import pt.up.fe.els2022.Table;
 import pt.up.fe.els2022.TableOperations;
 import pt.up.fe.els2022.dslParser.Command;

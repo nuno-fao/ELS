@@ -1,15 +1,13 @@
-package pt.up.fe.els2022;
+package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.builders.*;
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.commands.Block;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
-import pt.up.fe.els2022.dslParser.commands.ReadDir;
-import pt.up.fe.els2022.dslParser.commands.Write;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuilderExecutor implements CMDHolder {
+public class BuilderBlock implements CommandHolder {
     private List<InterfaceBuilder> builders = new ArrayList<>();
 
     public BuilderAddColumn addColumn() {
@@ -104,11 +102,11 @@ public class BuilderExecutor implements CMDHolder {
         return b;
     }
 
-    public Executor build() {
+    public Command build() {
         List<Command> commands = new ArrayList<Command>();
         for (InterfaceBuilder i: this.builders) {
             commands.add(i.build());
         }
-        return new Executor(commands);
+        return new Block(commands);
     }
 }

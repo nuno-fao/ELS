@@ -1,6 +1,6 @@
 package pt.up.fe.els2022.dslParser;
 
-import pt.up.fe.els2022.BuilderExecutor;
+import pt.up.fe.els2022.builders.BuilderBlock;
 import pt.up.fe.els2022.builders.BuilderRead;
 import pt.up.fe.els2022.builders.BuilderSetOutput;
 import pt.up.fe.els2022.dslParser.commands.*;
@@ -11,16 +11,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
-    private BuilderExecutor builderExecutor = new BuilderExecutor();
+    private BuilderBlock builderExecutor = new BuilderBlock();
     private FileReader languageFile;
     private List<Command> commands = new ArrayList<>();
 
-    private BuilderExecutor builder = new BuilderExecutor();
+    private BuilderBlock builder = new BuilderBlock();
     public Parser(String filePath) throws FileNotFoundException {
         languageFile = new FileReader(filePath);
     }
 
-    public BuilderExecutor getBuilder() {
+    public BuilderBlock getBuilder() {
         return builder;
     }
     public void parse() throws IOException {

@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Sort;
 
 public class BuilderSort implements InterfaceBuilder{
     Sort sort;
-    CMDHolder builder;
+    CommandHolder builder;
 
-    public BuilderSort(CMDHolder builder) {
+    public BuilderSort(CommandHolder builder) {
         this.sort = new Sort();
         this.builder = builder;
     }
@@ -30,7 +30,7 @@ public class BuilderSort implements InterfaceBuilder{
         return this;
     }
 
-    public CMDHolder close(){
+    public CommandHolder close(){
         return builder;
     }
 

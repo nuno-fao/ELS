@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Average;
 
 public class BuilderAverage implements InterfaceBuilder{
     Average average;
-    CMDHolder builder;
+    CommandHolder builder;
 
-    public BuilderAverage(CMDHolder builder){
+    public BuilderAverage(CommandHolder builder){
         this.average = new Average();
         this.builder = builder;
     }
@@ -23,7 +23,7 @@ public class BuilderAverage implements InterfaceBuilder{
         return this;
     }
 
-    public CMDHolder close(){
+    public CommandHolder close(){
         return builder;
     }
 

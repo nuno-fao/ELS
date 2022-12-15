@@ -1,6 +1,7 @@
 package pt.up.fe.els2022;
 
 import org.junit.Test;
+import pt.up.fe.els2022.builders.BuilderBlock;
 import pt.up.fe.els2022.dslParser.commands.FileType;
 
 import java.io.IOException;
@@ -173,7 +174,7 @@ public class AppTest {
 
     @Test
     public void api_run() {
-        ( (BuilderExecutor) new BuilderExecutor()
+                new Executor(new BuilderBlock()
                                 .read()
                                     .setFilesPaths(Collections.singletonList("files/ass2/equivalent.json"))
                                     .setFileType(FileType.JSON)
@@ -184,8 +185,8 @@ public class AppTest {
                                     .setType("CSV")
                                     .setFileId("f1")
                                     .setFilePath("test/pt/up/fe/els2022/outFiles/outEquivalentAPI.csv")
-                                .close())
-                            .build()
+                                .close()
+                            .build())
                 .run();
     }
 

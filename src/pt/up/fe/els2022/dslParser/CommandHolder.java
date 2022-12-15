@@ -2,7 +2,7 @@ package pt.up.fe.els2022.dslParser;
 
 import pt.up.fe.els2022.builders.*;
 
-public interface CMDHolder {
+public interface CommandHolder {
     public BuilderAddColumn addColumn();
     public BuilderRemoveColumn removeColumn() ;
 
@@ -26,5 +26,7 @@ public interface CMDHolder {
     public BuilderRename rename();
 
     public BuilderCompress compress();
+
+    public Command build();
 
 }

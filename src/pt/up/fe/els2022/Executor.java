@@ -5,17 +5,16 @@ import pt.up.fe.els2022.dslParser.Command;
 import java.util.HashMap;
 import java.util.List;
 
-public class Executor {
-    private List<Command> commands;
+public class Executor{
+    private Command command;
     private HashMap<String, List<Table>> symbolTable = new HashMap<>();
 
-    Executor(List<Command> commands) {
-        this.commands = commands;
+    Executor(Command command) {
+        this.command = command;
     }
 
     public void run() {
-        for (Command command : commands) {
-            command.execute(this.symbolTable);
-        }
+       command.execute(this.symbolTable);
     }
+
 }

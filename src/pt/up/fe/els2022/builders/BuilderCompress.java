@@ -1,14 +1,14 @@
 package pt.up.fe.els2022.builders;
 
-import pt.up.fe.els2022.dslParser.CMDHolder;
+import pt.up.fe.els2022.dslParser.CommandHolder;
 import pt.up.fe.els2022.dslParser.Command;
 import pt.up.fe.els2022.dslParser.commands.Compress;
 
 public class BuilderCompress implements InterfaceBuilder {
     Compress compress;
-    CMDHolder builder;
+    CommandHolder builder;
 
-    public BuilderCompress(CMDHolder builder){
+    public BuilderCompress(CommandHolder builder){
         this.builder = builder;
         compress = new Compress();
     }
@@ -28,7 +28,7 @@ public class BuilderCompress implements InterfaceBuilder {
         return this;
     }
 
-    public CMDHolder close(){
+    public CommandHolder close(){
         return builder;
     }
 
