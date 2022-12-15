@@ -205,6 +205,10 @@ public class TableOperations {
                     }
                     try
                     {
+                        if(entry.get(header) == null){
+                            line++;
+                            continue;
+                        }
                         auxFloat += Double.parseDouble(entry.get(header));
                     }
                     catch (NumberFormatException e)
@@ -239,6 +243,10 @@ public class TableOperations {
                     }
                     try
                     {
+                        if(entry.get(header) == null){
+                            line++;
+                            continue;
+                        }
                         auxFloat += Double.parseDouble(entry.get(header));
                     }
                     catch (NumberFormatException e)
