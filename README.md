@@ -357,10 +357,20 @@ This command allows for the execution of a set of all the other commands, to all
 
 ### System Overview
 
-![Imgur](https://imgur.com/a/Ga6C6MJ)
+![Imgur](https://imgur.com/a/Ga6C6MJ.png)
 
 ### Design Decisions
 
+Regarding the added commands, some decisions were made, mainly because of usability.
+
+The first command added was the ReadDir command. We though that in order to facilitate the usability of the system we could add a block where we could add any code. Therefore we created the readdir command. This adds flexibility as we can execute multiple kind of code inside this block. As a syntax sugar, in order to improve the experience we added the Pile command. This command merges the specified table between iterations. The result can be accessed as the result table of the readir command. This was not needed as we could add a merge command between each iteration but we decided this would improve usability.
+The iteration nature of the solution also resembles the real world problem as the folders are inside the folder and we run the code for each of the subfolders. We also decided that the paths specified inside such block should be relative to the subfolder currently being read. If a read command species a file "test-result.xml" this is relative to the folder being read by the ReadDir command at the time. 
+This way there is no need to specify the subfolders but only the files inside the subfolder and the parent folder.
+
+Other commands were introduced (sum and average). Two options were considered, the commands would create a blank table with only the resulting line or they would merge such line to the end of the table specified. We went with the last as it would decrease the needed amount of merges (the first solution would require an extra merge with the needed table). A problem found was that, by making a sum after the average, the sum would take the average into consideration when making the calculations. To solve that, we treat the lines with sum and average differently from the others, as they are ignored by the commands.
+
+Regarding the external DSL, we decided to keep the same syntax as we found it easy to use. Only small adjustments were made in order to solve sove problems found when using xtext. mainly paths are now always specified between quotation marks, whilst before the quotation marks were only needed when the paths included blank spaces.
+We also decided to keep the internal DSL working as it was before using a fluent api. A plus of our implementation of the DSL is that the external dsl maps directly to the internal dsl and they map almost directly to the underlying architecture of the program, as we work with commands to operate over table, just like the external DSL. This made the change from the previous regex powered parser to the new xtext parser simpler.
 
 
 
